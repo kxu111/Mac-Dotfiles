@@ -8,6 +8,10 @@
     alacritty
     stow
   ];
+
+  services.yabai.enable = true;
+  services.skhd.enable = true;
+
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
   ];
