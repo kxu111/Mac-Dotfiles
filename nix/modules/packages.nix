@@ -7,6 +7,7 @@
     fastfetch
     alacritty
     stow
+    yabai
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
