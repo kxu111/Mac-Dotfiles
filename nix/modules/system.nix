@@ -8,10 +8,12 @@
       autohide-delay = 0.0;
       autohide-time-modifier = 0.0;
       orientation = "left";
+      show-recents = false;
       minimize-to-application = true;
       persistent-apps = [
         "/Applications/Librewolf.app"
         "/Applications/Vesktop.app"
+	"/Applications/WhatsApp.app"
       ];
     };
     finder = {
