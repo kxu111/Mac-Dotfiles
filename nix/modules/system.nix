@@ -19,7 +19,7 @@
         persistent-apps = [
           "/Applications/Librewolf.app"
           "/Applications/Vesktop.app"
-  	"/Applications/WhatsApp.app"
+  	  "/Applications/WhatsApp.app"
         ];
         mru-spaces = false;
       };
