@@ -7,6 +7,7 @@
     fastfetch
     alacritty
     stow
+    ripgrep
   ];
 
   services.yabai.enable = true;
