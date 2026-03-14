@@ -14,8 +14,10 @@
     specialArgs = { inherit self; };
     modules = [ 
 		./modules/packages.nix 
-		./modules/system.nix
 		./modules/homebrew.nix
+		./modules/system.nix
+		./modules/settings.nix
+		./modules/input.nix
 		nix-homebrew.darwinModules.nix-homebrew {
 		  nix-homebrew = {
 		    enable = true;
