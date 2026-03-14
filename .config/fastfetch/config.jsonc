@@ -4,14 +4,13 @@
     "source": "macos", 
 
     "padding": {
-	"top": 1
+	"top": 0
     }
   },
   "display": {
      "separator": ": "
   },
   "modules": [
-    "break",
     {
 	"type": "title"
     },
@@ -56,6 +55,5 @@
 	"type": "colors",
 	"symbol": "circle"
     },
-    "break"
   ]
 }
