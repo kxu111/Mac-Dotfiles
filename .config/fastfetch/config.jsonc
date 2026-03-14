@@ -1,59 +1,59 @@
 {
   "logo": {
-    "type": "small",  
-    "source": "macos", 
+    "type": "small",
+    "source": "macos",
 
     "padding": {
-	"top": 0
-    }
+      "top": 0,
+    },
   },
   "display": {
-     "separator": ": "
+    "separator": ": ",
   },
   "modules": [
     {
-	"type": "title"
+      "type": "title",
     },
     {
-    	"type": "separator"
+      "type": "separator",
     },
     {
-    	"type":"os",
-	"key": "OS  ",
-	"keyColor": "blue",
-	"outputColor": "blue"
+      "type": "os",
+      "key": "OS  ",
+      "keyColor": "blue",
+      "outputColor": "blue",
     },
     {
-    	"type":"uptime",
-	"key": "UPT ",
-	"keyColor": "yellow",
-	"outputColor": "yellow"
+      "type": "uptime",
+      "key": "UPT ",
+      "keyColor": "yellow",
+      "outputColor": "yellow",
     },
     {
-	"type": "cpu",
-	"key": "CPU ",
-	"keyColor": "blue",
-	"outputColor": "blue"
+      "type": "cpu",
+      "key": "CPU ",
+      "keyColor": "blue",
+      "outputColor": "blue",
     },
 
     {
-	"type": "memory",
-	"key": "RAM ",
-	"format": "{used} / {total}",
-	"keyColor": "yellow",
-	"outputColor": "yellow"
+      "type": "memory",
+      "key": "RAM ",
+      "format": "{used} / {total}",
+      "keyColor": "yellow",
+      "outputColor": "yellow",
     },
     {
-	"type": "disk",
-	"key": "DSK ",
-	"format": "{size-used} / {size-total}",
-	"keyColor": "blue",
-	"outputColor": "blue"
+      "type": "disk",
+      "key": "DSK ",
+      "format": "{size-used} / {size-total}",
+      "keyColor": "blue",
+      "outputColor": "blue",
     },
     "break",
     {
-	"type": "colors",
-	"symbol": "circle"
+      "type": "colors",
+      "symbol": "circle",
     },
-  ]
+  ],
 }
