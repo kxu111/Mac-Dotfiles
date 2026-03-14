@@ -12,16 +12,17 @@
   {
     darwinConfigurations."kennys-MacBook-Air" = nix-darwin.lib.darwinSystem {
     specialArgs = { inherit self; };
-      modules = [ 
-        ./modules/packages.nix 
-	./modules/system.nix
-	nix-homebrew.darwinModules.nix-homebrew {
-	  nix-homebrew = {
-	    enable = true;
-	    enableRosetta = true;
-	    user = "kenny";
-	  };
-	}
+    modules = [ 
+		./modules/packages.nix 
+		./modules/system.nix
+		./modules/homebrew.nix
+		nix-homebrew.darwinModules.nix-homebrew {
+		  nix-homebrew = {
+		    enable = true;
+		    enableRosetta = true;
+		    user = "kenny";
+		  };
+		}
       ];
     };
   };
