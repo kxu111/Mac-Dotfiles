@@ -4,10 +4,10 @@
     enableKeyMapping = true;
     remapCapsLockToControl = true;
   };
-  system.NSGlobalDomain = {
+  system.defaults.NSGlobalDomain = {
     KeyRepeat = 2;
     InitialKeyRepeat = 15;
-  }
+  };
 
 }
 

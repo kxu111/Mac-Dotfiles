@@ -27,6 +27,6 @@
       controlcenter.BatteryShowPercentage = true;
       NSGlobalDomain.AppleInterfaceStyle = "Dark";
     };
-  };
+}
 
 
