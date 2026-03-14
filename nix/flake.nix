@@ -8,23 +8,28 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
-  {
+  outputs = inputs @ {
+    self,
+    nix-darwin,
+    nixpkgs,
+    nix-homebrew,
+  }: {
     darwinConfigurations."kennys-MacBook-Air" = nix-darwin.lib.darwinSystem {
-    specialArgs = { inherit self; };
-    modules = [ 
-		./modules/packages.nix 
-		./modules/homebrew.nix
-		./modules/system.nix
-		./modules/settings.nix
-		./modules/input.nix
-		nix-homebrew.darwinModules.nix-homebrew {
-		  nix-homebrew = {
-		    enable = true;
-		    enableRosetta = true;
-		    user = "kenny";
-		  };
-		}
+      specialArgs = {inherit self;};
+      modules = [
+        ./modules/packages.nix
+        ./modules/homebrew.nix
+        ./modules/system.nix
+        ./modules/settings.nix
+        ./modules/input.nix
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            enable = true;
+            enableRosetta = true;
+            user = "kenny";
+          };
+        }
       ];
     };
   };

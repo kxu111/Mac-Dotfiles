@@ -1,10 +1,15 @@
-{ ... }: {
-
+{...}: {
   homebrew = {
     enable = true;
     global.autoUpdate = true;
-    onActivation = { cleanup = "zap"; autoUpdate = true; upgrade = true; };
-    brews = [ "mas" ];
+    onActivation = {
+      cleanup = "zap";
+      autoUpdate = true;
+      upgrade = true;
+    };
+    brews = [
+      "mas"
+    ];
     casks = [
       "librewolf"
       "vesktop"
@@ -16,5 +21,4 @@
       "WhatsApp" = 310633997;
     };
   };
-
 }

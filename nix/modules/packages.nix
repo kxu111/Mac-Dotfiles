@@ -1,15 +1,15 @@
-{ pkgs, ... }: {
-
+{pkgs, ...}: {
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [ 
+  environment.systemPackages = with pkgs; [
     vim
     btop
     fastfetch
     alacritty
     stow
     ripgrep
-	bob-nvim
+    bob-nvim
+    cargo
   ];
 
   services.yabai.enable = true;
@@ -18,5 +18,4 @@
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
   ];
-
 }

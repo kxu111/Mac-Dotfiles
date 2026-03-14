@@ -1,5 +1,4 @@
-{ self, ... }: {
-
+{self, ...}: {
   system.keyboard = {
     enableKeyMapping = true;
     remapCapsLockToControl = true;
@@ -8,6 +7,4 @@
     KeyRepeat = 2;
     InitialKeyRepeat = 15;
   };
-
 }
-
