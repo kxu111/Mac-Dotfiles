@@ -1,4 +1,5 @@
 fastfetch
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -8,9 +9,10 @@ fi
 
 alias ls='ls -la'
 alias neofetch='fastfetch'
-alias vim='nvim'
-alias yls='sudo yabai --load-sa'
-alias nrs='sudo darwin-rebuild switch --flake ~/nix; yls'
+alias vi='bob run nightly'
+alias vis='bob run stable'
+alias nrs='sudo darwin-rebuild switch --flake ~/nix; sudo yabai --load-sa'
+
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
