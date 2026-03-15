@@ -13,6 +13,7 @@
     nodePackages.npm
     tealdeer
     lsd
+	sioyek
   ];
 
   services.yabai.enable = true;
