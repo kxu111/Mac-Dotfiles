@@ -15,6 +15,7 @@
       "vesktop"
       "steam"
       "the-unarchiver"
+      "obs"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

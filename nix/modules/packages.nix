@@ -11,6 +11,8 @@
     bob-nvim
     cargo
     nodePackages.npm
+    tealdeer
+    lsd
   ];
 
   services.yabai.enable = true;
