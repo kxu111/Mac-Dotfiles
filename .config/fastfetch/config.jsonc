@@ -18,21 +18,28 @@
     {
       "type": "separator",
     },
+    //  {
+    //     "type": "os",
+    //     "key": "OS  ",
+    //     "keyColor": "blue",
+    //     "outputColor": "blue",
+    //   },
     {
-      "type": "os",
-      "key": "OS  ",
+      "type": "uptime",
+      "key": "UPT ",
       "keyColor": "blue",
       "outputColor": "blue",
     },
     {
-      "type": "uptime",
-      "key": "UPT ",
+      "type": "wm",
+      "key": "WM  ",
       "keyColor": "yellow",
       "outputColor": "yellow",
     },
     {
       "type": "cpu",
       "key": "CPU ",
+      "format": "{name} @ {freq-max}",
       "keyColor": "blue",
       "outputColor": "blue",
     },
