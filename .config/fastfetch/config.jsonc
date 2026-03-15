@@ -4,13 +4,14 @@
     "source": "macos",
 
     "padding": {
-      "top": 0,
+      "top": 1,
     },
   },
   "display": {
     "separator": ": ",
   },
   "modules": [
+    "break",
     {
       "type": "title",
     },
