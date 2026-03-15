@@ -23,21 +23,32 @@ vim.keymap.set({ 'n', 'v', 'x' }, '<leader>d', '"+d<CR>')
 
 -- install plugins
 vim.pack.add({
-	{ src = "https://github.com/catppuccin/nvim",      name = "catppuccin" },
+	{ src = "https://github.com/catppuccin/nvim",            name = "catppuccin" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 })
 
 -- load plugins
 require "mason".setup()
+
+-- icons
+require "nvim-web-devicons".setup({
+	color_icons = true,
+	variant = "dark",
+})
+
 
 -- configure file explorer
 require("oil").setup({
 	default_file_explorer = true,
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
+	columns = {
+		"icon",
+	},
 	view_options = {
 		show_hidden = true,
 		is_always_hidden = function(name, _)
@@ -66,6 +77,7 @@ vim.lsp.config("lua_ls", {
 		}
 	}
 })
+vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 
 -- catppuccin overrides
 require("catppuccin").setup({
