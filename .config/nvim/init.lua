@@ -6,29 +6,28 @@ vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.winborder = "rounded"
+vim.o.termguicolors = true
 
 -- writing files keymaps
 vim.keymap.set('n', '<leader>o', ':update<CR>:source<CR>')
 vim.keymap.set('n', '<leader>w', ':write<CR>')
 vim.keymap.set('n', '<leader>q', ':quit<CR>')
 
+-- faster up + down navigation
+vim.keymap.set('n', '<C-d>', '<C-d>zz') -- zz centres the page
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+
 -- copy to system clipboard
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>y', '"+y<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>d', '"+d<CR>')
 
--- fast splits
-vim.keymap.set({ 'n', 'v', 'x' }, '<leader>vs', ':vs<CR>')
-vim.keymap.set({ 'n', 'v', 'x' }, '<leader>hs', ':sv<CR>')
-
 -- install plugins
 vim.pack.add({
-	{ src = "https://github.com/catppuccin/nvim",                name = "catppuccin" },
+	{ src = "https://github.com/catppuccin/nvim",      name = "catppuccin" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
 })
 
 -- load plugins
@@ -51,19 +50,13 @@ require("oil").setup({
 })
 vim.keymap.set('n', '<leader>e', ":Oil<CR>")
 
--- configure treesitter
-require "nvim-treesitter".install({
-	ensure_installed = { "python", "nix" },
-	highlight = { enable = true },
-})
-
 -- fuzzy finding
 require "mini.pick".setup()
 vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
 vim.keymap.set('n', '<leader>h', ":Pick help<CR>")
 
 -- lsp servers
-vim.lsp.enable({ "lua_ls", "basedpyright", "nil", "clang" })
+vim.lsp.enable({ "lua_ls" })
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -72,21 +65,6 @@ vim.lsp.config("lua_ls", {
 			},
 		}
 	}
-})
-
--- code formatters
-require("conform").setup({
-	formatters_by_ft = {
-		json = { "prettier" },
-		jsonc = { "prettier" },
-		nix = { "alejandra" },
-		c = { "clang-format" },
-		cpp = { "clang-format" },
-	},
-	format_after_save = {
-		async = true,
-		lsp_format = "fallback",
-	},
 })
 
 -- catppuccin overrides
@@ -98,7 +76,8 @@ require("catppuccin").setup({
 			mantle = "#000000",
 			crust = "#000000",
 		}
-	}
+	},
+	no_bold = true,
 })
 vim.cmd("colorscheme catppuccin-nvim")
 
