@@ -52,7 +52,7 @@ require("oil").setup({
 	view_options = {
 		show_hidden = true,
 		is_always_hidden = function(name, _)
-			return name == '..' or name == '.git'
+			return name == '..'
 		end,
 	},
 	win_options = {
