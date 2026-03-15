@@ -1,0 +1,115 @@
+---
+# == Classic ==
+# makes it backwards compatible with ls, but affects many options
+classic: false
+
+# == Blocks ==
+# long & tree layout specific
+# Possible values: permission, user, group, context, size, date, name, inode, links, git
+blocks:
+  - permission
+  - size
+  - date
+  - name
+
+# == Color ==
+color:
+  when: auto
+  theme: default
+
+# == Date ==
+# uses strftime format
+date: '+%a, %d %b %y %-I:%M %p'
+
+# == Dereference ==
+# true: show info about the original file
+# fasle: show info about the symlink
+dereference: false
+
+# == Display ==
+# What items to display. Do not specify this for the default behavior.
+# Possible values: all, almost-all, directory-only
+# display: all
+
+# == Icons ==
+icons:
+  # Possible values: always, auto, never
+  when: auto
+
+  # Possible values: fancy, unicode
+  theme: fancy
+
+  # Separator between icon and the name
+  separator: " "
+
+# == Ignore Globs ==
+# ignore-globs:
+#    - .git
+
+# == Indicators ==
+# Whether to add indicator characters to certain listed files.
+# Possible values: false, true
+indicators: false
+
+# == Layout ==
+# Which layout to use. "oneline" might be a bit confusing here and should be
+# called "one-per-line". It might be changed in the future.
+# Possible values: grid, tree, oneline
+layout: grid
+
+# == Recursion ==
+recursion:
+  enabled: false
+  # How deep the recursion should go.
+  # Leave it unspecified for (virtually) infinite.
+  # depth: 3
+
+# == Size ==
+# Possible values: default, short, bytes
+size: short
+
+# == Permission ==
+# Possible value: rwx, octal, disable
+permission: rwx
+
+# == Sorting ==
+sorting:
+  # Possible values: extension, name, time, size, version
+  column: name
+  reverse: false
+
+  # whether to group folders together
+  # Possible values: first, last, none
+  dir-grouping: first
+
+# == No Symlink ==
+no-symlink: false
+
+# == Total size ==
+# displays the total size of directories.
+# USING THIS CAN CAUSE LAG
+total-size: false
+
+# == Hyperlink ==
+# Possible values: always, auto, never
+hyperlink: never
+
+# == Symlink arrow ==
+# chars in both ascii and utf8
+symlink-arrow: ⇒
+
+# == Header ==
+# Whether to display block headers.
+header: false
+
+# == Literal ==
+# e.g "Hello\ There" becomes "Hello There" if this is set to true
+literal: false
+
+# == Truncate owner ==
+# truncate the username and group names for a file if they exceed a certain number of characters.
+truncate-owner:
+  # Number of characters to keep. empty by default
+  after:
+  # String to be appended to a name if truncated.
+  marker: ".."
