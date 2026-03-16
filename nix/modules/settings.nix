@@ -5,7 +5,7 @@
       autohide = true;
       autohide-delay = 0.0;
       autohide-time-modifier = 0.0;
-      orientation = "left";
+      orientation = "right";
       show-recents = false;
       minimize-to-application = true;
       persistent-apps = [
