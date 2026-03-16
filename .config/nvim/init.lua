@@ -6,7 +6,6 @@ vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.o.winborder = "rounded"
-vim.o.termguicolors = true
 
 -- writing files keymaps
 vim.keymap.set('n', '<leader>o', ':update<CR>:source<CR>')
