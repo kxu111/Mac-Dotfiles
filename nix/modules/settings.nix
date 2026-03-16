@@ -3,8 +3,8 @@
   system.defaults = {
     dock = {
       autohide = true;
-      autohide-delay = 0.0;
-      autohide-time-modifier = 0.0;
+      autohide-delay = 0.2;
+      autohide-time-modifier = 0.4;
       orientation = "left";
       show-recents = false;
       minimize-to-application = true;
@@ -24,6 +24,10 @@
     };
     loginwindow.GuestEnabled = false;
     controlcenter.BatteryShowPercentage = true;
-    NSGlobalDomain.AppleInterfaceStyle = "Dark";
+    NSGlobalDomain = {
+      AppleInterfaceStyle = "Dark";
+      _HIHideMenuBar = true;
+    };
+	universalaccess.reduceMotion = true;
   };
 }
