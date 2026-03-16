@@ -5,9 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-alias nrs='sudo darwin-rebuild switch --flake ~/nix; sudo yabai --load-sa'
+alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 
 alias neofetch='fastfetch'
+
+alias yabaihash='shasum -a 256 $(which yabai)'
 
 alias l='lsd -l'
 alias la='lsd -a'
