@@ -20,7 +20,7 @@ sketchybar --add item logo left \
            --set logo update_freq=10 icon="" icon.padding_bottom=15 icon.padding_right=15 icon.padding_left=15 background.color=0xff000000 background.height=45 background.corner_radius=10 label.drawing=off icon.font.size=18 padding_left=0 padding_right=16
 
 # workspaces
-for sid in {1..9}; do
+for sid in {1..6}; do
   # Default padding
   padding_left=5
   padding_right=5
