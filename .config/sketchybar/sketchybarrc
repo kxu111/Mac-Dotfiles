@@ -28,7 +28,7 @@ for sid in {1..6}; do
   # Special padding for first and last space
   if [ "$sid" -eq 1 ]; then
     padding_left=15
-  elif [ "$sid" -eq 9 ]; then
+  elif [ "$sid" -eq 6 ]; then
     padding_right=15
   fi
 
