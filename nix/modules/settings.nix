@@ -3,8 +3,8 @@
   system.defaults = {
     dock = {
       autohide = true;
-      autohide-delay = 0.1;
-      autohide-time-modifier = 0.2;
+      autohide-delay = 0.0;
+      autohide-time-modifier = 0.0;
       orientation = "left";
       show-recents = false;
       minimize-to-application = true;
