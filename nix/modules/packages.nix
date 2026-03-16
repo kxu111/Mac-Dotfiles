@@ -14,6 +14,7 @@
     tealdeer
     lsd
 	sioyek
+	sketchybar
   ];
 
   services.yabai.enable = true;
@@ -21,6 +22,5 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
-    maple-mono.NF-unhinted
   ];
 }
