@@ -3,17 +3,17 @@
 
   environment.systemPackages = with pkgs; [
     vim
+    bob-nvim
+	tmux
     btop
     fastfetch
     alacritty
     stow
     ripgrep
-    bob-nvim
     cargo
     nodePackages.npm
     tealdeer
     lsd
-	sioyek
 	sketchybar
   ];
 
