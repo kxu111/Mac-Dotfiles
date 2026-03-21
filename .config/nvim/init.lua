@@ -28,17 +28,20 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	{ src = "https://codeberg.org/andyg/leap.nvim" },
 })
 
 -- load plugins
 require "mason".setup()
+
+-- leap keymaps
+vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
 
 -- icons
 require "nvim-web-devicons".setup({
 	color_icons = true,
 	variant = "dark",
 })
-
 
 -- configure file explorer
 require("oil").setup({
@@ -62,7 +65,7 @@ vim.keymap.set('n', '<leader>e', ":Oil<CR>")
 
 -- fuzzy finding
 require "mini.pick".setup()
-vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
+vim.keymap.set('n', '<leader>g', ":Pick files<CR>")
 vim.keymap.set('n', '<leader>h', ":Pick help<CR>")
 
 -- lsp servers
