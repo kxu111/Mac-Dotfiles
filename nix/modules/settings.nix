@@ -10,8 +10,13 @@
       minimize-to-application = true;
       persistent-apps = [
         "/Applications/Librewolf.app"
+		"/Applications/Chromium.app"
+		"/Applications/sioyek.app"
         "/Applications/Vesktop.app"
         "/Applications/WhatsApp.app"
+		"/Applications/Steam.app"
+		"/Applications/OBS.app"
+		"/Applications/Davinci\ Resolve.app"
       ];
       mru-spaces = false;
     };
