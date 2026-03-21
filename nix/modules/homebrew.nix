@@ -12,7 +12,9 @@
       "librewolf"
       "vesktop"
       "steam"
+	  "ungoogled-chromium"
       "the-unarchiver"
+	  "sioyek"
       "obs"
     ];
     masApps = {
