@@ -9,12 +9,12 @@ alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 
 alias neofetch='fastfetch'
 
-alias yabaihash='shasum -a 256 $(which yabai)'
-
 alias l='lsd -l'
 alias la='lsd -a'
 alias lla='lsd -la'
 alias lt='lsd --tree'
+
+alias m='mkdir -p'
 
 alias vi='bob run nightly'
 alias vis='bob run stable'
