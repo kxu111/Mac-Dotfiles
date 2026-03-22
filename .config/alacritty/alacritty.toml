@@ -8,6 +8,7 @@ shell = {program = "/run/current-system/sw/bin/zsh"}
 padding = { x=28, y=28 }
 #opacity = 0.9
 decorations = "Buttonless"
+option_as_alt="Both"
 
 [font]
 size = 16
