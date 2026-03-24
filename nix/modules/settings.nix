@@ -10,10 +10,10 @@
       minimize-to-application = true;
       persistent-apps = [
         "/Applications/Librewolf.app"
-		"/Applications/Chromium.app"
+        "/Applications/Chromium.app"
         "/Applications/Vesktop.app"
         "/Applications/WhatsApp.app"
-		"/Applications/sioyek.app"
+        "/Applications/sioyek.app"
       ];
       mru-spaces = false;
     };
@@ -28,8 +28,8 @@
     controlcenter.BatteryShowPercentage = true;
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
-      _HIHideMenuBar = true;
+      _HIHideMenuBar = false;
     };
-	universalaccess.reduceMotion = true;
+    universalaccess.reduceMotion = true;
   };
 }

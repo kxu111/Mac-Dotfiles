@@ -4,7 +4,7 @@
   environment.systemPackages = with pkgs; [
     vim
     bob-nvim
-	tmux
+    tmux
     btop
     fastfetch
     alacritty
@@ -14,7 +14,7 @@
     nodePackages.npm
     tealdeer
     lsd
-	sketchybar
+    alejandra
   ];
 
   services.yabai.enable = true;
@@ -22,6 +22,6 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
-	nerd-fonts.jetbrains-mono
+    nerd-fonts.jetbrains-mono
   ];
 }
