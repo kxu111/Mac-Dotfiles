@@ -9,6 +9,7 @@
 
     # trackpad settings
     defaults.".GlobalPreferences"."com.apple.mouse.scaling" = -1.0;
+	defaults.trackpad.Clicking = true;
     defaults.NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
   };
 }
