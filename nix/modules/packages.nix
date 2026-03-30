@@ -13,7 +13,8 @@
     nodePackages.npm
     tealdeer
     lsd
-	unzip
+    unzip
+    alejandra
   ];
 
   services.yabai.enable = true;

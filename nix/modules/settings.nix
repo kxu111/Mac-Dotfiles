@@ -30,6 +30,5 @@
       AppleInterfaceStyle = "Dark";
       _HIHideMenuBar = false;
     };
-    universalaccess.reduceMotion = true;
   };
 }
