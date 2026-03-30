@@ -24,17 +24,17 @@ vim.keymap.set({ 'n', 'v', 'x' }, '<leader>d', '"+d<CR>')
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim",            name = "catppuccin" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://codeberg.org/andyg/leap.nvim" },
 })
 
 -- load plugins
 require "mason".setup()
 
--- leap keymaps
+-- leap.nvim
 vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
 
 -- icons
@@ -43,7 +43,7 @@ require "nvim-web-devicons".setup({
 	variant = "dark",
 })
 
--- configure file explorer
+-- configure oil
 require("oil").setup({
 	default_file_explorer = true,
 	delete_to_trash = true,
@@ -65,7 +65,7 @@ vim.keymap.set('n', '<leader>e', ":Oil<CR>")
 
 -- fuzzy finding
 require "mini.pick".setup()
-vim.keymap.set('n', '<leader>g', ":Pick files<CR>")
+vim.keymap.set('n', '<leader>f', ":Pick files<CR>")
 vim.keymap.set('n', '<leader>h', ":Pick help<CR>")
 
 -- lsp servers
