@@ -4,7 +4,7 @@
     dock = {
       autohide = true;
       autohide-delay = 0.0;
-      autohide-time-modifier = 0.0;
+      autohide-time-modifier = 0.1;
       orientation = "right";
       show-recents = false;
       minimize-to-application = true;
