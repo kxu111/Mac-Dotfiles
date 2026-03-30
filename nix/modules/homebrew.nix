@@ -13,9 +13,9 @@
       "vesktop"
       "steam"
       "ungoogled-chromium"
-      "the-unarchiver"
       "sioyek"
       "obs"
+	  "balenaetcher"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     vim
     bob-nvim
-    tmux
     btop
     fastfetch
     alacritty
@@ -14,7 +13,7 @@
     nodePackages.npm
     tealdeer
     lsd
-    alejandra
+	unzip
   ];
 
   services.yabai.enable = true;
