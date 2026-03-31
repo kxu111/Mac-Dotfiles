@@ -2,19 +2,18 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    vim
-    bob-nvim
-    tmux
-    btop
     fastfetch
+    btop
     alacritty
     stow
-    ripgrep
+    vim
+    bob-nvim
     cargo
     nodePackages.npm
-    tealdeer
+    ripgrep
+    tmux
     lsd
-    bat
+    tealdeer
     unzip
   ];
 

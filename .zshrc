@@ -12,7 +12,6 @@ alias la='lsd -a'
 alias lla='lsd -la'
 alias lt='lsd --tree'
 alias m='mkdir -p'
-alias cat='bat'
 alias vi='nvim'
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export MANPAGER='nvim +Man!'
