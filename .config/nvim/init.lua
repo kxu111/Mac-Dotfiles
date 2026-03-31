@@ -1,33 +1,12 @@
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.signcolumn = "yes"
-vim.o.wrap = false
-vim.o.tabstop = 4
-vim.o.swapfile = false
-vim.g.mapleader = " "
-vim.o.winborder = "rounded"
-
--- writing files keymaps
-vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
-vim.keymap.set("n", "<leader>w", ":write<CR>")
-vim.keymap.set("n", "<leader>q", ":quit<CR>")
-
--- faster up + down navigation
-vim.keymap.set("n", "<C-d>", "<C-d>zz") -- zz centres the page
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
--- copy to system clipboard
-vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
-vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
-
 -- install plugins
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/echasnovski/mini.nvim" },
+	{ src = "https://github.com/echasnovski/mini.pairs" },
+	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://codeberg.org/andyg/leap.nvim" },
+	{ src = "https://github.com/folke/flash.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -54,6 +33,21 @@ require("mason-tool-installer").setup({
 vim.lsp.config("lua_ls", {
 	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
 })
+
+-- configure flash.nvim
+require("flash").setup({
+	modes = {
+		search = {
+			enabled = true,
+			highlight = { backdrop = true },
+		},
+	},
+	char = {
+		enabled = true,
+		jump_labels = true,
+	},
+})
+vim.keymap.set({ "n", "x", "o" }, "s", require("flash").jump)
 
 -- setup formatter
 require("conform").setup({
@@ -87,9 +81,6 @@ require("toggleterm").setup({
 	direction = "float",
 })
 
--- setup leap
-vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
-
 -- icons
 require("nvim-web-devicons").setup({
 	color_icons = true,
@@ -113,13 +104,11 @@ require("oil").setup({
 vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
 -- mini.nvim
+require("mini.pairs").setup()
 require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
 vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
-
-require("mini.pairs").setup()
-require("mini.surround").setup()
 
 -- autocomplete
 require("blink.cmp").setup({
@@ -170,3 +159,25 @@ local function pack_clean()
 	end
 end
 vim.keymap.set("n", "<leader>pc", pack_clean)
+
+-- writing files keymaps
+vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
+vim.keymap.set("n", "<leader>w", ":write<CR>")
+vim.keymap.set("n", "<leader>q", ":quit<CR>")
+
+-- faster up + down navigation
+vim.keymap.set("n", "<C-d>", "<C-d>zz") -- zz centres the page
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- copy to system clipboard
+vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
+vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
+
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.signcolumn = "yes"
+vim.o.wrap = false
+vim.o.tabstop = 4
+vim.o.swapfile = false
+vim.g.mapleader = " "
+vim.o.winborder = "rounded"
