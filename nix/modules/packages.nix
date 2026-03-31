@@ -4,7 +4,7 @@
   environment.systemPackages = with pkgs; [
     vim
     bob-nvim
-	tmux
+    tmux
     btop
     fastfetch
     alacritty
@@ -14,7 +14,7 @@
     nodePackages.npm
     tealdeer
     lsd
-	bat
+    bat
     unzip
   ];
 
@@ -23,6 +23,6 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
-	maple-mono.NF
+    maple-mono.NF
   ];
 }
