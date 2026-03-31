@@ -40,8 +40,17 @@ require("mason-tool-installer").setup({
 	ensure_installed = {
 		"lua_ls",
 		"stylua",
-		"nil",
+		"nil_ls",
 		"alejandra",
+	},
+})
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+		},
 	},
 })
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
