@@ -1,3 +1,12 @@
+vim.g.mapleader = " "
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.tabstop = 4
+vim.o.swapfile = false
+vim.o.wrap = false
+vim.o.signcolumn = "yes"
+vim.o.winborder = "rounded"
+
 -- install plugins
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
@@ -172,12 +181,3 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- copy to system clipboard
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
-
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.signcolumn = "yes"
-vim.o.wrap = false
-vim.o.tabstop = 4
-vim.o.swapfile = false
-vim.g.mapleader = " "
-vim.o.winborder = "rounded"
