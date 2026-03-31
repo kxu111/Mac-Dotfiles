@@ -25,7 +25,7 @@ vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/echasnovski/mini.pick" },
+	{ src = "https://github.com/echasnovski/mini.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://codeberg.org/andyg/leap.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -33,6 +33,9 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/Saghen/blink.cmp" },
+	{ src = "https://github.com/folke/trouble.nvim" },
+	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 })
 
 -- load lsp
@@ -52,11 +55,12 @@ vim.lsp.config("lua_ls", {
 	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
 })
 
--- set formatters
+-- setup formatter
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		nix = { "alejandra" },
+		c = { "clang-format" },
 	},
 	format_on_save = {
 		lsp_format = "fallback",
@@ -77,6 +81,12 @@ require("lualine").setup({
 	},
 })
 
+-- toggleterm
+require("toggleterm").setup({
+	open_mapping = [[<c-\>]],
+	direction = "float",
+})
+
 -- setup leap
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
 
@@ -91,25 +101,34 @@ require("oil").setup({
 	default_file_explorer = true,
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
-	columns = {
-		"icon",
-	},
+	columns = { "icon" },
 	view_options = {
 		show_hidden = true,
 		is_always_hidden = function(name, _)
 			return name == ".."
 		end,
 	},
-	win_options = {
-		wrap = false,
-	},
+	win_options = { wrap = false },
 })
 vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
--- fuzzy finding
+-- mini.nvim
 require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
+vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
+
+require("mini.pairs").setup()
+require("mini.surround").setup()
+
+-- autocomplete
+require("blink.cmp").setup({
+	fuzzy = { implementation = "prefer_rust" },
+})
+
+-- diagnostics
+require("trouble").setup()
+vim.keymap.set("n", "<leader>d", ":Trouble diagnostics toggle<CR>")
 
 -- catppuccin overrides
 require("catppuccin").setup({
@@ -125,20 +144,29 @@ require("catppuccin").setup({
 })
 vim.cmd("colorscheme catppuccin-nvim")
 
--- autocomplete!
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("my.lsp", {}),
-	callback = function(args)
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		if client:supports_method("textDocument/completion") then
-			-- Optional: trigger autocompletion on EVERY keypress. May be slow!
-			local chars = {}
-			for i = 32, 126 do
-				table.insert(chars, string.char(i))
-			end
-			client.server_capabilities.completionProvider.triggerCharacters = chars
-			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+-- functions
+local function pack_clean()
+	local active_plugins = {}
+	local unused_plugins = {}
+
+	for _, plugin in ipairs(vim.pack.get()) do
+		active_plugins[plugin.spec.name] = plugin.active
+	end
+
+	for _, plugin in ipairs(vim.pack.get()) do
+		if not active_plugins[plugin.spec.name] then
+			table.insert(unused_plugins, plugin.spec.name)
 		end
-	end,
-})
-vim.cmd([[set completeopt+=menuone,noselect,popup]])
+	end
+
+	if #unused_plugins == 0 then
+		print("No unused plugins.")
+		return
+	end
+
+	local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
+	if choice == 1 then
+		vim.pack.del(unused_plugins)
+	end
+end
+vim.keymap.set("n", "<leader>pc", pack_clean)
