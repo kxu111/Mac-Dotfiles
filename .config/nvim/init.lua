@@ -23,14 +23,15 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
 -- install plugins
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/echasnovski/mini.pick" },
-	{ src = "https://codeberg.org/andyg/leap.nvim" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	{ src = "https://github.com/echasnovski/mini.pick" },
+	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://codeberg.org/andyg/leap.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
 })
 
 -- load lsp
@@ -45,15 +46,20 @@ require("mason-tool-installer").setup({
 	},
 })
 vim.lsp.config("lua_ls", {
-	settings = {
-		Lua = {
-			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-		},
+	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
+})
+
+-- set formatters
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		nix = { "alejandra" },
+	},
+	format_on_save = {
+		lsp_format = "fallback",
+		timeout_ms = 500,
 	},
 })
-vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
 
 -- leap.nvim
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
