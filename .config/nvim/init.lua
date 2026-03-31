@@ -24,6 +24,7 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://codeberg.org/andyg/leap.nvim" },
@@ -43,6 +44,8 @@ require("mason-tool-installer").setup({
 		"stylua",
 		"nil_ls",
 		"alejandra",
+		"clangd",
+		"clang-format",
 	},
 })
 vim.lsp.config("lua_ls", {
@@ -61,7 +64,20 @@ require("conform").setup({
 	},
 })
 
--- leap.nvim
+-- configure lualine
+require("lualine").setup({
+	options = { icons = true },
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "diagnostics" },
+		lualine_c = { "filename" },
+		lualine_x = { "lsp_status" },
+		lualine_y = {},
+		lualine_z = { "location" },
+	},
+})
+
+-- setup leap
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
 
 -- icons
