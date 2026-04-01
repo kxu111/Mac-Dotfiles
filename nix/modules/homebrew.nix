@@ -15,6 +15,7 @@
       "ungoogled-chromium"
       "sioyek"
       "obs"
+      "vlc"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;
