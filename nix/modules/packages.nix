@@ -15,6 +15,7 @@
     lsd
     tealdeer
     unzip
+    python3
   ];
 
   services.yabai.enable = true;
