@@ -7,6 +7,14 @@ vim.o.wrap = false
 vim.o.signcolumn = "yes"
 vim.o.winborder = "rounded"
 
+local lsp_servers = { "lua_ls", "stylua", "nil", "alejandra", "clangd", "clang-format", "pyright", "black" }
+local formatters = {
+	lua = { "stylua" },
+	nix = { "alejandra" },
+	c = { "clang-format" },
+	py = { "black" },
+}
+
 -- install plugins
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
@@ -29,17 +37,7 @@ vim.pack.add({
 -- load lsp
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-tool-installer").setup({
-	ensure_installed = {
-		"lua_ls",
-		"stylua",
-		"nil_ls",
-		"alejandra",
-		"clangd",
-		"clang-format",
-	},
-	auto_update = true,
-})
+require("mason-tool-installer").setup({ ensure_installed = lsp_servers })
 vim.lsp.config("lua_ls", {
 	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
 })
@@ -61,11 +59,7 @@ vim.keymap.set({ "n", "x", "o" }, "s", require("flash").jump)
 
 -- setup formatter
 require("conform").setup({
-	formatters_by_ft = {
-		lua = { "stylua" },
-		nix = { "alejandra" },
-		c = { "clang-format" },
-	},
+	formatters_by_ft = formatters,
 	format_on_save = {
 		lsp_format = "fallback",
 		timeout_ms = 500,
@@ -174,10 +168,6 @@ vim.keymap.set("n", "<leader>pc", pack_clean)
 vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
 vim.keymap.set("n", "<leader>w", ":write<CR>")
 vim.keymap.set("n", "<leader>q", ":quit<CR>")
-
--- faster up + down navigation
-vim.keymap.set("n", "<C-d>", "<C-d>zz") -- zz centres the page
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- copy to system clipboard
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
