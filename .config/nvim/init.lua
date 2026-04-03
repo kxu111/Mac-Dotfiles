@@ -44,12 +44,6 @@ vim.lsp.config("lua_ls", {
 
 -- configure flash.nvim
 require("flash").setup({
-	modes = {
-		search = {
-			enabled = true,
-			highlight = { backdrop = true },
-		},
-	},
 	char = {
 		enabled = true,
 		jump_labels = true,
