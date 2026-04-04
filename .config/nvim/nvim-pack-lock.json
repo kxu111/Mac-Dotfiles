@@ -32,13 +32,9 @@
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/mason-org/mason.nvim"
     },
-    "mini.pairs": {
-      "rev": "b7fde3719340946feb75017ef9d75edebdeb0566",
-      "src": "https://github.com/echasnovski/mini.pairs"
-    },
-    "mini.pick": {
-      "rev": "fe079c2bd894a5ee70b62f23d819620ef40c4949",
-      "src": "https://github.com/echasnovski/mini.pick"
+    "mini.nvim": {
+      "rev": "402ee6c6ec8ea44b22330446c8fb4e615fd3953e",
+      "src": "https://github.com/echasnovski/mini.nvim"
     },
     "nvim-lspconfig": {
       "rev": "883c6495b53fccbd35d0938aac8bdf72f6d499c0",

@@ -6,6 +6,8 @@ vim.o.swapfile = false
 vim.o.wrap = false
 vim.o.signcolumn = "yes"
 vim.o.winborder = "rounded"
+vim.o.undofile = true
+vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 
 local lsp_servers = { "lua_ls", "stylua", "nil", "alejandra", "clangd", "clang-format", "pyright", "black" }
 local formatters = {
@@ -20,8 +22,7 @@ vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/echasnovski/mini.pairs" },
-	{ src = "https://github.com/echasnovski/mini.pick" },
+	{ src = "https://github.com/echasnovski/mini.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/folke/flash.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -33,6 +34,10 @@ vim.pack.add({
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 })
+
+-- undotree
+vim.cmd.packadd("nvim.undotree")
+vim.keymap.set({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
 
 -- load lsp
 require("mason").setup()
@@ -49,7 +54,7 @@ require("flash").setup({
 		jump_labels = true,
 	},
 })
-vim.keymap.set({ "n", "x", "o" }, "s", require("flash").jump)
+vim.keymap.set({ "n", "x", "o" }, "<leader>s", require("flash").jump)
 
 -- setup formatter
 require("conform").setup({
@@ -104,6 +109,7 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 -- mini.nvim
 require("mini.pairs").setup()
 require("mini.pick").setup()
+require("mini.surround").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
 vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
@@ -115,7 +121,7 @@ require("blink.cmp").setup({
 
 -- diagnostics
 require("trouble").setup()
-vim.keymap.set("n", "<leader>d", ":Trouble diagnostics toggle<CR>")
+vim.keymap.set("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
 
 -- catppuccin overrides
 require("catppuccin").setup({
@@ -158,10 +164,15 @@ local function pack_clean()
 end
 vim.keymap.set("n", "<leader>pc", pack_clean)
 
--- writing files keymaps
+-- centre screen
+vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
+
+-- quit files
+vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
+
+-- write files
 vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
 vim.keymap.set("n", "<leader>w", ":write<CR>")
-vim.keymap.set("n", "<leader>q", ":quit<CR>")
 
 -- copy to system clipboard
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
