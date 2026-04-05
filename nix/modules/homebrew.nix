@@ -12,7 +12,7 @@
       "librewolf"
       "vesktop"
       "steam"
-      "ungoogled-chromium"
+      "helium-browser"
       "sioyek"
       "obs"
       "vlc"
