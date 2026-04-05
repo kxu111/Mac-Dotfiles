@@ -34,6 +34,8 @@ vim.pack.add({
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
+	{ src = "https://github.com/abecodes/tabout.nvim" },
+	{ src = "https://github.com/numToStr/Comment.nvim" },
 })
 
 vim.cmd.packadd("nvim.undotree")
@@ -62,6 +64,7 @@ require("conform").setup({
 	},
 })
 
+---@diagnostic disable-next-line: undefined-field -- for some reason without this line it says "undefined field: setup"
 require("lualine").setup({
 	options = { icons = true },
 	sections = {
@@ -101,6 +104,7 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
 require("mini.pairs").setup()
 require("mini.surround").setup()
+require("tabout").setup({})
 
 require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
@@ -115,6 +119,7 @@ require("trouble").setup()
 vim.keymap.set("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
 
 require("colorizer").setup()
+require("Comment").setup()
 
 require("catppuccin").setup({
 	flavour = "mocha",
