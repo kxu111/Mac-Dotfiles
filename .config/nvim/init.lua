@@ -18,7 +18,6 @@ local formatters = {
 	py = { "black" },
 }
 
--- install plugins
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
@@ -37,13 +36,9 @@ vim.pack.add({
 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 })
 
--- undotree
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
 
-require("colorizer").setup()
-
--- load lsp
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({ ensure_installed = lsp_servers })
@@ -51,7 +46,6 @@ vim.lsp.config("lua_ls", {
 	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
 })
 
--- configure flash.nvim
 require("flash").setup({
 	char = {
 		enabled = true,
@@ -60,7 +54,6 @@ require("flash").setup({
 })
 vim.keymap.set({ "n", "x", "o" }, "<leader>s", require("flash").jump)
 
--- setup formatter
 require("conform").setup({
 	formatters_by_ft = formatters,
 	format_on_save = {
@@ -69,7 +62,6 @@ require("conform").setup({
 	},
 })
 
--- configure lualine
 require("lualine").setup({
 	options = { icons = true },
 	sections = {
@@ -82,19 +74,16 @@ require("lualine").setup({
 	},
 })
 
--- toggleterm
 require("toggleterm").setup({
 	open_mapping = [[<c-\>]],
 	direction = "float",
 })
 
--- icons
 require("nvim-web-devicons").setup({
 	color_icons = true,
 	variant = "dark",
 })
 
--- configure oil
 require("oil").setup({
 	default_file_explorer = true,
 	delete_to_trash = true,
@@ -110,24 +99,23 @@ require("oil").setup({
 })
 vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
--- mini.nvim
 require("mini.pairs").setup()
-require("mini.pick").setup()
 require("mini.surround").setup()
+
+require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
 vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
 
--- autocomplete
 require("blink.cmp").setup({
 	fuzzy = { implementation = "prefer_rust" },
 })
 
--- diagnostics
 require("trouble").setup()
 vim.keymap.set("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
 
--- catppuccin overrides
+require("colorizer").setup()
+
 require("catppuccin").setup({
 	flavour = "mocha",
 	color_overrides = {
@@ -141,7 +129,6 @@ require("catppuccin").setup({
 })
 vim.cmd("colorscheme catppuccin-nvim")
 
--- functions
 local function pack_clean()
 	local active_plugins = {}
 	local unused_plugins = {}
@@ -168,16 +155,9 @@ local function pack_clean()
 end
 vim.keymap.set("n", "<leader>pc", pack_clean)
 
--- centre screen
-vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
-
--- quit files
 vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
-
--- write files
 vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
 vim.keymap.set("n", "<leader>w", ":write<CR>")
-
--- copy to system clipboard
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
+vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
