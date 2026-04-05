@@ -4,7 +4,7 @@
     dock = {
       autohide = true;
       autohide-delay = 0.0;
-      autohide-time-modifier = 0.1;
+      autohide-time-modifier = 0.2;
       orientation = "right";
       show-recents = false;
       minimize-to-application = true;
@@ -30,5 +30,6 @@
       AppleInterfaceStyle = "Dark";
       _HIHideMenuBar = false;
     };
+    screencapture.location = "~/Pictures/Screenshots";
   };
 }
