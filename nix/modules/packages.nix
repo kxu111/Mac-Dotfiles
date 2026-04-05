@@ -9,7 +9,6 @@
     vim
     bob-nvim
     cargo
-    nodePackages.npm
     ripgrep
     tmux
     lsd
