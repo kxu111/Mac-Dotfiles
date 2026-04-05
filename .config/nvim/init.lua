@@ -33,9 +33,10 @@ vim.pack.add({
 	{ src = "https://github.com/Saghen/blink.cmp" },
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
-	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
+	-- 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 	{ src = "https://github.com/abecodes/tabout.nvim" },
 	{ src = "https://github.com/numToStr/Comment.nvim" },
+	{ src = "https://github.com/mluders/comfy-line-numbers.nvim" },
 })
 
 vim.cmd.packadd("nvim.undotree")
@@ -104,7 +105,6 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
 require("mini.pairs").setup()
 require("mini.surround").setup()
-require("tabout").setup({})
 
 require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
@@ -114,12 +114,14 @@ vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
 require("blink.cmp").setup({
 	fuzzy = { implementation = "prefer_rust" },
 })
+require("tabout").setup({})
 
 require("trouble").setup()
 vim.keymap.set("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
 
-require("colorizer").setup()
+-- require("colorizer").setup()
 require("Comment").setup()
+require("comfy-line-numbers").setup()
 
 require("catppuccin").setup({
 	flavour = "mocha",
