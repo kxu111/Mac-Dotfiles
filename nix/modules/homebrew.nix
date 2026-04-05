@@ -16,6 +16,8 @@
       "sioyek"
       "obs"
       "vlc"
+      "raycast"
+      "karabiner-elements"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;
