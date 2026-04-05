@@ -6,6 +6,7 @@ vim.o.swapfile = false
 vim.o.wrap = false
 vim.o.signcolumn = "yes"
 vim.o.winborder = "rounded"
+vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 
@@ -33,11 +34,14 @@ vim.pack.add({
 	{ src = "https://github.com/Saghen/blink.cmp" },
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
+	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 })
 
 -- undotree
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
+
+require("colorizer").setup()
 
 -- load lsp
 require("mason").setup()

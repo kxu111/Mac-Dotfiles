@@ -36,6 +36,10 @@
       "rev": "402ee6c6ec8ea44b22330446c8fb4e615fd3953e",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
+    "nvim-colorizer.lua": {
+      "rev": "c8c2c19436d33165ec34fa90c975bc0a739fe3fb",
+      "src": "https://github.com/catgoose/nvim-colorizer.lua"
+    },
     "nvim-lspconfig": {
       "rev": "883c6495b53fccbd35d0938aac8bdf72f6d499c0",
       "src": "https://github.com/neovim/nvim-lspconfig"
