@@ -8,8 +8,8 @@
     stow
     vim
     bob-nvim
-    cargo
     ripgrep
+    rustup
     tmux
     lsd
     tealdeer
