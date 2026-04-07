@@ -7,7 +7,6 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-    # Declarative tap management with homebrew
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
