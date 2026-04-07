@@ -33,8 +33,7 @@ vim.pack.add({
 	{ src = "https://github.com/Saghen/blink.cmp" },
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
-	-- 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
-	{ src = "https://github.com/abecodes/tabout.nvim" },
+	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 	{ src = "https://github.com/numToStr/Comment.nvim" },
 	{ src = "https://github.com/mluders/comfy-line-numbers.nvim" },
 })
@@ -44,7 +43,10 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
 
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-tool-installer").setup({ ensure_installed = lsp_servers })
+require("mason-tool-installer").setup({
+	ensure_installed = lsp_servers,
+	auto_update = true,
+})
 vim.lsp.config("lua_ls", {
 	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
 })
@@ -105,21 +107,25 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
 require("mini.pairs").setup()
 require("mini.surround").setup()
-
 require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
 vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
 
 require("blink.cmp").setup({
-	fuzzy = { implementation = "prefer_rust" },
+	fuzzy = { implementation = "prefer_rust_with_warning" },
 })
-require("tabout").setup({})
 
 require("trouble").setup()
 vim.keymap.set("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
 
--- require("colorizer").setup()
+require("colorizer").setup({
+	options = {
+		parsers = {
+			names = { enable = false },
+		},
+	},
+})
 require("Comment").setup()
 require("comfy-line-numbers").setup()
 

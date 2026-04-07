@@ -44,6 +44,10 @@
       "rev": "402ee6c6ec8ea44b22330446c8fb4e615fd3953e",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
+    "nvim-colorizer.lua": {
+      "rev": "c8c2c19436d33165ec34fa90c975bc0a739fe3fb",
+      "src": "https://github.com/catgoose/nvim-colorizer.lua"
+    },
     "nvim-lspconfig": {
       "rev": "9ccd58a7949091c0cc2777d4e92a45a209c808c1",
       "src": "https://github.com/neovim/nvim-lspconfig"
@@ -55,10 +59,6 @@
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "tabout.nvim": {
-      "rev": "9a3499480a8e53dcaa665e2836f287e3b7764009",
-      "src": "https://github.com/abecodes/tabout.nvim"
     },
     "toggleterm.nvim": {
       "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
