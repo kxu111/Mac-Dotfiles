@@ -10,12 +10,14 @@ vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 
-local lsp_servers = { "lua_ls", "stylua", "nil", "alejandra", "clangd", "clang-format", "pyright", "black" }
+local lsp_servers =
+	{ "lua_ls", "stylua", "nil", "alejandra", "clangd", "clang-format", "pyright", "black", "rust-analyzer" }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" },
 	py = { "black" },
+	rs = { "rustfmt" },
 }
 
 vim.pack.add({
