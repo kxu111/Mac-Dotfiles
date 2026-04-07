@@ -37,7 +37,6 @@ vim.pack.add({
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 	{ src = "https://github.com/numToStr/Comment.nvim" },
-	{ src = "https://github.com/mluders/comfy-line-numbers.nvim" },
 })
 
 vim.cmd.packadd("nvim.undotree")
@@ -48,9 +47,6 @@ require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
 	ensure_installed = lsp_servers,
 	auto_update = true,
-})
-vim.lsp.config("lua_ls", {
-	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
 })
 
 require("flash").setup({
@@ -130,7 +126,6 @@ require("colorizer").setup({
 	},
 })
 require("Comment").setup()
-require("comfy-line-numbers").setup()
 
 require("catppuccin").setup({
 	flavour = "mocha",
@@ -171,18 +166,37 @@ local function pack_clean()
 end
 vim.keymap.set("n", "<leader>pc", pack_clean)
 
+local function check_tab_chars(value)
+	local options = { "{", "}", "(", ")", "'", '"', "[", "]" }
+	for _, v in ipairs(options) do
+		if v == value then
+			return true
+		end
+	end
+	return false
+end
+vim.keymap.set("i", "<Tab>", function() -- "tabout" functionality
+	local col = vim.fn.col(".")
+	local line = vim.fn.getline(".")
+	local char = line:sub(col, col)
+	if check_tab_chars(char) then
+		return "<Right>"
+	end
+	return "<Tab>"
+end, { expr = true })
+vim.keymap.set("i", "<S-Tab>", function()
+	local col = vim.fn.col(".") - 1
+	local line = vim.fn.getline(".")
+	local char = line:sub(col, col)
+	if check_tab_chars(char) then
+		return "<Left>"
+	end
+	return "<Tab>"
+end, { expr = true })
+
 vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
 vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
 vim.keymap.set("n", "<leader>w", ":write<CR>")
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
-vim.keymap.set("i", "<Tab>", function() -- "tabout" functionality
-	local col = vim.fn.col(".")
-	local line = vim.fn.getline(".")
-	local char = line:sub(col, col)
-	if char == ")" or char == '"' or char == "'" or char == "]" or char == "}" then
-		return "<Right>"
-	end
-	return "<Tab>"
-end, { expr = true })
