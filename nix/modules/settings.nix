@@ -15,6 +15,7 @@
         "/Applications/WhatsApp.app"
         "/Applications/sioyek.app"
         "/Applications/OBS.app"
+        "/Applications/Steam.app/"
       ];
       mru-spaces = false;
     };
