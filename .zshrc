@@ -12,6 +12,7 @@ alias m='mkdir -p'
 alias vi='nvim'
 alias tn='tmux new-session -s'
 alias ta='tmux attach -t'
+alias tls='tmux ls'
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export MANPAGER='nvim +Man!'
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
