@@ -109,6 +109,7 @@ vim.keymap.set("n", "<leader>e", ":Oil<CR>")
 
 require("mini.pairs").setup()
 require("mini.surround").setup()
+require("mini.ai").setup()
 require("mini.pick").setup()
 vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
@@ -176,3 +177,12 @@ vim.keymap.set("n", "<leader>w", ":write<CR>")
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
+vim.keymap.set("i", "<Tab>", function() -- "tabout" functionality
+	local col = vim.fn.col(".")
+	local line = vim.fn.getline(".")
+	local char = line:sub(col, col)
+	if char == ")" or char == '"' or char == "'" or char == "]" or char == "}" then
+		return "<Right>"
+	end
+	return "<Tab>"
+end, { expr = true })
