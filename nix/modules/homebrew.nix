@@ -7,7 +7,7 @@
       autoUpdate = true;
       upgrade = true;
     };
-    brews = ["mas" "node"];
+    brews = ["mas" "node" "mole"];
     casks = [
       "librewolf"
       "vesktop"
