@@ -2,7 +2,7 @@
 TERM = "screen-256color"
 
 [general]
-import = ["./themes/catppuccin-mocha.toml"]
+import = ["./themes/vague.toml"]
 
 [terminal]
 shell = {program = "/run/current-system/sw/bin/zsh"}
@@ -18,3 +18,6 @@ normal      = { family="Iosevka Nerd Font Mono", style="Regular" }
 bold        = { family="Iosevka Nerd Font Mono", style="Bold" }
 italic      = { family="Iosevka Nerd Font Mono", style="Italic" }
 bold_italic = { family="Iosevka Nerd Font Mono", style="Bold Italic" }
+
+[colors.primary]
+background = "#000000"
