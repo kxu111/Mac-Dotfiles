@@ -37,4 +37,4 @@ alt + shift - space : yabai -m window --toggle float
 alt + shift - f : yabai -m window --toggle native-fullscreen
 
 # open alacritty
-alt - return : open -n /Applications/Nix\ Apps/alacritty.app
+alt - return : open -n /Applications/Ghostty.app

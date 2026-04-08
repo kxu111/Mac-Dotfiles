@@ -17,6 +17,7 @@
       "obs"
       "vlc"
       "raycast"
+	  "ghostty"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

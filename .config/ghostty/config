@@ -1,0 +1,23 @@
+theme = "Vague"
+command = "/run/current-system/sw/bin/zsh"
+confirm-close-surface = false
+
+cursor-style = block
+cursor-style-blink = false
+shell-integration = none
+
+window-padding-x = 28
+window-padding-y = 28
+macos-titlebar-style = hidden
+
+font-size = 16
+font-family = "Iosevka Nerd Font Mono"
+font-thicken = true
+font-thicken-strength = 255
+
+font-style = "Regular"
+font-style-bold = "Bold"
+font-style-italic = "Italic"
+font-style-bold-italic = "Bold Italic"
+
+background = "#000000"
