@@ -12,16 +12,10 @@
   },
   "modules": [
     "break",
-	"title",
+    "title",
     {
       "type": "separator",
     },
-    //  {
-    //     "type": "os",
-    //     "key": "OS  ",
-    //     "keyColor": "blue",
-    //     "outputColor": "blue",
-    //   },
     {
       "type": "uptime",
       "key": "UPT ",
@@ -29,19 +23,12 @@
       "outputColor": "blue",
     },
     {
-      "type": "wm",
-      "key": "WM  ",
-      "keyColor": "magenta",
-      "outputColor": "magenta",
-    },
-    {
       "type": "cpu",
       "key": "CPU ",
       "format": "{name} @ {freq-max}",
-      "keyColor": "blue",
-      "outputColor": "blue",
+      "keyColor": "yellow",
+      "outputColor": "yellow",
     },
-
     {
       "type": "memory",
       "key": "RAM ",
