@@ -40,6 +40,10 @@
       "rev": "402ee6c6ec8ea44b22330446c8fb4e615fd3953e",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
+    "neotab.nvim": {
+      "rev": "e99d3e28c5a2066d2d368dfe4ef3827c8d75d337",
+      "src": "https://github.com/kawre/neotab.nvim"
+    },
     "nvim-colorizer.lua": {
       "rev": "c8c2c19436d33165ec34fa90c975bc0a739fe3fb",
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
@@ -63,6 +67,10 @@
     "trouble.nvim": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "vague.nvim": {
+      "rev": "4f52c75bce7411f64dacbd1bff2a2fce5bdd59e9",
+      "src": "https://github.com/vague-theme/vague.nvim"
     }
   }
 }

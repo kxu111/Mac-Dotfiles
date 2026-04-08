@@ -10,18 +10,31 @@ vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 
-local lsp_servers =
-	{ "lua_ls", "stylua", "nil", "alejandra", "clangd", "clang-format", "pyright", "black", "rust-analyzer" }
+local lsp_servers = {
+	"lua_ls",
+	"stylua",
+	"nil",
+	"alejandra",
+	"clangd",
+	"clang-format",
+	"pyright",
+	"black",
+	"rust-analyzer",
+	"prettier",
+	"json-lsp",
+}
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" },
 	py = { "black" },
 	rs = { "rustfmt" },
+	jsonc = { "prettier" },
 }
 
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/echasnovski/mini.nvim" },
@@ -37,6 +50,7 @@ vim.pack.add({
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 	{ src = "https://github.com/numToStr/Comment.nvim" },
+	{ src = "https://github.com/kawre/neotab.nvim" },
 })
 
 vim.cmd.packadd("nvim.undotree")
@@ -48,6 +62,9 @@ require("mason-tool-installer").setup({
 	ensure_installed = lsp_servers,
 	auto_update = true,
 })
+vim.lsp.config("lua_ls", {
+	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
+})
 
 require("flash").setup({
 	char = {
@@ -57,13 +74,8 @@ require("flash").setup({
 })
 vim.keymap.set({ "n", "x", "o" }, "<leader>s", require("flash").jump)
 
-require("conform").setup({
-	formatters_by_ft = formatters,
-	format_on_save = {
-		lsp_format = "fallback",
-		timeout_ms = 500,
-	},
-})
+require("conform").setup({ formatters_by_ft = formatters })
+vim.keymap.set({ "n", "v", "x" }, "<leader>lf", require("conform").format)
 
 ---@diagnostic disable-next-line: undefined-field -- for some reason without this line it says "undefined field: setup"
 require("lualine").setup({
@@ -126,6 +138,7 @@ require("colorizer").setup({
 	},
 })
 require("Comment").setup()
+require("neotab").setup({})
 
 require("catppuccin").setup({
 	flavour = "mocha",
@@ -138,7 +151,13 @@ require("catppuccin").setup({
 	},
 	no_bold = true,
 })
-vim.cmd("colorscheme catppuccin-nvim")
+require("vague").setup({
+	bold = false,
+	colors = {
+		bg = "#000000",
+		inactiveBg = "#000000",
+	},
+})
 
 local function pack_clean()
 	local active_plugins = {}
@@ -166,37 +185,11 @@ local function pack_clean()
 end
 vim.keymap.set("n", "<leader>pc", pack_clean)
 
-local function check_tab_chars(value)
-	local options = { "{", "}", "(", ")", "'", '"', "[", "]" }
-	for _, v in ipairs(options) do
-		if v == value then
-			return true
-		end
-	end
-	return false
-end
-vim.keymap.set("i", "<Tab>", function() -- "tabout" functionality
-	local col = vim.fn.col(".")
-	local line = vim.fn.getline(".")
-	local char = line:sub(col, col)
-	if check_tab_chars(char) then
-		return "<Right>"
-	end
-	return "<Tab>"
-end, { expr = true })
-vim.keymap.set("i", "<S-Tab>", function()
-	local col = vim.fn.col(".") - 1
-	local line = vim.fn.getline(".")
-	local char = line:sub(col, col)
-	if check_tab_chars(char) then
-		return "<Left>"
-	end
-	return "<Tab>"
-end, { expr = true })
-
 vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
 vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
 vim.keymap.set("n", "<leader>w", ":write<CR>")
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
 vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
+
+vim.cmd("colorscheme vague")
