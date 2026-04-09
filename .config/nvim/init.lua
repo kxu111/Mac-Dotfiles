@@ -52,9 +52,6 @@ vim.pack.add({
 	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/folke/trouble.nvim" },
-	{ src = "https://github.com/akinsho/toggleterm.nvim" },
-	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
-	{ src = "https://github.com/kawre/neotab.nvim" },
 	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "https://github.com/chentoast/marks.nvim" },
 })
@@ -82,11 +79,6 @@ keymap("n", "<leader>lf", require("conform").format)
 
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 require("marks").setup()
-
-require("toggleterm").setup({
-	open_mapping = [[<c-\>]],
-	direction = "float",
-})
 
 -- for some reason without this line it says "undefined field: setup"
 ---@diagnostic disable-next-line: undefined-field
@@ -142,15 +134,6 @@ keymap("n", "<leader>h", ":Pick help<CR>")
 
 require("trouble").setup()
 keymap("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
-
-require("colorizer").setup({
-	options = {
-		parsers = {
-			names = { enable = false },
-		},
-	},
-})
-require("neotab").setup({})
 
 vim.cmd.packadd({ "nvim.undotree" })
 keymap({ "n", "v" }, "<leader>u", ":Undotree<CR>")
