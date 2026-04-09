@@ -64,7 +64,10 @@ vim.cmd.packadd({
 require("nvim-treesitter").install(ts_parsers)
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-tool-installer").setup({ ensure_installed = mason_pkgs })
+require("mason-tool-installer").setup({
+	ensure_installed = mason_pkgs,
+	auto_update = true,
+})
 
 require("flash").setup({
 	char = {
@@ -72,11 +75,11 @@ require("flash").setup({
 		jump_labels = true,
 	},
 })
-keymap({ "n", "x", "o" }, "<leader>s", require("flash").jump)
-keymap({ "n", "x", "o" }, "<leader>S", require("flash").treesitter_search)
+keymap({ "n", "v", "o" }, "<leader>s", require("flash").jump)
+keymap({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search)
 
 require("conform").setup({ formatters_by_ft = formatters })
-keymap({ "n", "v", "x" }, "<leader>lf", require("conform").format)
+keymap("n", "<leader>lf", require("conform").format)
 
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 
@@ -85,7 +88,8 @@ require("toggleterm").setup({
 	direction = "float",
 })
 
----@diagnostic disable-next-line: undefined-field -- for some reason without this line it says "undefined field: setup"
+-- for some reason without this line it says "undefined field: setup"
+---@diagnostic disable-next-line: undefined-field
 require("lualine").setup({
 	options = { icons_enabled = true },
 	sections = {
@@ -149,7 +153,7 @@ require("colorizer").setup({
 })
 require("neotab").setup({})
 
-keymap({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
+keymap({ "n", "v" }, "<leader>u", ":Undotree<CR>")
 
 require("catppuccin").setup({
 	no_bold = true,
@@ -171,12 +175,12 @@ require("vague").setup({
 	},
 })
 
-keymap({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
+keymap("n", "<leader>q", ":quit<CR>")
 keymap("n", "<leader>o", ":update<CR>:source<CR>")
 keymap("n", "<leader>w", ":write<CR>")
-keymap({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
-keymap({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
-keymap({ "n", "v", "x" }, "<leader>c", "zz")
+keymap({ "n", "v" }, "<leader>y", '"+y<CR>')
+keymap({ "n", "v" }, "<leader>d", '"+d<CR>')
+keymap({ "n", "v" }, "<leader>c", "zz")
 
 -- Splits navigation
 keymap("n", "vs", ":vertical split<CR>")
@@ -239,8 +243,7 @@ end
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
 		ts_clean()
-		vim.cmd("MasonToolsClean")
 		vim.cmd("TSUpdate")
-		vim.cmd("MasonToolsUpdate")
+		vim.cmd("MasonToolsClean")
 	end,
 })
