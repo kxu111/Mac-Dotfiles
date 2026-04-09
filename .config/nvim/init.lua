@@ -121,7 +121,6 @@ require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 MiniIcons.tweak_lsp_kind()
 require("mini.pairs").setup({
-	modes = { command = true },
 	mappings = {
 		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
 		[">"] = { action = "close", pair = "<>", neigh_pattern = "^[^\\]" },
@@ -134,6 +133,7 @@ require("mini.completion").setup({
 	scroll_down = "<C-p>",
 })
 require("mini.comment").setup()
+require("mini.cmdline").setup()
 require("mini.splitjoin").setup()
 require("mini.pick").setup()
 keymap("n", "<leader>f", ":Pick files<CR>")
