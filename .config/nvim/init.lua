@@ -56,9 +56,7 @@ vim.pack.add({
 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
 	{ src = "https://github.com/kawre/neotab.nvim" },
 	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
-})
-vim.cmd.packadd({
-	"nvim.undotree",
+	{ src = "https://github.com/chentoast/marks.nvim" },
 })
 
 require("nvim-treesitter").install(ts_parsers)
@@ -77,11 +75,13 @@ require("flash").setup({
 })
 keymap({ "n", "v", "o" }, "<leader>s", require("flash").jump)
 keymap({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search)
+keymap({ "n", "v", "o" }, "<leader>r", require("flash").remote)
 
 require("conform").setup({ formatters_by_ft = formatters })
 keymap("n", "<leader>lf", require("conform").format)
 
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
+require("marks").setup()
 
 require("toggleterm").setup({
 	open_mapping = [[<c-\>]],
@@ -129,17 +129,16 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup()
 require("mini.ai").setup()
-require("mini.pick").setup()
-keymap("n", "<leader>f", ":Pick files<CR>")
-keymap("n", "<leader>g", ":Pick grep_live<CR>")
-keymap("n", "<leader>h", ":Pick help<CR>")
 require("mini.completion").setup({
 	scroll_up = "<C-n>",
 	scroll_down = "<C-p>",
 })
 require("mini.comment").setup()
 require("mini.splitjoin").setup()
-require("mini.cmdline").setup()
+require("mini.pick").setup()
+keymap("n", "<leader>f", ":Pick files<CR>")
+keymap("n", "<leader>g", ":Pick grep_live<CR>")
+keymap("n", "<leader>h", ":Pick help<CR>")
 
 require("trouble").setup()
 keymap("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
@@ -153,6 +152,7 @@ require("colorizer").setup({
 })
 require("neotab").setup({})
 
+vim.cmd.packadd({ "nvim.undotree" })
 keymap({ "n", "v" }, "<leader>u", ":Undotree<CR>")
 
 require("catppuccin").setup({
@@ -192,6 +192,9 @@ keymap("n", "<C-l>", "<C-w>l")
 
 vim.cmd("colorscheme vague")
 
+-----------------
+--- FUNCTIONS ---
+-----------------
 local function pack_clean()
 	local active_plugins = {}
 	local unused_plugins = {}

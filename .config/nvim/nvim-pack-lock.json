@@ -16,6 +16,10 @@
       "rev": "f5d2a8570f8b736ddb9bb4be504355bcd6e15ec8",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
+    "marks.nvim": {
+      "rev": "f353e8c08c50f39e99a9ed474172df7eddd89b72",
+      "src": "https://github.com/chentoast/marks.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "63a3c6a80538de1003373a619e29aeda27809ad3",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
@@ -31,10 +35,6 @@
     "mini.nvim": {
       "rev": "2431902e78b76f435542d1e606f08475360068ca",
       "src": "https://github.com/echasnovski/mini.nvim"
-    },
-    "neoscroll.nvim": {
-      "rev": "c8d29979cb0cb3a2437a8e0ae683fd82f340d3b8",
-      "src": "https://github.com/karb94/neoscroll.nvim"
     },
     "neotab.nvim": {
       "rev": "e99d3e28c5a2066d2d368dfe4ef3827c8d75d337",
