@@ -1,3 +1,4 @@
+local keymap = vim.keymap.set
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
@@ -10,61 +11,60 @@ vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 
-local lsp_servers = {
+local mason_pkgs = {
+	"tree-sitter-cli",
 	"lua_ls",
 	"stylua",
 	"nil",
 	"alejandra",
 	"clangd",
 	"clang-format",
-	"pyright",
-	"black",
 	"rust-analyzer",
-	"prettier",
-	"json-lsp",
+}
+local ts_parsers = {
+	"lua",
+	"markdown",
+	"markdown_inline",
+	"rust",
+	"c",
+	"cpp",
+	"nix",
 }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" },
-	py = { "black" },
+	cpp = { "clang-format" },
 	rs = { "rustfmt" },
-	jsonc = { "prettier" },
 }
 
 vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/echasnovski/mini.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/folke/flash.nvim" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/Saghen/blink.cmp" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/catgoose/nvim-colorizer.lua" },
-	{ src = "https://github.com/numToStr/Comment.nvim" },
 	{ src = "https://github.com/kawre/neotab.nvim" },
+	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
+})
+vim.cmd.packadd({
+	"nvim.undotree",
 })
 
-vim.cmd.packadd("nvim.undotree")
-vim.keymap.set({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
-
+require("nvim-treesitter").install(ts_parsers)
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-tool-installer").setup({
-	ensure_installed = lsp_servers,
-	auto_update = true,
-})
-vim.lsp.config("lua_ls", {
-	settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } },
-})
+require("mason-tool-installer").setup({ ensure_installed = mason_pkgs })
 
 require("flash").setup({
 	char = {
@@ -72,14 +72,22 @@ require("flash").setup({
 		jump_labels = true,
 	},
 })
-vim.keymap.set({ "n", "x", "o" }, "<leader>s", require("flash").jump)
+keymap({ "n", "x", "o" }, "<leader>s", require("flash").jump)
+keymap({ "n", "x", "o" }, "<leader>S", require("flash").treesitter_search)
 
 require("conform").setup({ formatters_by_ft = formatters })
-vim.keymap.set({ "n", "v", "x" }, "<leader>lf", require("conform").format)
+keymap({ "n", "v", "x" }, "<leader>lf", require("conform").format)
+
+require("tiny-inline-diagnostic").setup({ preset = "minimal" })
+
+require("toggleterm").setup({
+	open_mapping = [[<c-\>]],
+	direction = "float",
+})
 
 ---@diagnostic disable-next-line: undefined-field -- for some reason without this line it says "undefined field: setup"
 require("lualine").setup({
-	options = { icons = true },
+	options = { icons_enabled = true },
 	sections = {
 		lualine_a = { "mode" },
 		lualine_b = { "diagnostics" },
@@ -88,16 +96,6 @@ require("lualine").setup({
 		lualine_y = {},
 		lualine_z = { "location" },
 	},
-})
-
-require("toggleterm").setup({
-	open_mapping = [[<c-\>]],
-	direction = "float",
-})
-
-require("nvim-web-devicons").setup({
-	color_icons = true,
-	variant = "dark",
 })
 
 require("oil").setup({
@@ -113,22 +111,34 @@ require("oil").setup({
 	},
 	win_options = { wrap = false },
 })
-vim.keymap.set("n", "<leader>e", ":Oil<CR>")
+keymap("n", "<leader>e", ":Oil<CR>")
 
-require("mini.pairs").setup()
+require("mini.icons").setup()
+MiniIcons.mock_nvim_web_devicons()
+MiniIcons.tweak_lsp_kind()
+require("mini.pairs").setup({
+	modes = { command = true },
+	mappings = {
+		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
+		[">"] = { action = "close", pair = "<>", neigh_pattern = "^[^\\]" },
+	},
+})
 require("mini.surround").setup()
 require("mini.ai").setup()
 require("mini.pick").setup()
-vim.keymap.set("n", "<leader>f", ":Pick files<CR>")
-vim.keymap.set("n", "<leader>h", ":Pick help<CR>")
-vim.keymap.set("n", "<leader>g", ":Pick grep_live<CR>")
-
-require("blink.cmp").setup({
-	fuzzy = { implementation = "prefer_rust_with_warning" },
+keymap("n", "<leader>f", ":Pick files<CR>")
+keymap("n", "<leader>g", ":Pick grep_live<CR>")
+keymap("n", "<leader>h", ":Pick help<CR>")
+require("mini.completion").setup({
+	scroll_up = "<C-n>",
+	scroll_down = "<C-p>",
 })
+require("mini.comment").setup()
+require("mini.splitjoin").setup()
+require("mini.cmdline").setup()
 
 require("trouble").setup()
-vim.keymap.set("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
+keymap("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
 
 require("colorizer").setup({
 	options = {
@@ -137,10 +147,12 @@ require("colorizer").setup({
 		},
 	},
 })
-require("Comment").setup()
 require("neotab").setup({})
 
+keymap({ "n", "v", "x" }, "<leader>u", ":Undotree<CR>")
+
 require("catppuccin").setup({
+	no_bold = true,
 	flavour = "mocha",
 	color_overrides = {
 		mocha = {
@@ -149,8 +161,8 @@ require("catppuccin").setup({
 			crust = "#000000",
 		},
 	},
-	no_bold = true,
 })
+
 require("vague").setup({
 	bold = false,
 	colors = {
@@ -158,6 +170,23 @@ require("vague").setup({
 		inactiveBg = "#000000",
 	},
 })
+
+keymap({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
+keymap("n", "<leader>o", ":update<CR>:source<CR>")
+keymap("n", "<leader>w", ":write<CR>")
+keymap({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
+keymap({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
+keymap({ "n", "v", "x" }, "<leader>c", "zz")
+
+-- Splits navigation
+keymap("n", "vs", ":vertical split<CR>")
+keymap("n", "sv", ":split<CR>")
+keymap("n", "<C-h>", "<C-w>h")
+keymap("n", "<C-j>", "<C-w>j")
+keymap("n", "<C-k>", "<C-w>k")
+keymap("n", "<C-l>", "<C-w>l")
+
+vim.cmd("colorscheme vague")
 
 local function pack_clean()
 	local active_plugins = {}
@@ -178,18 +207,40 @@ local function pack_clean()
 		return
 	end
 
-	local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
-	if choice == 1 then
-		vim.pack.del(unused_plugins)
+	print("Removing...")
+	vim.pack.del(unused_plugins)
+	print("Removed unused plugins")
+end
+keymap("n", "<leader>pc", pack_clean)
+
+local function ts_clean()
+	local ts_dir = vim.fn.stdpath("data") .. "/site/parser"
+	local desired = {}
+	local installed = {}
+
+	for _, p in ipairs(ts_parsers) do
+		desired[p] = true
+	end
+
+	for file in vim.fs.dir(ts_dir) do
+		if file:match("%.so$") then
+			local parser = file:gsub("%.so$", "")
+			installed[parser] = true
+		end
+	end
+
+	for parser, _ in pairs(installed) do
+		if not desired[parser] then
+			vim.cmd("TSUninstall " .. parser)
+		end
 	end
 end
-vim.keymap.set("n", "<leader>pc", pack_clean)
 
-vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":quit<CR>")
-vim.keymap.set("n", "<leader>o", ":update<CR>:source<CR>")
-vim.keymap.set("n", "<leader>w", ":write<CR>")
-vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>')
-vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>')
-vim.keymap.set({ "n", "v", "x" }, "<leader>c", "zz")
-
-vim.cmd("colorscheme vague")
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function()
+		ts_clean()
+		vim.cmd("MasonToolsClean")
+		vim.cmd("TSUpdate")
+		vim.cmd("MasonToolsUpdate")
+	end,
+})
