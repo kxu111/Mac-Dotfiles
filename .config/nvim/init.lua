@@ -1,3 +1,4 @@
+local functions = require("functions")
 local keymap = vim.keymap.set
 vim.g.mapleader = " "
 vim.o.number = true
@@ -38,25 +39,27 @@ local formatters = {
 	rs = { "rustfmt" },
 }
 
-vim.pack.add({
-	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.nvim" },
-	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/folke/flash.nvim" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/folke/trouble.nvim" },
-	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
-	{ src = "https://github.com/chentoast/marks.nvim" },
+functions.add_pkg({
+	{ src = "catppuccin/nvim", name = "catppuccin" },
+	{ src = "vague-theme/vague.nvim" },
+	{ src = "nvim-mini/mini.nvim" },
+	{ src = "neovim/nvim-lspconfig" },
+	{ src = "mason-org/mason.nvim" },
+	{ src = "mason-org/mason-lspconfig.nvim" },
+	{ src = "WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{ src = "nvim-treesitter/nvim-treesitter" },
+	{ src = "nvim-treesitter/nvim-treesitter-context" },
+	{ src = "stevearc/oil.nvim" },
+	{ src = "folke/flash.nvim" },
+	{ src = "stevearc/conform.nvim" },
+	{ src = "folke/trouble.nvim" },
+	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
+	{ src = "chentoast/marks.nvim" },
+	{ src = "nvim-neorg/neorg" },
 })
 
 require("nvim-treesitter").install(ts_parsers)
+require("treesitter-context").setup({ max_lines = 2 })
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
@@ -80,20 +83,6 @@ keymap("n", "<leader>lf", require("conform").format)
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 require("marks").setup()
 
--- for some reason without this line it says "undefined field: setup"
----@diagnostic disable-next-line: undefined-field
-require("lualine").setup({
-	options = { icons_enabled = true },
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "diagnostics" },
-		lualine_c = { "filename" },
-		lualine_x = { "lsp_status" },
-		lualine_y = {},
-		lualine_z = { "location" },
-	},
-})
-
 require("oil").setup({
 	default_file_explorer = true,
 	delete_to_trash = true,
@@ -112,6 +101,8 @@ keymap("n", "<leader>e", ":Oil<CR>")
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 MiniIcons.tweak_lsp_kind()
+require("mini.git").setup()
+require("mini.diff").setup()
 require("mini.pairs").setup({
 	mappings = {
 		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
@@ -123,6 +114,29 @@ require("mini.ai").setup()
 require("mini.completion").setup({
 	scroll_up = "<C-n>",
 	scroll_down = "<C-p>",
+})
+require("mini.statusline").setup({
+	content = {
+		active = function()
+			local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+			local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+			local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
+			local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+			local location = string.format("%02d:%02d", vim.fn.line("."), vim.fn.virtcol("."))
+			local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+			return MiniStatusline.combine_groups({
+				{ hl = mode_hl, strings = { mode } },
+				{ hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
+				"%<", -- Mark general truncate point
+				{ hl = "MiniStatuslineFilename", strings = { filename } },
+				"%=", -- End left alignment
+				{ hl = "MiniStatuslineFileinfo", strings = { lsp } },
+				{ hl = mode_hl, strings = { search, location } },
+			})
+		end,
+	},
+	use_icons = true,
 })
 require("mini.comment").setup()
 require("mini.cmdline").setup()
@@ -164,6 +178,7 @@ keymap("n", "<leader>w", ":write<CR>")
 keymap({ "n", "v" }, "<leader>y", '"+y<CR>')
 keymap({ "n", "v" }, "<leader>d", '"+d<CR>')
 keymap({ "n", "v" }, "<leader>c", "zz")
+keymap("n", "<leader>pc", functions.pack_clean)
 
 -- Splits navigation
 keymap("n", "vs", ":vertical split<CR>")
@@ -175,60 +190,9 @@ keymap("n", "<C-l>", "<C-w>l")
 
 vim.cmd("colorscheme vague")
 
------------------
---- FUNCTIONS ---
------------------
-local function pack_clean()
-	local active_plugins = {}
-	local unused_plugins = {}
-
-	for _, plugin in ipairs(vim.pack.get()) do
-		active_plugins[plugin.spec.name] = plugin.active
-	end
-
-	for _, plugin in ipairs(vim.pack.get()) do
-		if not active_plugins[plugin.spec.name] then
-			table.insert(unused_plugins, plugin.spec.name)
-		end
-	end
-
-	if #unused_plugins == 0 then
-		print("No unused plugins.")
-		return
-	end
-
-	print("Removing...")
-	vim.pack.del(unused_plugins)
-	print("Removed unused plugins")
-end
-keymap("n", "<leader>pc", pack_clean)
-
-local function ts_clean()
-	local ts_dir = vim.fn.stdpath("data") .. "/site/parser"
-	local desired = {}
-	local installed = {}
-
-	for _, p in ipairs(ts_parsers) do
-		desired[p] = true
-	end
-
-	for file in vim.fs.dir(ts_dir) do
-		if file:match("%.so$") then
-			local parser = file:gsub("%.so$", "")
-			installed[parser] = true
-		end
-	end
-
-	for parser, _ in pairs(installed) do
-		if not desired[parser] then
-			vim.cmd("TSUninstall " .. parser)
-		end
-	end
-end
-
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
-		ts_clean()
+		functions.ts_clean(ts_parsers)
 		vim.cmd("TSUpdate")
 		vim.cmd("MasonToolsClean")
 	end,
