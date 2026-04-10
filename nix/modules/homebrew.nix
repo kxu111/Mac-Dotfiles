@@ -11,6 +11,7 @@
       "mas"
       "node"
       "mole"
+	  "zsh-syntax-highlighting"
     ];
     casks = [
       "librewolf"
