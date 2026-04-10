@@ -1,4 +1,6 @@
-local function add_pkg(opts)
+local M = {}
+
+function M.add_pkg(opts)
 	for _, plugin in ipairs(opts) do
 		local src = plugin.src
 
@@ -10,7 +12,7 @@ local function add_pkg(opts)
 	vim.pack.add(opts)
 end
 
-local function pack_clean()
+function M.pack_clean()
 	local active_plugins = {}
 	local unused_plugins = {}
 
@@ -34,7 +36,7 @@ local function pack_clean()
 	print("Removed unused plugins")
 end
 
-local function ts_clean(ts_parsers)
+function M.ts_clean(ts_parsers)
 	local ts_dir = vim.fn.stdpath("data") .. "/site/parser"
 	local desired = {}
 	local installed = {}
@@ -57,8 +59,4 @@ local function ts_clean(ts_parsers)
 	end
 end
 
-return {
-	add_pkg = add_pkg,
-	pack_clean = pack_clean,
-	ts_clean = ts_clean,
-}
+return M
