@@ -55,7 +55,6 @@ functions.add_pkg({
 	{ src = "folke/trouble.nvim" },
 	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "chentoast/marks.nvim" },
-	{ src = "nvim-neorg/neorg" },
 })
 
 require("nvim-treesitter").install(ts_parsers)
