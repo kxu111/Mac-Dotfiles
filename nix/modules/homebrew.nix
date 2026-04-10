@@ -7,7 +7,11 @@
       autoUpdate = true;
       upgrade = true;
     };
-    brews = ["mas" "node" "mole"];
+    brews = [
+      "mas"
+      "node"
+      "mole"
+    ];
     casks = [
       "librewolf"
       "vesktop"
@@ -17,7 +21,7 @@
       "obs"
       "vlc"
       "raycast"
-	  "ghostty"
+      "ghostty"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;
