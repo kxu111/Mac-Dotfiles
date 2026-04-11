@@ -42,64 +42,27 @@ local formatters = {
 functions.add_pkg({
 	{ src = "catppuccin/nvim", name = "catppuccin" },
 	{ src = "vague-theme/vague.nvim" },
-	{ src = "nvim-mini/mini.nvim" },
 	{ src = "neovim/nvim-lspconfig" },
 	{ src = "mason-org/mason.nvim" },
 	{ src = "mason-org/mason-lspconfig.nvim" },
 	{ src = "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ src = "nvim-treesitter/nvim-treesitter" },
-	{ src = "nvim-treesitter/nvim-treesitter-context" },
+	{ src = "nvim-mini/mini.nvim" },
 	{ src = "stevearc/oil.nvim" },
-	{ src = "folke/flash.nvim" },
 	{ src = "stevearc/conform.nvim" },
-	{ src = "folke/trouble.nvim" },
 	{ src = "nvim-lualine/lualine.nvim" },
-	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
-	{ src = "chentoast/marks.nvim" },
+	{ src = "folke/flash.nvim" },
 	{ src = "akinsho/toggleterm.nvim" },
+	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
 })
 
-require("nvim-treesitter").install(ts_parsers)
-require("treesitter-context").setup({ max_lines = 2 })
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
 	ensure_installed = mason_pkgs,
 	auto_update = true,
 })
-
-require("flash").setup({
-	char = {
-		enabled = true,
-		jump_labels = true,
-	},
-})
-keymap({ "n", "v", "o" }, "<leader>s", require("flash").jump)
-keymap({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search)
-keymap({ "n", "v", "o" }, "<leader>r", require("flash").remote)
-
-require("conform").setup({ formatters_by_ft = formatters })
-keymap("n", "<leader>lf", require("conform").format)
-
-require("tiny-inline-diagnostic").setup({ preset = "minimal" })
-require("marks").setup()
-
--- disable cursor blink
-vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block"
-require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
-
-require("oil").setup({
-	default_file_explorer = true,
-	delete_to_trash = true,
-	skip_confirm_for_simple_edits = true,
-	view_options = {
-		show_hidden = true,
-		is_always_hidden = function(name, _)
-			return name == ".."
-		end,
-	},
-})
-keymap("n", "<leader>e", ":Oil<CR>")
+require("nvim-treesitter").install(ts_parsers)
 
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
@@ -132,6 +95,22 @@ keymap("n", "<leader><leader>h", ":Pick help<CR>")
 keymap("n", "<leader><leader>d", ":Pick diagnostic<CR>")
 keymap("n", "<leader><leader>p", ":Pick hipatterns<CR>")
 
+require("oil").setup({
+	default_file_explorer = true,
+	delete_to_trash = true,
+	skip_confirm_for_simple_edits = true,
+	view_options = {
+		show_hidden = true,
+		is_always_hidden = function(name, _)
+			return name == ".."
+		end,
+	},
+})
+keymap("n", "<leader>e", ":Oil<CR>")
+
+require("conform").setup({ formatters_by_ft = formatters })
+keymap("n", "<leader>lf", require("conform").format)
+
 -- for some reason without this line it says "undefined field: setup"
 ---@diagnostic disable-next-line: undefined-field
 require("lualine").setup({
@@ -146,8 +125,27 @@ require("lualine").setup({
 	},
 })
 
+require("flash").setup({
+	char = {
+		enabled = true,
+		jump_labels = true,
+	},
+})
+keymap({ "n", "v", "o" }, "<leader>s", require("flash").jump)
+keymap({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search)
+keymap({ "n", "v", "o" }, "<leader>r", require("flash").remote)
+
+-- disable cursor blink
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block"
+require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
+require("tiny-inline-diagnostic").setup({ preset = "minimal" })
+
 vim.cmd.packadd({ "nvim.undotree" })
 keymap({ "n", "v" }, "<leader>u", ":Undotree<CR>")
+
+---------------
+--- KEYMAPS ---
+---------------
 
 keymap("n", "<leader>q", ":quit<CR>")
 keymap("n", "<leader>o", ":update<CR>:source<CR>")
