@@ -50,7 +50,6 @@ functions.add_pkg({
 	{ src = "nvim-mini/mini.nvim" },
 	{ src = "stevearc/oil.nvim" },
 	{ src = "stevearc/conform.nvim" },
-	{ src = "nvim-lualine/lualine.nvim" },
 	{ src = "folke/flash.nvim" },
 	{ src = "akinsho/toggleterm.nvim" },
 	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
@@ -68,6 +67,7 @@ require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 MiniIcons.tweak_lsp_kind()
 require("mini.git").setup()
+require("mini.diff").setup()
 require("mini.pairs").setup({
 	mappings = {
 		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
@@ -76,7 +76,7 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup()
 require("mini.ai").setup()
-require("mini.completion").setup({ scroll_up = "<C-n>", scroll_down = "<C-p>" })
+require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.cmdline").setup()
 require("mini.hipatterns").setup({
@@ -87,13 +87,39 @@ require("mini.hipatterns").setup({
 		hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
 	},
 })
+require("mini.completion").setup({ scroll_up = "<C-n>", scroll_down = "<C-p>" })
+require("mini.statusline").setup({
+	use_icons = true,
+	content = {
+		active = function()
+			local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+			local diff = MiniStatusline.section_diff({ trunc_width = 75 })
+			local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+			local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+			local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
+			local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 999 })
+			local location = MiniStatusline.section_location({ trunc_width = 75 })
+			local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+			return MiniStatusline.combine_groups({
+				{ hl = mode_hl, strings = { mode } },
+				{ hl = "MiniStatuslineDevinfo", strings = { diff, diagnostics } },
+				"%<", -- Mark general truncate point
+				{ hl = "MiniStatuslineFilename", strings = { filename } },
+				"%=", -- End left alignment
+				{ hl = "MiniStatuslineFileinfo", strings = { lsp, fileinfo } },
+				{ hl = mode_hl, strings = { search, location } },
+			})
+		end,
+	},
+})
 require("mini.extra").setup()
 require("mini.pick").setup()
-keymap("n", "<leader><leader>f", ":Pick files<CR>")
-keymap("n", "<leader><leader>g", ":Pick grep_live<CR>")
-keymap("n", "<leader><leader>h", ":Pick help<CR>")
-keymap("n", "<leader><leader>d", ":Pick diagnostic<CR>")
-keymap("n", "<leader><leader>p", ":Pick hipatterns<CR>")
+keymap("n", ",f", ":Pick files<CR>")
+keymap("n", ",g", ":Pick grep_live<CR>")
+keymap("n", ",h", ":Pick help<CR>")
+keymap("n", ",d", ":Pick diagnostic<CR>")
+keymap("n", ",t", ":Pick hipatterns<CR>")
 
 require("oil").setup({
 	default_file_explorer = true,
@@ -111,33 +137,14 @@ keymap("n", "<leader>e", ":Oil<CR>")
 require("conform").setup({ formatters_by_ft = formatters })
 keymap("n", "<leader>lf", require("conform").format)
 
--- for some reason without this line it says "undefined field: setup"
----@diagnostic disable-next-line: undefined-field
-require("lualine").setup({
-	options = { icons_enabled = true },
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "diagnostics" },
-		lualine_c = { "filename" },
-		lualine_x = { "lsp_status" },
-		lualine_y = {},
-		lualine_z = { "location" },
-	},
-})
-
-require("flash").setup({
-	char = {
-		enabled = true,
-		jump_labels = true,
-	},
-})
+require("flash").setup({ char = { enabled = true, jump_labels = true } })
 keymap({ "n", "v", "o" }, "<leader>s", require("flash").jump)
 keymap({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search)
 keymap({ "n", "v", "o" }, "<leader>r", require("flash").remote)
 
 -- disable cursor blink
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block"
-require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
+require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "" })
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 
 vim.cmd.packadd({ "nvim.undotree" })
