@@ -172,9 +172,10 @@ require("vague").setup({
 keymap("n", "<leader>q", ":quit<CR>")
 keymap("n", "<leader>o", ":update<CR>:source<CR>")
 keymap("n", "<leader>w", ":write<CR>")
-keymap({ "n", "v" }, "<leader>y", '"+y<CR>')
-keymap({ "n", "v" }, "<leader>d", '"+d<CR>')
+keymap({ "n", "v" }, "<leader>y", '"+y')
+keymap({ "n", "v" }, "<leader>d", '"+d')
 keymap({ "n", "v" }, "<leader>c", "zz")
+keymap({ "n", "v" }, "<leader>n", ":norm ")
 keymap("n", "<leader>pc", functions.pack_clean)
 
 -- Splits navigation
@@ -184,6 +185,12 @@ keymap("n", "<C-h>", "<C-w>h")
 keymap("n", "<C-j>", "<C-w>j")
 keymap("n", "<C-k>", "<C-w>k")
 keymap("n", "<C-l>", "<C-w>l")
+
+-- Tabs navigation
+keymap("n", "<C-t>", "<C-w>T")
+for i = 1, 9 do
+	keymap("n", "<leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
+end
 
 vim.cmd("colorscheme vague")
 
