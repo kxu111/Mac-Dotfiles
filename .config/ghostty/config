@@ -6,7 +6,7 @@ macos-titlebar-style = hidden
 
 cursor-style = block
 cursor-style-blink = false
-shell-integration = none
+shell-integration-features = no-cursor
 
 window-padding-x = 28
 window-padding-y = 28
