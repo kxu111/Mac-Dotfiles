@@ -53,8 +53,10 @@ functions.add_pkg({
 	{ src = "folke/flash.nvim" },
 	{ src = "stevearc/conform.nvim" },
 	{ src = "folke/trouble.nvim" },
+	{ src = "nvim-lualine/lualine.nvim" },
 	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "chentoast/marks.nvim" },
+	{ src = "akinsho/toggleterm.nvim" },
 })
 
 require("nvim-treesitter").install(ts_parsers)
@@ -82,6 +84,10 @@ keymap("n", "<leader>lf", require("conform").format)
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 require("marks").setup()
 
+-- disable cursor blink
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block"
+require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
+
 require("oil").setup({
 	default_file_explorer = true,
 	delete_to_trash = true,
@@ -99,7 +105,6 @@ require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 MiniIcons.tweak_lsp_kind()
 require("mini.git").setup()
-require("mini.diff").setup()
 require("mini.pairs").setup({
 	mappings = {
 		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
@@ -108,66 +113,41 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup()
 require("mini.ai").setup()
-require("mini.completion").setup({
-	scroll_up = "<C-n>",
-	scroll_down = "<C-p>",
-})
-require("mini.statusline").setup({
-	content = {
-		active = function()
-			local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-			local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
-			local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
-			local filename = MiniStatusline.section_filename({ trunc_width = 140 })
-			local location = string.format("%02d:%02d", vim.fn.line("."), vim.fn.virtcol("."))
-			local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
-
-			return MiniStatusline.combine_groups({
-				{ hl = mode_hl, strings = { mode } },
-				{ hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
-				"%<", -- Mark general truncate point
-				{ hl = "MiniStatuslineFilename", strings = { filename } },
-				"%=", -- End left alignment
-				{ hl = "MiniStatuslineFileinfo", strings = { lsp } },
-				{ hl = mode_hl, strings = { search, location } },
-			})
-		end,
-	},
-	use_icons = true,
-})
+require("mini.completion").setup({ scroll_up = "<C-n>", scroll_down = "<C-p>" })
 require("mini.comment").setup()
 require("mini.cmdline").setup()
-require("mini.splitjoin").setup()
+require("mini.hipatterns").setup({
+	highlighters = {
+		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsHack" },
+		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+		hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
+	},
+})
+require("mini.extra").setup()
 require("mini.pick").setup()
-keymap("n", "<leader>f", ":Pick files<CR>")
-keymap("n", "<leader>g", ":Pick grep_live<CR>")
-keymap("n", "<leader>h", ":Pick help<CR>")
+keymap("n", "<leader><leader>f", ":Pick files<CR>")
+keymap("n", "<leader><leader>g", ":Pick grep_live<CR>")
+keymap("n", "<leader><leader>h", ":Pick help<CR>")
+keymap("n", "<leader><leader>d", ":Pick diagnostic<CR>")
+keymap("n", "<leader><leader>p", ":Pick hipatterns<CR>")
 
-require("trouble").setup()
-keymap("n", "<leader>t", ":Trouble diagnostics toggle<CR>")
+-- for some reason without this line it says "undefined field: setup"
+---@diagnostic disable-next-line: undefined-field
+require("lualine").setup({
+	options = { icons_enabled = true },
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "diagnostics" },
+		lualine_c = { "filename" },
+		lualine_x = { "lsp_status" },
+		lualine_y = {},
+		lualine_z = { "location" },
+	},
+})
 
 vim.cmd.packadd({ "nvim.undotree" })
 keymap({ "n", "v" }, "<leader>u", ":Undotree<CR>")
-
-require("catppuccin").setup({
-	no_bold = true,
-	flavour = "mocha",
-	color_overrides = {
-		mocha = {
-			base = "#000000",
-			mantle = "#000000",
-			crust = "#000000",
-		},
-	},
-})
-
-require("vague").setup({
-	bold = false,
-	colors = {
-		bg = "#000000",
-		inactiveBg = "#000000",
-	},
-})
 
 keymap("n", "<leader>q", ":quit<CR>")
 keymap("n", "<leader>o", ":update<CR>:source<CR>")
@@ -191,6 +171,24 @@ keymap("n", "<C-t>", "<C-w>T")
 for i = 1, 9 do
 	keymap("n", "<leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
 end
+
+require("catppuccin").setup({
+	flavour = "mocha",
+	color_overrides = {
+		mocha = {
+			base = "#000000",
+			mantle = "#000000",
+			crust = "#000000",
+		},
+	},
+})
+
+require("vague").setup({
+	colors = {
+		bg = "#000000",
+		inactiveBg = "#000000",
+	},
+})
 
 vim.cmd("colorscheme vague")
 
