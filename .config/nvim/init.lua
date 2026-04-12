@@ -1,5 +1,4 @@
-local functions = require("functions")
-local keymap = vim.keymap.set
+local map = vim.keymap.set
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
@@ -39,7 +38,7 @@ local formatters = {
 	rs = { "rustfmt" },
 }
 
-functions.add_pkg({
+require("functions").add_pkg({
 	{ src = "catppuccin/nvim", name = "catppuccin" },
 	{ src = "vague-theme/vague.nvim" },
 	{ src = "neovim/nvim-lspconfig" },
@@ -49,23 +48,24 @@ functions.add_pkg({
 	{ src = "nvim-treesitter/nvim-treesitter" },
 	{ src = "nvim-mini/mini.nvim" },
 	{ src = "stevearc/oil.nvim" },
+	{ src = "nvim-lua/plenary.nvim" },
+	{ src = "nvim-telescope/telescope.nvim" },
+	{ src = "Saghen/blink.cmp", version = "v1.10.2" },
 	{ src = "stevearc/conform.nvim" },
 	{ src = "folke/flash.nvim" },
 	{ src = "akinsho/toggleterm.nvim" },
 	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
+	{ src = "chentoast/marks.nvim" },
+	{ src = "nvim-orgmode/orgmode" },
 })
 
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-tool-installer").setup({
-	ensure_installed = mason_pkgs,
-	auto_update = true,
-})
+require("mason-tool-installer").setup({ ensure_installed = mason_pkgs, auto_update = true })
 require("nvim-treesitter").install(ts_parsers)
 
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
-MiniIcons.tweak_lsp_kind()
 require("mini.git").setup()
 require("mini.diff").setup()
 require("mini.pairs").setup({
@@ -75,51 +75,17 @@ require("mini.pairs").setup({
 	},
 })
 require("mini.surround").setup()
+require("mini.statusline").setup({ use_icons = true })
+require("mini.clue").setup({
+	triggers = {
+		{ mode = { "n", "v" }, keys = "<leader>" },
+	},
+	window = { delay = 150 },
+})
 require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.cmdline").setup()
-require("mini.hipatterns").setup({
-	highlighters = {
-		fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-		todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsHack" },
-		note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-		hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
-	},
-})
-require("mini.completion").setup({ scroll_up = "<C-n>", scroll_down = "<C-p>" })
-require("mini.statusline").setup({
-	use_icons = true,
-	content = {
-		active = function()
-			local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-			local diff = MiniStatusline.section_diff({ trunc_width = 75 })
-			local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
-			local filename = MiniStatusline.section_filename({ trunc_width = 140 })
-			local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
-			local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 999 })
-			local location = MiniStatusline.section_location({ trunc_width = 75 })
-			local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
-
-			return MiniStatusline.combine_groups({
-				{ hl = mode_hl, strings = { mode } },
-				{ hl = "MiniStatuslineDevinfo", strings = { diff, diagnostics } },
-				"%<", -- Mark general truncate point
-				{ hl = "MiniStatuslineFilename", strings = { filename } },
-				"%=", -- End left alignment
-				{ hl = "MiniStatuslineFileinfo", strings = { lsp, fileinfo } },
-				{ hl = mode_hl, strings = { search, location } },
-			})
-		end,
-	},
-})
-require("mini.extra").setup()
-require("mini.pick").setup()
-keymap("n", "<leader>f", ":Pick files<CR>")
-keymap("n", "<leader>g", ":Pick grep_live<CR>")
-keymap("n", "<leader>h", ":Pick help<CR>")
-keymap("n", "<leader>j", ":Pick diagnostic<CR>")
-keymap("n", "<leader>k", ":Pick hipatterns<CR>")
 
 require("oil").setup({
 	default_file_explorer = true,
@@ -132,50 +98,96 @@ require("oil").setup({
 		end,
 	},
 })
-keymap("n", "-", ":Oil<CR>")
+map("n", "-", "<Cmd>Oil<CR>")
+
+require("telescope").setup({
+	defaults = {
+		preview = { treesitter = true },
+		sorting_strategy = "ascending",
+		path_displays = { "smart" },
+		borderchars = { "", "", "", "", "", "", "", "" },
+		layout_config = {
+			height = 100,
+			width = 400,
+			prompt_position = "top",
+			preview_cutoff = 40,
+		},
+	},
+})
+
+local builtin = require("telescope.builtin")
+map("n", "<leader>f", "", { desc = "Telescope" })
+map("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
+map("n", "<leader>fb", builtin.buffers, { desc = "Buffers" })
+map("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
+map("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
+map("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps" })
+
+require("blink.cmp").setup({
+	sources = {
+		per_filetype = {
+			org = { "orgmode" },
+		},
+		providers = {
+			orgmode = {
+				name = "Orgmode",
+				module = "orgmode.org.autocompletion.blink",
+				fallbacks = { "buffer" },
+			},
+		},
+	},
+})
 
 require("conform").setup({ formatters_by_ft = formatters })
-keymap("n", "<leader>lf", require("conform").format)
+map("n", "<leader>l", "", { desc = "Conform" })
+map("n", "<leader>lf", require("conform").format, { desc = "Format" })
 
 require("flash").setup({ char = { enabled = true, jump_labels = true } })
-keymap({ "n", "v", "o" }, "<leader>s", require("flash").jump)
-keymap({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search)
-keymap({ "n", "v", "o" }, "<leader>r", require("flash").remote)
+map({ "n", "v", "o" }, "<leader>s", require("flash").jump, { desc = "Flash jump" })
+map({ "n", "v", "o" }, "<leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
+map({ "n", "v", "o" }, "<leader>r", require("flash").remote, { desc = "Flash remote" })
 
--- disable cursor blink
-vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block"
-require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "" })
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block" -- disable cursor blink
+require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
+
 require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 
+require("marks").setup()
+
 vim.cmd.packadd({ "nvim.undotree" })
-keymap({ "n", "v" }, "<leader>u", ":Undotree<CR>")
+map("n", "<leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
+
+require("orgmode").setup({})
 
 ---------------
 --- KEYMAPS ---
 ---------------
-
-keymap("n", "<leader>q", ":quit<CR>")
-keymap("n", "<leader>o", ":update<CR>:source<CR>")
-keymap("n", "<leader>w", ":write<CR>")
-keymap({ "n", "v" }, "<leader>y", '"+y')
-keymap({ "n", "v" }, "<leader>d", '"+d')
-keymap({ "n", "v" }, "<leader>c", "zz")
-keymap({ "n", "v" }, "<leader>n", ":norm ")
-keymap("n", "<leader>pc", functions.pack_clean)
+map("n", "<leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
+map("n", "<leader>s", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
+map("n", "<leader>w", "<Cmd>update<CR>", { desc = "Write the buffer" })
+map({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to clipboard" })
+map({ "n", "v" }, "<leader>d", '"+d', { desc = "Delete to clipboard" })
+map({ "n", "v" }, "<leader>c", "zz", { desc = "Centre the screen" })
+map({ "n", "v" }, "<leader>n", ":norm ", { desc = ":norm" })
+map("n", "<leader>p", "", { desc = "Pack" })
+map("n", "<leader>pc", require("functions").pack_clean, { desc = "Clean plugins" })
 
 -- Splits navigation
-keymap("n", "vs", ":vertical split<CR>")
-keymap("n", "sv", ":split<CR>")
-keymap("n", "<C-h>", "<C-w>h")
-keymap("n", "<C-j>", "<C-w>j")
-keymap("n", "<C-k>", "<C-w>k")
-keymap("n", "<C-l>", "<C-w>l")
+map("n", "vs", "<Cmd>vertical split<CR>")
+map("n", "sv", "<Cmd>split<CR>")
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 
 -- Tabs navigation
-keymap("n", "<C-t>", "<C-w>T")
-for i = 1, 9 do
-	keymap("n", "<leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>")
+map("n", "<C-t>", "<C-w>T")
+for i = 1, 5 do
+	map("n", "<leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
+
+-- Filler maps (for mini.clue)
+map("n", "<leader>o", "", { desc = "org" })
 
 require("catppuccin").setup({
 	flavour = "mocha",
@@ -193,13 +205,18 @@ require("vague").setup({
 		bg = "#000000",
 		inactiveBg = "#000000",
 	},
+	on_highlights = function(hl, c)
+		-- available options: fg, bg, gui, sp
+		hl.BlinkCmpMenu = { bg = c.bg }
+		hl.BlinkCmpKind = { bg = c.bg }
+	end,
 })
 
 vim.cmd("colorscheme vague")
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
-		functions.ts_clean(ts_parsers)
+		require("functions").ts_clean(ts_parsers)
 		vim.cmd("TSUpdate")
 		vim.cmd("MasonToolsClean")
 	end,
