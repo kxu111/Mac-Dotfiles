@@ -23,6 +23,9 @@ export PATH="$HOME/.cargo/bin:$PATH"
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 
+# fzf (C-r to trigger)
+eval "$(fzf --zsh)"
+
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
