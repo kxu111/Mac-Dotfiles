@@ -115,11 +115,11 @@ require("mini.statusline").setup({
 })
 require("mini.extra").setup()
 require("mini.pick").setup()
-keymap("n", ",f", ":Pick files<CR>")
-keymap("n", ",g", ":Pick grep_live<CR>")
-keymap("n", ",h", ":Pick help<CR>")
-keymap("n", ",d", ":Pick diagnostic<CR>")
-keymap("n", ",t", ":Pick hipatterns<CR>")
+keymap("n", "<leader>f", ":Pick files<CR>")
+keymap("n", "<leader>g", ":Pick grep_live<CR>")
+keymap("n", "<leader>h", ":Pick help<CR>")
+keymap("n", "<leader>d", ":Pick diagnostic<CR>")
+keymap("n", "<leader>t", ":Pick hipatterns<CR>")
 
 require("oil").setup({
 	default_file_explorer = true,
@@ -132,7 +132,7 @@ require("oil").setup({
 		end,
 	},
 })
-keymap("n", "<leader>e", ":Oil<CR>")
+keymap("n", "-", ":Oil<CR>")
 
 require("conform").setup({ formatters_by_ft = formatters })
 keymap("n", "<leader>lf", require("conform").format)
@@ -158,7 +158,6 @@ keymap("n", "<leader>q", ":quit<CR>")
 keymap("n", "<leader>o", ":update<CR>:source<CR>")
 keymap("n", "<leader>w", ":write<CR>")
 keymap({ "n", "v" }, "<leader>y", '"+y')
-keymap({ "n", "v" }, "<leader>d", '"+d')
 keymap({ "n", "v" }, "<leader>c", "zz")
 keymap({ "n", "v" }, "<leader>n", ":norm ")
 keymap("n", "<leader>pc", functions.pack_clean)
