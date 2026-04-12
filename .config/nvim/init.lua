@@ -118,8 +118,8 @@ require("mini.pick").setup()
 keymap("n", "<leader>f", ":Pick files<CR>")
 keymap("n", "<leader>g", ":Pick grep_live<CR>")
 keymap("n", "<leader>h", ":Pick help<CR>")
-keymap("n", "<leader>d", ":Pick diagnostic<CR>")
-keymap("n", "<leader>t", ":Pick hipatterns<CR>")
+keymap("n", "<leader>j", ":Pick diagnostic<CR>")
+keymap("n", "<leader>k", ":Pick hipatterns<CR>")
 
 require("oil").setup({
 	default_file_explorer = true,
@@ -158,6 +158,7 @@ keymap("n", "<leader>q", ":quit<CR>")
 keymap("n", "<leader>o", ":update<CR>:source<CR>")
 keymap("n", "<leader>w", ":write<CR>")
 keymap({ "n", "v" }, "<leader>y", '"+y')
+keymap({ "n", "v" }, "<leader>d", '"+d')
 keymap({ "n", "v" }, "<leader>c", "zz")
 keymap({ "n", "v" }, "<leader>n", ":norm ")
 keymap("n", "<leader>pc", functions.pack_clean)
