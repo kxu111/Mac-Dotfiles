@@ -11,7 +11,7 @@
       "mas"
       "node"
       "mole"
-	  "zsh-syntax-highlighting"
+      "zsh-syntax-highlighting"
     ];
     casks = [
       "librewolf"
@@ -23,6 +23,7 @@
       "vlc"
       "raycast"
       "ghostty"
+	  "alacritty"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

@@ -4,7 +4,6 @@
   environment.systemPackages = with pkgs; [
     fastfetch
     btop
-    alacritty
     stow
     vim
     bob-nvim
@@ -15,6 +14,7 @@
     tealdeer
     unzip
     python3
+    fzf
   ];
 
   services.yabai.enable = true;
