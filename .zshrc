@@ -10,10 +10,33 @@ alias lla='lsd -la'
 alias lt='lsd --tree'
 alias m='mkdir -p'
 alias vi='nvim'
+
+# tmux aliases
 alias tn='tmux new-session -s'
-alias ta='tmux attach -t'
 alias tls='tmux ls'
-alias tkill='tmux kill-session -t'
+ta() {
+    if [ -n "$1" ]; then
+        tmux attach-session -t "$1"
+    else
+        tmux attach-session
+    fi
+}
+tkill() {
+    if [ -n "$1" ]; then
+        tmux kill-session -t "$1"
+    else
+        tmux kill-session
+    fi
+}
+
+_tmux_completion() {
+    local -a sessions
+    sessions=($(tmux list-sessions -F "#{session_name}" 2>/dev/null))
+    compadd -a sessions
+}
+compdef _tmux_completion ta
+compdef _tmux_completion tkill
+
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export MANPAGER='nvim +Man!'
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
