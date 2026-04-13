@@ -2,6 +2,7 @@ local map = vim.keymap.set
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
+vim.o.cursorline = true
 vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.o.wrap = false
@@ -39,7 +40,6 @@ local formatters = {
 }
 
 require("functions").add_pkg({
-	{ src = "catppuccin/nvim", name = "catppuccin" },
 	{ src = "vague-theme/vague.nvim" },
 	{ src = "neovim/nvim-lspconfig" },
 	{ src = "mason-org/mason.nvim" },
@@ -48,7 +48,6 @@ require("functions").add_pkg({
 	{ src = "nvim-treesitter/nvim-treesitter" },
 	{ src = "nvim-mini/mini.nvim" },
 	{ src = "stevearc/oil.nvim" },
-	{ src = "nvim-lualine/lualine.nvim" },
 	{ src = "nvim-lua/plenary.nvim" },
 	{ src = "nvim-telescope/telescope.nvim" },
 	{ src = "Saghen/blink.cmp", version = "v1.10.2" },
@@ -58,6 +57,7 @@ require("functions").add_pkg({
 	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "chentoast/marks.nvim" },
 	{ src = "nvim-orgmode/orgmode" },
+	{ src = "nvim-orgmode/org-bullets.nvim" },
 	{ src = "nvim-orgmode/telescope-orgmode.nvim" },
 })
 
@@ -85,6 +85,7 @@ require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.cmdline").setup()
+require("mini.statusline").setup()
 
 require("oil").setup({
 	default_file_explorer = true,
@@ -98,18 +99,6 @@ require("oil").setup({
 	},
 })
 map("n", "-", "<Cmd>Oil<CR>")
-
-require("lualine").setup({ ---@diagnostic disable-line: undefined-field
-	options = { icons_enabled = true },
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "diagnostics" },
-		lualine_c = { "filename" },
-		lualine_x = { "lsp_status" },
-		lualine_y = {},
-		lualine_z = { "location" },
-	},
-})
 
 require("telescope").setup({
 	defaults = {
@@ -137,6 +126,25 @@ map("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
 
 require("blink.cmp").setup({
+	completion = {
+		menu = {
+			scrollbar = false,
+			draw = {
+				columns = {
+					{ "source_name", "label", "label_description", gap = 2 },
+					{ "kind_icon", "kind", gap = 2 },
+				},
+				components = {
+					source_name = {
+						text = function(ctx)
+							return "[" .. ctx.source_name .. "]"
+						end,
+					},
+				},
+			},
+		},
+		documentation = { auto_show = true, auto_show_delay_ms = 100 },
+	},
 	sources = {
 		per_filetype = {
 			org = { "orgmode" },
@@ -149,6 +157,7 @@ require("blink.cmp").setup({
 			},
 		},
 	},
+	appearance = { use_nvim_cmp_as_default = true },
 })
 
 require("conform").setup({ formatters_by_ft = formatters })
@@ -170,7 +179,12 @@ require("marks").setup()
 vim.cmd.packadd({ "nvim.undotree" })
 map("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
-require("orgmode").setup({})
+require("orgmode").setup({
+	org_agenda_files = "~/orgfiles/*",
+	org_default_notes_file = "~/orgfiles/refile.org",
+})
+require("org-bullets").setup()
+map("n", "<Leader>o", "", { desc = "org" }) -- filler for mini.clue
 
 ---------------
 --- KEYMAPS ---
@@ -199,33 +213,21 @@ for i = 1, 5 do
 	map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
 
--- Filler maps (for mini.clue)
-map("n", "<Leader>o", "", { desc = "org" })
-
-require("catppuccin").setup({
-	flavour = "mocha",
-	color_overrides = {
-		mocha = {
-			base = "#000000",
-			mantle = "#000000",
-			crust = "#000000",
-		},
-	},
-})
-
 require("vague").setup({
-	colors = {
-		bg = "#000000",
-		inactiveBg = "#000000",
-	},
 	on_highlights = function(hl, c)
-		-- available options: fg, bg, gui, sp
 		hl.BlinkCmpMenu = { bg = c.bg }
-		hl.BlinkCmpKind = { bg = c.bg }
+		hl.BlinkCmpMenuBorder = { fg = c.floatBorder }
+		hl.BlinkCmpMenuSelection = { fg = c.constant, bg = c.line }
+		hl.BlinkCmpLabel = { fg = c.fg }
+		hl.BlinkCmpLabelMatch = { fg = c.string, bold = true }
+		hl.BlinkCmpKind = { fg = c.comment } -- doesn't work
+		hl.BlinkCmpDoc = { bg = c.bg }
+		hl.BlinkCmpDocBorder = { fg = c.floatBorder }
 	end,
 })
 
 vim.cmd("colorscheme vague")
+vim.cmd("hi statusline guibg=NONE")
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
