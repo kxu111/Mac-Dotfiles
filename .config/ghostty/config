@@ -1,5 +1,5 @@
 theme = Vague
-background = "#000000"
+# background = "#000000"
 
 confirm-close-surface = false
 macos-titlebar-style = hidden
