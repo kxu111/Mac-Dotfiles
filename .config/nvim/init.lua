@@ -84,7 +84,6 @@ require("mini.clue").setup({
 require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
-require("mini.cmdline").setup()
 require("mini.statusline").setup()
 
 require("oil").setup({
@@ -128,7 +127,6 @@ map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
 require("blink.cmp").setup({
 	completion = {
 		menu = {
-			scrollbar = false,
 			draw = {
 				columns = {
 					{ "source_name", "label", "label_description", gap = 2 },
@@ -140,10 +138,27 @@ require("blink.cmp").setup({
 							return "[" .. ctx.source_name .. "]"
 						end,
 					},
+					kind_icon = {
+						text = function(ctx)
+							local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+							return kind_icon
+						end,
+						highlight = function(ctx)
+							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+							return hl
+						end,
+					},
+					kind = {
+						highlight = function(ctx)
+							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+							return hl
+						end,
+					},
 				},
 			},
 		},
 		documentation = { auto_show = true, auto_show_delay_ms = 100 },
+		ghost_text = { enabled = true },
 	},
 	sources = {
 		per_filetype = {
@@ -164,7 +179,7 @@ require("conform").setup({ formatters_by_ft = formatters })
 map("n", "<Leader>l", "", { desc = "Conform" })
 map("n", "<Leader>lf", require("conform").format, { desc = "Format" })
 
-require("flash").setup({ char = { enabled = true, jump_labels = true } })
+require("flash").setup()
 map({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
 map({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 map({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
@@ -195,6 +210,8 @@ map("n", "<Leader>w", "<Cmd>update<CR>", { desc = "Write the buffer" })
 map({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 map({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
 map({ "n", "v" }, "<Leader>c", "zz", { desc = "Centre the screen" })
+map({ "n", "v" }, "<C-d>", "<C-d>zz")
+map({ "n", "v" }, "C-u", "<C-u>zz")
 map({ "n", "v" }, "<Leader>n", ":norm ", { desc = "<Cmd>norm" })
 map("n", "<Leader>p", "", { desc = "Pack" })
 map("n", "<Leader>pc", require("functions").pack_clean, { desc = "Clean plugins" })
@@ -216,13 +233,9 @@ end
 require("vague").setup({
 	on_highlights = function(hl, c)
 		hl.BlinkCmpMenu = { bg = c.bg }
-		hl.BlinkCmpMenuBorder = { fg = c.floatBorder }
 		hl.BlinkCmpMenuSelection = { fg = c.constant, bg = c.line }
-		hl.BlinkCmpLabel = { fg = c.fg }
-		hl.BlinkCmpLabelMatch = { fg = c.string, bold = true }
-		hl.BlinkCmpKind = { fg = c.comment } -- doesn't work
+		hl.BlinkCmpLabel = { fg = c.comment }
 		hl.BlinkCmpDoc = { bg = c.bg }
-		hl.BlinkCmpDocBorder = { fg = c.floatBorder }
 	end,
 })
 
