@@ -4,6 +4,8 @@ fi
 
 alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 alias neofetch='fastfetch'
+alias c='z'
+alias cd='z'
 alias l='lsd -l'
 alias la='lsd -a'
 alias lla='lsd -la'
@@ -48,6 +50,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 
 # fzf (C-r to trigger)
 eval "$(fzf --zsh)"
+
+# zoxide
+eval "$(zoxide init zsh)"
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

@@ -15,6 +15,7 @@
     unzip
     python3
     fzf
+	zoxide
   ];
 
   services.yabai.enable = true;
