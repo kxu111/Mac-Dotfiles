@@ -86,6 +86,9 @@ require("mini.comment").setup()
 require("mini.statusline").setup()
 require("mini.files").setup({
 	mappings = {
+		go_in = "<C-l>",
+		go_in_plus = "<CR>",
+		go_out = "<C-h>",
 		reset = "<Leader>r",
 		synchronize = "<Leader>w",
 	},
@@ -93,6 +96,17 @@ require("mini.files").setup({
 		permanent_delete = false,
 		use_as_default_file_explorer = true,
 	},
+})
+vim.api.nvim_create_autocmd(
+	"User",
+	{ pattern = "MiniFilesWindowUpdate", callback = require("functions").ensure_center_layout }
+)
+vim.api.nvim_create_autocmd("User", {
+	pattern = "MiniFilesBufferCreate",
+	callback = function(args)
+		local b = args.data.buf_id
+		vim.keymap.set("n", "<C-p>", require("functions").qpreview, { buffer = b, desc = "Quick Preview" })
+	end,
 })
 local minifiles_toggle = function(...)
 	if not MiniFiles.close() then
