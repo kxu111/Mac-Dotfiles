@@ -2,6 +2,9 @@ local M = {}
 
 function M.add_pkg(opts)
 	for _, plugin in ipairs(opts) do
+		if type(plugin) == "string" then -- WARNING: untested code!
+			plugin = { src = plugin }
+		end
 		local src = plugin.src
 
 		if src and type(src) == "string" and not src:match("^https?://") then
@@ -31,9 +34,10 @@ function M.pack_clean()
 		return
 	end
 
-	print("Removing...")
-	vim.pack.del(unused_plugins)
-	print("Removed unused plugins")
+	local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
+	if choice == 1 then
+		vim.pack.del(unused_plugins)
+	end
 end
 
 function M.ts_clean(ts_parsers)

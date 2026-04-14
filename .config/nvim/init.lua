@@ -46,15 +46,13 @@ require("functions").add_pkg({
 	{ src = "mason-org/mason-lspconfig.nvim" },
 	{ src = "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ src = "nvim-treesitter/nvim-treesitter" },
+	{ src = "nvim-treesitter/nvim-treesitter-context" },
 	{ src = "nvim-mini/mini.nvim" },
-	{ src = "stevearc/oil.nvim" },
 	{ src = "nvim-lua/plenary.nvim" },
 	{ src = "nvim-telescope/telescope.nvim" },
-	{ src = "Saghen/blink.cmp", version = "v1.10.2" },
+	{ src = "Saghen/blink.cmp", branch = "v1" },
 	{ src = "stevearc/conform.nvim" },
 	{ src = "folke/flash.nvim" },
-	{ src = "akinsho/toggleterm.nvim" },
-	{ src = "rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "chentoast/marks.nvim" },
 	{ src = "nvim-orgmode/orgmode" },
 	{ src = "nvim-orgmode/org-bullets.nvim" },
@@ -65,6 +63,7 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({ ensure_installed = mason_pkgs, auto_update = true })
 require("nvim-treesitter").install(ts_parsers)
+require("treesitter-context").setup()
 
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
@@ -85,26 +84,28 @@ require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.statusline").setup()
-
-require("oil").setup({
-	default_file_explorer = true,
-	delete_to_trash = true,
-	skip_confirm_for_simple_edits = true,
-	view_options = {
-		show_hidden = true,
-		is_always_hidden = function(name, _)
-			return name == ".."
-		end,
+require("mini.files").setup({
+	mappings = {
+		reset = "<Leader>r",
+		synchronize = "<Leader>w",
+	},
+	options = {
+		permanent_delete = false,
+		use_as_default_file_explorer = true,
 	},
 })
-map("n", "-", "<Cmd>Oil<CR>")
+local minifiles_toggle = function(...)
+	if not MiniFiles.close() then
+		MiniFiles.open(...)
+	end
+end
+map("n", "<Leader>e", minifiles_toggle, { desc = "Toggle mini.files" })
 
 require("telescope").setup({
 	defaults = {
 		preview = { treesitter = true },
 		sorting_strategy = "ascending",
 		path_displays = { "smart" },
-		borderchars = { "", "", "", "", "", "", "", "" },
 		layout_config = {
 			height = 100,
 			width = 400,
@@ -125,6 +126,9 @@ map("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
 
 require("blink.cmp").setup({
+	fuzzy = {
+		prebuilt_binaries = { force_version = "v*" },
+	},
 	completion = {
 		menu = {
 			draw = {
@@ -179,15 +183,10 @@ require("conform").setup({ formatters_by_ft = formatters })
 map("n", "<Leader>l", "", { desc = "Conform" })
 map("n", "<Leader>lf", require("conform").format, { desc = "Format" })
 
-require("flash").setup()
+require("flash").setup({ modes = { char = { enabled = false } } })
 map({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
 map({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 map({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
-
-vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block" -- disable cursor blink
-require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
-
-require("tiny-inline-diagnostic").setup({ preset = "minimal" })
 
 require("marks").setup()
 
@@ -205,7 +204,7 @@ map("n", "<Leader>o", "", { desc = "org" }) -- filler for mini.clue
 --- KEYMAPS ---
 ---------------
 map("n", "<Leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
-map("n", "<Leader>s", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
+map("n", "<Leader>z", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
 map("n", "<Leader>w", "<Cmd>update<CR>", { desc = "Write the buffer" })
 map({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 map({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
@@ -230,6 +229,9 @@ for i = 1, 5 do
 	map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
 
+-------------------
+--- COLORSCHEME ---
+-------------------
 require("vague").setup({
 	on_highlights = function(hl, c)
 		hl.BlinkCmpMenu = { bg = c.bg }
@@ -241,11 +243,22 @@ require("vague").setup({
 
 vim.cmd("colorscheme vague")
 vim.cmd("hi statusline guibg=NONE")
+vim.cmd("hi TabLine guibg=NONE")
 
+----------------
+--- AUTOCMDS ---
+----------------
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
 		require("functions").ts_clean(ts_parsers)
 		vim.cmd("TSUpdate")
 		vim.cmd("MasonToolsClean")
+	end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	callback = function()
+		vim.hl.on_yank()
 	end,
 })
