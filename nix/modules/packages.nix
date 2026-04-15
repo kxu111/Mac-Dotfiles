@@ -16,6 +16,7 @@
     python3
     fzf
 	zoxide
+	yazi
   ];
 
   services.yabai.enable = true;
