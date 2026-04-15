@@ -12,6 +12,8 @@
       "node"
       "mole"
       "zsh-syntax-highlighting"
+	  "pkgconfig"
+	  "raylib"
     ];
     casks = [
       "librewolf"
