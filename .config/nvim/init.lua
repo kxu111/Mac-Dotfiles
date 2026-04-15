@@ -56,7 +56,6 @@ functions.add_pkg({
 	{ src = "stevearc/conform.nvim" },
 	{ src = "folke/flash.nvim" },
 	{ src = "kawre/neotab.nvim" },
-	{ src = "chentoast/marks.nvim" },
 	{ src = "nvim-orgmode/orgmode" },
 	{ src = "nvim-orgmode/org-bullets.nvim" },
 	{ src = "nvim-orgmode/telescope-orgmode.nvim" },
@@ -102,6 +101,7 @@ require("oil").setup({
 	},
 })
 map("n", "<Leader>e", "<Cmd>Oil<CR>", { desc = "Open Oil" })
+map("n", "-", "<Cmd>Oil<CR>", { desc = "Open Oil" })
 
 require("telescope").setup({
 	defaults = {
@@ -120,8 +120,12 @@ require("telescope").load_extension("orgmode")
 
 local builtin = require("telescope.builtin")
 local ext = require("telescope").extensions.orgmode
+local function pick_all()
+	require("telescope.builtin").find_files({ no_ignore = true })
+end
 map("n", "<Leader>f", builtin.find_files, { desc = "Telescope files" })
 map("n", "<Leader>s", "", functions.opts("Telescope"))
+map("n", "<Leader>sf", pick_all, { desc = "ALL files" })
 map("n", "<Leader>sg", builtin.live_grep, { desc = "Grep" })
 map("n", "<Leader>sh", builtin.help_tags, { desc = "Help" })
 map("n", "<Leader>sm", builtin.man_pages, { desc = "Man pages" })
@@ -196,8 +200,6 @@ map({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash rem
 
 require("neotab").setup({})
 
-require("marks").setup()
-
 vim.cmd.packadd({ "nvim.undotree" })
 map("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
@@ -213,32 +215,36 @@ map("n", "<Leader>o", "", functions.opts("Org"))
 --- KEYMAPS ---
 ---------------
 map("n", "<Leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
+map("n", "<Leader>Q", "<Cmd>wqa<CR>", { desc = "Write + quit all" })
+map("n", "<Leader>w", "<Cmd>update<CR>", { desc = "Write to the buffer" })
 map("n", "<Leader>z", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
-map("n", "<Leader>w", "<Cmd>update<CR>", { desc = "Write the buffer" })
+
 map({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 map({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
+
 map({ "n", "v" }, "<Leader>c", "zz", { desc = "Centre the screen" })
 map({ "n", "v" }, "<C-d>", "<C-d>zz")
 map({ "n", "v" }, "C-u", "<C-u>zz")
+
+map("n", "<ESC>", "<Cmd>nohlsearch<CR>", functions.opts(""))
 map({ "n", "v" }, "<Leader>n", ":norm ", { desc = "<Cmd>norm" })
+map("v", "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
+
 map("n", "<Leader>p", "", functions.opts("Pack"))
 map("n", "<Leader>pc", functions.pack_clean, { desc = "Clean plugins" })
 
--- Splits navigation
-map("n", "vs", "<Cmd>vertical split<CR>")
-map("n", "sv", "<Cmd>split<CR>")
+map("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical split" })
+map("n", "<Leader>v", "", functions.opts("Vertical split"))
+
 map("n", "<C-h>", "<C-w>h")
 map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
 map("n", "<C-l>", "<C-w>l")
 
--- Tabs navigation
 map("n", "<C-t>", "<C-w>T")
 for i = 1, 5 do
 	map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
-
-map("n", "<ESC>", "<Cmd>nohlsearch<CR>", functions.opts(""))
 
 -------------------
 --- COLORSCHEME ---
