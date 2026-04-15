@@ -11,11 +11,11 @@
       persistent-apps = [
         "/Applications/Librewolf.app"
         "/Applications/Vesktop.app"
-        "/Applications/Helium.app"
-        "/Applications/WhatsApp.app"
-        "/Applications/sioyek.app"
-        "/Applications/OBS.app"
+		"/Applications/Spotify.app/"
         "/Applications/Steam.app/"
+        "/Applications/WhatsApp.app"
+        "/Applications/Helium.app"
+        "/Applications/OBS.app"
       ];
       mru-spaces = false;
     };
