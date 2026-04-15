@@ -1,5 +1,7 @@
 local map = vim.keymap.set
 vim.g.mapleader = " "
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.cursorline = true
@@ -48,11 +50,14 @@ require("functions").add_pkg({
 	{ src = "nvim-treesitter/nvim-treesitter" },
 	{ src = "nvim-treesitter/nvim-treesitter-context" },
 	{ src = "nvim-mini/mini.nvim" },
+	{ src = "stevearc/oil.nvim" },
 	{ src = "nvim-lua/plenary.nvim" },
 	{ src = "nvim-telescope/telescope.nvim" },
 	{ src = "Saghen/blink.cmp", branch = "v1" },
 	{ src = "stevearc/conform.nvim" },
 	{ src = "folke/flash.nvim" },
+	{ src = "kawre/neotab.nvim" },
+	{ src = "akinsho/toggleterm.nvim" },
 	{ src = "chentoast/marks.nvim" },
 	{ src = "nvim-orgmode/orgmode" },
 	{ src = "nvim-orgmode/org-bullets.nvim" },
@@ -67,8 +72,6 @@ require("treesitter-context").setup()
 
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
-require("mini.git").setup()
-require("mini.diff").setup()
 require("mini.pairs").setup({
 	mappings = {
 		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
@@ -76,6 +79,8 @@ require("mini.pairs").setup({
 	},
 })
 require("mini.surround").setup()
+require("mini.git").setup()
+require("mini.diff").setup()
 require("mini.clue").setup({
 	triggers = { { mode = { "n", "v" }, keys = "<Leader>" } },
 	window = { delay = 150 },
@@ -84,36 +89,21 @@ require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.statusline").setup()
-require("mini.files").setup({
-	mappings = {
-		go_in = "<C-l>",
-		go_in_plus = "<CR>",
-		go_out = "<C-h>",
-		reset = "<Leader>r",
-		synchronize = "<Leader>w",
-	},
-	options = {
-		permanent_delete = false,
-		use_as_default_file_explorer = true,
+
+require("oil").setup({
+	default_file_explorer = true,
+	delete_to_trash = true,
+	skip_confirm_for_simple_edits = true,
+	view_options = {
+		show_hidden = true,
+		is_always_hidden = function(name, bufnr)
+			if name == ".." then
+				return bufnr
+			end
+		end,
 	},
 })
-vim.api.nvim_create_autocmd(
-	"User",
-	{ pattern = "MiniFilesWindowUpdate", callback = require("functions").ensure_center_layout }
-)
-vim.api.nvim_create_autocmd("User", {
-	pattern = "MiniFilesBufferCreate",
-	callback = function(args)
-		local b = args.data.buf_id
-		vim.keymap.set("n", "<C-p>", require("functions").qpreview, { buffer = b, desc = "Quick Preview" })
-	end,
-})
-local minifiles_toggle = function(...)
-	if not MiniFiles.close() then
-		MiniFiles.open(...)
-	end
-end
-map("n", "<Leader>e", minifiles_toggle, { desc = "Toggle mini.files" })
+map("n", "<Leader>e", "<Cmd>Oil<CR>", { desc = "Open Oil" })
 
 require("telescope").setup({
 	defaults = {
@@ -128,16 +118,22 @@ require("telescope").setup({
 		},
 	},
 })
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = require("functions").launch_telescope_on_startup,
+})
 require("telescope").load_extension("orgmode")
 
 local builtin = require("telescope.builtin")
-local org = require("telescope").extensions.orgmode
+local ext = require("telescope").extensions.orgmode
 map("n", "<Leader>f", "", { desc = "Telescope" })
 map("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
-map("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
 map("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
 map("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
+map("n", "<leader>oh", ext.search_headings, { desc = "Files & Headlines" })
+map("n", "<leader>ot", ext.search_tags, { desc = "Tags" })
+map("n", "<leader>or", ext.refile_heading, { desc = "Refile" })
+map("n", "<leader>oi", ext.insert_link, { desc = "Insert link" })
 
 require("blink.cmp").setup({
 	fuzzy = {
@@ -202,15 +198,21 @@ map({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump"
 map({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 map({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
 
+require("neotab").setup({})
+
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block" -- disable cursor blink
+require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
+
 require("marks").setup()
 
 vim.cmd.packadd({ "nvim.undotree" })
 map("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
 require("orgmode").setup({
-	org_agenda_files = "~/orgfiles/*",
+	org_agenda_files = "~/orgfiles/**/*",
 	org_default_notes_file = "~/orgfiles/refile.org",
 })
+vim.lsp.enable("org")
 require("org-bullets").setup()
 map("n", "<Leader>o", "", { desc = "org" }) -- filler for mini.clue
 
