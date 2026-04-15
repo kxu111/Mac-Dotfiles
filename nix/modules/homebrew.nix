@@ -27,6 +27,7 @@
       "raycast"
       "ghostty"
 	  "alacritty"
+	  "alt-tab"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;
