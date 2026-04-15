@@ -1,7 +1,6 @@
 local map = vim.keymap.set
+local functions = require("functions")
 vim.g.mapleader = " "
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.cursorline = true
@@ -41,7 +40,7 @@ local formatters = {
 	rs = { "rustfmt" },
 }
 
-require("functions").add_pkg({
+functions.add_pkg({
 	{ src = "vague-theme/vague.nvim" },
 	{ src = "neovim/nvim-lspconfig" },
 	{ src = "mason-org/mason.nvim" },
@@ -57,7 +56,6 @@ require("functions").add_pkg({
 	{ src = "stevearc/conform.nvim" },
 	{ src = "folke/flash.nvim" },
 	{ src = "kawre/neotab.nvim" },
-	{ src = "akinsho/toggleterm.nvim" },
 	{ src = "chentoast/marks.nvim" },
 	{ src = "nvim-orgmode/orgmode" },
 	{ src = "nvim-orgmode/org-bullets.nvim" },
@@ -89,9 +87,9 @@ require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.statusline").setup()
+require("mini.cmdline").setup({ autocomplete = { enable = false } })
 
 require("oil").setup({
-	default_file_explorer = true,
 	delete_to_trash = true,
 	skip_confirm_for_simple_edits = true,
 	view_options = {
@@ -118,18 +116,16 @@ require("telescope").setup({
 		},
 	},
 })
-vim.api.nvim_create_autocmd("VimEnter", {
-	callback = require("functions").launch_telescope_on_startup,
-})
 require("telescope").load_extension("orgmode")
 
 local builtin = require("telescope.builtin")
 local ext = require("telescope").extensions.orgmode
-map("n", "<Leader>f", "", { desc = "Telescope" })
-map("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
-map("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
-map("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
-map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
+map("n", "<Leader>f", builtin.find_files, { desc = "Telescope files" })
+map("n", "<Leader>s", "", functions.opts("Telescope"))
+map("n", "<Leader>sg", builtin.live_grep, { desc = "Grep" })
+map("n", "<Leader>sh", builtin.help_tags, { desc = "Help" })
+map("n", "<Leader>sm", builtin.man_pages, { desc = "Man pages" })
+map("n", "<Leader>sd", builtin.diagnostics, { desc = "Diagnostics" })
 map("n", "<leader>oh", ext.search_headings, { desc = "Files & Headlines" })
 map("n", "<leader>ot", ext.search_tags, { desc = "Tags" })
 map("n", "<leader>or", ext.refile_heading, { desc = "Refile" })
@@ -190,7 +186,7 @@ require("blink.cmp").setup({
 })
 
 require("conform").setup({ formatters_by_ft = formatters })
-map("n", "<Leader>l", "", { desc = "Conform" })
+map("n", "<Leader>l", "", functions.opts("Conform"))
 map("n", "<Leader>lf", require("conform").format, { desc = "Format" })
 
 require("flash").setup({ modes = { char = { enabled = false } } })
@@ -199,9 +195,6 @@ map({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc =
 map({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
 
 require("neotab").setup({})
-
-vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block" -- disable cursor blink
-require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
 
 require("marks").setup()
 
@@ -214,7 +207,7 @@ require("orgmode").setup({
 })
 vim.lsp.enable("org")
 require("org-bullets").setup()
-map("n", "<Leader>o", "", { desc = "org" }) -- filler for mini.clue
+map("n", "<Leader>o", "", functions.opts("Org"))
 
 ---------------
 --- KEYMAPS ---
@@ -228,8 +221,8 @@ map({ "n", "v" }, "<Leader>c", "zz", { desc = "Centre the screen" })
 map({ "n", "v" }, "<C-d>", "<C-d>zz")
 map({ "n", "v" }, "C-u", "<C-u>zz")
 map({ "n", "v" }, "<Leader>n", ":norm ", { desc = "<Cmd>norm" })
-map("n", "<Leader>p", "", { desc = "Pack" })
-map("n", "<Leader>pc", require("functions").pack_clean, { desc = "Clean plugins" })
+map("n", "<Leader>p", "", functions.opts("Pack"))
+map("n", "<Leader>pc", functions.pack_clean, { desc = "Clean plugins" })
 
 -- Splits navigation
 map("n", "vs", "<Cmd>vertical split<CR>")
@@ -244,6 +237,8 @@ map("n", "<C-t>", "<C-w>T")
 for i = 1, 5 do
 	map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
+
+map("n", "<ESC>", "<Cmd>nohlsearch<CR>", functions.opts(""))
 
 -------------------
 --- COLORSCHEME ---
@@ -266,7 +261,7 @@ vim.cmd("hi TabLine guibg=NONE")
 ----------------
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
-		require("functions").ts_clean(ts_parsers)
+		functions.ts_clean(ts_parsers)
 		vim.cmd("TSUpdate")
 		vim.cmd("MasonToolsClean")
 	end,

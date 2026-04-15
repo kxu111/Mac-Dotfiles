@@ -63,30 +63,8 @@ function M.ts_clean(ts_parsers)
 	end
 end
 
-function M.launch_telescope_on_startup()
-	-- rn doesn't work with `nvim .` but you can fix by disabling oil
-	-- as a default explorer and disabling netrw but i like how
-	-- `nvim` launches telescope and `nvim .` launches oil
-	local args = vim.fn.argv()
-	local should_launch = false
-
-	-- Check if no arguments OR argument is a directory
-	if #args == 0 then
-		should_launch = true
-	else
-		local first_arg = args[1]
-		if first_arg and vim.fn.isdirectory(first_arg) == 1 then
-			should_launch = true
-		end
-	end
-
-	if should_launch then
-		vim.defer_fn(function()
-			pcall(function()
-				require("telescope.builtin").find_files()
-			end)
-		end, 50)
-	end
+function M.opts(input)
+	return { desc = input, noremap = true, silent = true }
 end
 
 return M
