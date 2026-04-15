@@ -14,6 +14,7 @@
       "zsh-syntax-highlighting"
 	  "pkgconfig"
 	  "raylib"
+	  "yt-dlp"
     ];
     casks = [
       "librewolf"
@@ -22,7 +23,7 @@
       "helium-browser"
       "sioyek"
       "obs"
-      "vlc"
+	  "mpv"
       "raycast"
       "ghostty"
 	  "alacritty"
