@@ -23,7 +23,7 @@
       "helium-browser"
       "sioyek"
       "obs"
-	  "mpv"
+	  "vlc"
       "raycast"
       "ghostty"
 	  "alacritty"
