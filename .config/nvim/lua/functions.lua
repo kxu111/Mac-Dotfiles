@@ -64,6 +64,9 @@ function M.ts_clean(ts_parsers)
 end
 
 function M.launch_telescope_on_startup()
+	-- rn doesn't work with `nvim .` but you can fix by disabling oil
+	-- as a default explorer and disabling netrw but i like how
+	-- `nvim` launches telescope and `nvim .` launches oil
 	local args = vim.fn.argv()
 	local should_launch = false
 
