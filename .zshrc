@@ -4,8 +4,6 @@ fi
 
 alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 alias neofetch='fastfetch'
-alias c='z'
-alias cd='z'
 alias y='yazi'
 alias l='lsd -l'
 alias la='lsd -a'
@@ -41,6 +39,7 @@ compdef _tmux_completion ta
 compdef _tmux_completion tkill
 
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+export EDITOR=nvim
 export MANPAGER='nvim +Man!'
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -53,7 +52,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 eval "$(fzf --zsh)"
 
 # zoxide
-eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
