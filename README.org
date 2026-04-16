@@ -1,4 +1,4 @@
-* Personal dotfiles using nix-darwin and stow.
+** Personal dotfiles using nix-darwin and stow.
 Not everything in here is fully declarative using nix, I'm too lazy for home-manager bullcrap \\
 
 Things that I probably need to setup again if I wipe this laptop:
@@ -7,4 +7,4 @@ Things that I probably need to setup again if I wipe this laptop:
 - Raycast
 
 Also yabai needs to have some command run after every update \\
-Tmux scripts stolen from Sylvan Franklin \\
+Tmux scripts stolen from Sylvan Franklin 
