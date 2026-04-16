@@ -8,4 +8,4 @@
    - Yabai scripting addition
 
 	 Tmux scripts stolen from Sylvan Franklin \\
-	 Wallpaper: https://wallhaven.cc/w/mllvv1
+	 A good wallpaper: https://wallhaven.cc/w/mllvv1
