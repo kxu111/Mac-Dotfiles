@@ -19,6 +19,8 @@
 	yazi
 	fd
 	skim
+	newsboat
+	bat
   ];
 
   services.yabai.enable = true;
@@ -26,7 +28,7 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
+	aporetic
 	nerd-fonts.jetbrains-mono
-    maple-mono.NF
   ];
 }
