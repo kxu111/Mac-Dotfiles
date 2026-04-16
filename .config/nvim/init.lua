@@ -141,9 +141,7 @@ map("n", "<leader>or", ext.refile_heading, { desc = "Refile" })
 map("n", "<leader>oi", ext.insert_link, { desc = "Insert link" })
 
 require("blink.cmp").setup({
-	fuzzy = {
-		prebuilt_binaries = { force_version = "v*" },
-	},
+	fuzzy = { prebuilt_binaries = { force_version = "v*" } },
 	completion = {
 		menu = {
 			draw = {
@@ -180,15 +178,9 @@ require("blink.cmp").setup({
 		ghost_text = { enabled = true },
 	},
 	sources = {
-		per_filetype = {
-			org = { "orgmode" },
-		},
+		per_filetype = { org = { "orgmode" } },
 		providers = {
-			orgmode = {
-				name = "Orgmode",
-				module = "orgmode.org.autocompletion.blink",
-				fallbacks = { "buffer" },
-			},
+			orgmode = { name = "Orgmode", module = "orgmode.org.autocompletion.blink", fallbacks = { "buffer" } },
 		},
 	},
 	appearance = { use_nvim_cmp_as_default = true },
@@ -274,8 +266,9 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 		end
 	end,
 })
+map("n", "<Leader>c", "", functions.opts("Quickfix"))
 for i = 1, 9 do
-	map("n", "<Leader>c" .. i, ":cc " .. i .. "<CR>")
+	map("n", "<Leader>c" .. i, ":cc " .. i .. "<CR>", { desc = "Quickfix item " .. i })
 end
 
 -------------------
