@@ -2,6 +2,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+KEYTIMEOUT=10
+bindkey -v
+
 alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 alias neofetch='fastfetch'
 alias y='yazi'
