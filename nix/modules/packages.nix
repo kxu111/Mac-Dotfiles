@@ -17,6 +17,8 @@
     fzf
 	zoxide
 	yazi
+	fd
+	skim
   ];
 
   services.yabai.enable = true;

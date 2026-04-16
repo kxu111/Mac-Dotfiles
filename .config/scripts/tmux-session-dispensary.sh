@@ -3,7 +3,7 @@
 DIRS=(
 	"$HOME"
     "$HOME/.config"
-    "$HOME/dev"
+    "$HOME/projects"
     "$HOME/orgfiles"
 )
 
