@@ -15,20 +15,14 @@
     unzip
     python3
     fzf
-	zoxide
-	yazi
-	fd
-	skim
-	newsboat
-	bat
+    zoxide
+    yazi
+    fd
+    skim
+    newsboat
+    bat
   ];
 
   services.yabai.enable = true;
   services.skhd.enable = true;
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.iosevka
-	aporetic
-	nerd-fonts.jetbrains-mono
-  ];
 }
