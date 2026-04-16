@@ -15,6 +15,7 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    aporetic-nerd-font.url = "github:Echinoidea/Aporetic-Nerd-Font";
   };
 
   outputs = inputs @ {
@@ -24,12 +25,17 @@
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
+    aporetic-nerd-font,
     ...
   }: {
     darwinConfigurations."kennys-MacBook-Air" = nix-darwin.lib.darwinSystem {
-      specialArgs = {inherit self;};
+      specialArgs = {
+        inherit self;
+        inherit aporetic-nerd-font;
+      };
       modules = [
         ./modules/packages.nix
+        ./modules/fonts.nix
         ./modules/homebrew.nix
         ./modules/system.nix
         ./modules/settings.nix

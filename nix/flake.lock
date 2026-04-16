@@ -1,5 +1,23 @@
 {
   "nodes": {
+    "aporetic-nerd-font": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1760462493,
+        "narHash": "sha256-wvzjwnLeaabfhjZCfGpqolalBslcI5oFAdwuQG9VbBI=",
+        "owner": "Echinoidea",
+        "repo": "Aporetic-Nerd-Font",
+        "rev": "88ae58addaa9240cf329b389afb21338748ec749",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Echinoidea",
+        "repo": "Aporetic-Nerd-Font",
+        "type": "github"
+      }
+    },
     "brew-src": {
       "flake": false,
       "locked": {
@@ -90,6 +108,21 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1776361485,
+        "narHash": "sha256-0jX3Q2bI/wTFcz7HNouCLaNODz3LI6elBYdUaPuh4xA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c8f5b96f5a6222a573cb0c61b74d47ffd868d7b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1776255774,
         "narHash": "sha256-psVTpH6PK3q1htMJpmdz1hLF5pQgEshu7gQWgKO6t6Y=",
         "owner": "NixOS",
@@ -106,11 +139,12 @@
     },
     "root": {
       "inputs": {
+        "aporetic-nerd-font": "aporetic-nerd-font",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       }
     }
   },
