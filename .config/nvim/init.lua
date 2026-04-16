@@ -64,7 +64,10 @@ functions.add_pkg({
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({ ensure_installed = mason_pkgs, auto_update = true })
-require("nvim-treesitter").install(ts_parsers)
+require("nvim-treesitter").setup({
+	ensure_installed = { ts_parsers },
+	hightlight = { enable = true },
+})
 require("treesitter-context").setup()
 
 require("mini.icons").setup()
@@ -109,8 +112,9 @@ require("telescope").setup({
 		sorting_strategy = "ascending",
 		path_displays = { "smart" },
 		layout_config = {
-			height = 100,
 			width = 400,
+			height = 100,
+			preview_width = 0.4,
 			prompt_position = "top",
 			preview_cutoff = 40,
 		},
@@ -123,13 +127,14 @@ local ext = require("telescope").extensions.orgmode
 local function pick_all()
 	require("telescope.builtin").find_files({ no_ignore = true })
 end
-map("n", "<Leader>f", builtin.find_files, { desc = "Telescope files" })
-map("n", "<Leader>s", "", functions.opts("Telescope"))
-map("n", "<Leader>sf", pick_all, { desc = "ALL files" })
-map("n", "<Leader>sg", builtin.live_grep, { desc = "Grep" })
-map("n", "<Leader>sh", builtin.help_tags, { desc = "Help" })
-map("n", "<Leader>sm", builtin.man_pages, { desc = "Man pages" })
-map("n", "<Leader>sd", builtin.diagnostics, { desc = "Diagnostics" })
+map("n", "<Leader>f", "", functions.opts("Telescope"))
+map("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
+map("n", "<Leader>fa", pick_all, { desc = "ALL files" })
+map("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
+map("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
+map("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
+map("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
+map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
 map("n", "<leader>oh", ext.search_headings, { desc = "Files & Headlines" })
 map("n", "<leader>ot", ext.search_tags, { desc = "Tags" })
 map("n", "<leader>or", ext.refile_heading, { desc = "Refile" })
@@ -222,13 +227,12 @@ map("n", "<Leader>z", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buf
 map({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 map({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
 
-map({ "n", "v" }, "<Leader>c", "zz", { desc = "Centre the screen" })
 map({ "n", "v" }, "<C-d>", "<C-d>zz")
 map({ "n", "v" }, "C-u", "<C-u>zz")
 
 map("n", "<ESC>", "<Cmd>nohlsearch<CR>", functions.opts(""))
 map({ "n", "v" }, "<Leader>n", ":norm ", { desc = "<Cmd>norm" })
-map("v", "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
+map({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
 map("n", "<Leader>p", "", functions.opts("Pack"))
 map("n", "<Leader>pc", functions.pack_clean, { desc = "Clean plugins" })
@@ -244,6 +248,34 @@ map("n", "<C-l>", "<C-w>l")
 map("n", "<C-t>", "<C-w>T")
 for i = 1, 5 do
 	map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
+end
+
+-- QUICKFIX MAPS
+vim.keymap.set("n", "<leader>a", function()
+	local filename = vim.fn.expand("%:p")
+	local qf_item = { filename = filename, lnum = 1, col = 1, text = vim.fn.getline(1):sub(1, 80) }
+	local qf_list = vim.fn.getqflist()
+	table.insert(qf_list, qf_item)
+	vim.fn.setqflist(qf_list, "r")
+end, { desc = "Add file to QF list" })
+map({ "n" }, "<C-q>", "<Cmd>copen<CR>", { desc = "Open QF list" })
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("qf", { clear = true }),
+	callback = function()
+		if vim.bo.buftype == "quickfix" then
+			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
+			map("n", "dd", function()
+				local idx = vim.fn.line(".")
+				local qflist = vim.fn.getqflist()
+				table.remove(qflist, idx)
+				vim.fn.setqflist(qflist, "r")
+			end, { buffer = true })
+		end
+	end,
+})
+for i = 1, 9 do
+	map("n", "<Leader>c" .. i, ":cc " .. i .. "<CR>")
 end
 
 -------------------
