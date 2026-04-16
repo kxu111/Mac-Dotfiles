@@ -1,6 +1,9 @@
 theme = Vague
 # background = "#000000"
 
+command = tmux attach 
+# -t projects
+
 confirm-close-surface = false
 macos-titlebar-style = hidden
 
