@@ -1,7 +1,7 @@
 theme = Vague
 # background = "#000000"
 
-command = ~/.config/scripts/launch-attach.sh 
+command = ~/.config/scripts/auto-attach.sh 
 
 confirm-close-surface = false
 macos-titlebar-style = hidden
