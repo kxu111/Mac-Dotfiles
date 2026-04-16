@@ -8,12 +8,17 @@ bindkey -v
 alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 alias neofetch='fastfetch'
 alias y='yazi'
+alias cat='bat'
 alias l='lsd -l'
 alias la='lsd -a'
 alias lla='lsd -la'
 alias lt='lsd --tree'
 alias m='mkdir -p'
 alias vi='nvim'
+
+alias news='newsboat'
+
+alias vizsh='nvim ~/.zshrc; source ~/.zshrc'
 
 # tmux aliases
 alias tn='tmux new-session -s'
@@ -46,13 +51,16 @@ export EDITOR=nvim
 export MANPAGER='nvim +Man!'
 export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 export PATH="$HOME/.cargo/bin:$PATH"
+export BAT_THEME=vague
 
 # Syntax highlighting
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 
-# fzf (C-r to trigger)
-eval "$(fzf --zsh)"
+# fzf
+source <(fzf --zsh)
+export FZF_DEFAULT_OPTS_FILE="$HOME/.config/fzf/config"
+export FZF_COMPLETION_TRIGGER="ff"
 
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
