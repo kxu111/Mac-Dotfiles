@@ -1,11 +1,13 @@
-** Personal dotfiles using nix-darwin and stow.
+* Personal dotfiles using nix-darwin and stow.
    Not everything in here is fully declarative using nix, I'm too lazy for home-manager bullcrap \\
-
    Things that I probably need to setup again if I wipe this laptop:
    - SpotX-Bash
    - Some system settings 
    - Raycast
    - Yabai scripting addition
-
 	 Tmux scripts stolen from Sylvan Franklin \\
 	 A good wallpaper: https://wallhaven.cc/w/mllvv1
+
+** TODO:
+   - Make a bash script to automate allat install stuff 
+   - Get a job (impossible)
