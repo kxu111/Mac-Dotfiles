@@ -19,18 +19,19 @@ local mason_pkgs = {
 	"clangd", "clang-format",
 	"rust-analyzer",
 }
-local ts_parsers = {
-	"lua",
-	"nix",
-	"c", "cpp",
-	"rust",
-	"markdown", "markdown_inline",
-}
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
+}
+local ts_parsers = {
+	"lua",
+	"nix",
+	"gitignore",
+	"c", "cpp",
+	"rust",
+	"markdown", "markdown_inline",
 }
 -- stylua: ignore end
 
@@ -59,10 +60,7 @@ vim.pack.add({
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({ ensure_installed = mason_pkgs, auto_update = true })
-require("nvim-treesitter").setup({
-	ensure_installed = { ts_parsers },
-	hightlight = { enable = true },
-})
+require("nvim-treesitter").install(ts_parsers)
 require("treesitter-context").setup()
 
 require("mini.icons").setup()
@@ -130,6 +128,8 @@ vim.keymap.set("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
 vim.keymap.set("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 vim.keymap.set("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
 vim.keymap.set("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
+
+vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org.." })
 vim.keymap.set("n", "<Leader>oh", ext.search_headings, { desc = "Files & Headlines" })
 vim.keymap.set("n", "<Leader>ot", ext.search_tags, { desc = "Tags" })
 vim.keymap.set("n", "<Leader>or", ext.refile_heading, { desc = "Refile" })
@@ -194,12 +194,11 @@ vim.cmd.packadd({ "nvim.undotree" })
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
 require("orgmode").setup({
-	org_agenda_files = "~/orgfiles/**/*",
-	org_default_notes_file = "~/orgfiles/refile.org",
+	org_agenda_files = "~/notes/**/*",
+	org_default_notes_file = "~/notes/refile.org",
 })
-vim.lsp.enable("org")
 require("org-bullets").setup()
-vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org.." })
+vim.lsp.enable("org")
 
 ---------------
 --- KEYMAPS ---
@@ -215,10 +214,6 @@ vim.keymap.set({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz")
 vim.keymap.set({ "n", "v" }, "C-u", "<C-u>zz")
 
-vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
-vim.keymap.set({ "n", "v" }, "<Leader>n", ":norm ", { desc = "Enter norm" })
-vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
-
 vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical" })
 vim.keymap.set("n", "<Leader>v", "", { noremap = true, silent = true, desc = "Split.." })
 
@@ -229,6 +224,10 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
 vim.keymap.set("n", "<C-c>", "gt", { desc = "Cycle the tabs" })
+
+vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<Leader>n", ":norm ", { desc = "Enter norm" })
+vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
 -------------------
 --- COLORSCHEME ---
