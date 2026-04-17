@@ -1,5 +1,3 @@
-local map = vim.keymap.set
-local functions = require("functions")
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
@@ -13,52 +11,49 @@ vim.o.termguicolors = true
 vim.o.undofile = true
 vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 
+-- stylua: ignore start
 local mason_pkgs = {
 	"tree-sitter-cli",
-	"lua_ls",
-	"stylua",
-	"nil",
-	"alejandra",
-	"clangd",
-	"clang-format",
+	"lua_ls", "stylua",
+	"nil", "alejandra",
+	"clangd", "clang-format",
 	"rust-analyzer",
 }
 local ts_parsers = {
 	"lua",
-	"markdown",
-	"markdown_inline",
-	"rust",
-	"c",
-	"cpp",
 	"nix",
+	"c", "cpp",
+	"rust",
+	"markdown", "markdown_inline",
 }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
-	c = { "clang-format" },
-	cpp = { "clang-format" },
+	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
 }
+-- stylua: ignore end
 
-functions.add_pkg({
-	{ src = "vague-theme/vague.nvim" },
-	{ src = "neovim/nvim-lspconfig" },
-	{ src = "mason-org/mason.nvim" },
-	{ src = "mason-org/mason-lspconfig.nvim" },
-	{ src = "WhoIsSethDaniel/mason-tool-installer.nvim" },
-	{ src = "nvim-treesitter/nvim-treesitter" },
-	{ src = "nvim-treesitter/nvim-treesitter-context" },
-	{ src = "nvim-mini/mini.nvim" },
-	{ src = "stevearc/oil.nvim" },
-	{ src = "nvim-lua/plenary.nvim" },
-	{ src = "nvim-telescope/telescope.nvim" },
-	{ src = "Saghen/blink.cmp", branch = "v1" },
-	{ src = "stevearc/conform.nvim" },
-	{ src = "folke/flash.nvim" },
-	{ src = "kawre/neotab.nvim" },
-	{ src = "nvim-orgmode/orgmode" },
-	{ src = "nvim-orgmode/org-bullets.nvim" },
-	{ src = "nvim-orgmode/telescope-orgmode.nvim" },
+vim.pack.add({
+	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
+	{ src = "https://github.com/nvim-mini/mini.nvim" },
+	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/thePrimeagen/harpoon", version = "harpoon2" },
+	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/folke/flash.nvim" },
+	{ src = "https://github.com/kawre/neotab.nvim" },
+	{ src = "https://github.com/nvim-orgmode/orgmode" },
+	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
+	{ src = "https://github.com/nvim-orgmode/telescope-orgmode.nvim" },
 })
 
 require("mason").setup()
@@ -103,8 +98,8 @@ require("oil").setup({
 		end,
 	},
 })
-map("n", "<Leader>e", "<Cmd>Oil<CR>", { desc = "Open Oil" })
-map("n", "-", "<Cmd>Oil<CR>", { desc = "Open Oil" })
+vim.keymap.set("n", "<Leader>e", "<Cmd>Oil<CR>", { desc = "Open Oil" })
+vim.keymap.set("n", "-", "<Cmd>Oil<CR>", { desc = "Open Oil" })
 
 require("telescope").setup({
 	defaults = {
@@ -127,18 +122,33 @@ local ext = require("telescope").extensions.orgmode
 local function pick_all()
 	require("telescope.builtin").find_files({ no_ignore = true })
 end
-map("n", "<Leader>f", "", functions.opts("Telescope"))
-map("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
-map("n", "<Leader>fa", pick_all, { desc = "ALL files" })
-map("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
-map("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
-map("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
-map("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
-map("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
-map("n", "<leader>oh", ext.search_headings, { desc = "Files & Headlines" })
-map("n", "<leader>ot", ext.search_tags, { desc = "Tags" })
-map("n", "<leader>or", ext.refile_heading, { desc = "Refile" })
-map("n", "<leader>oi", ext.insert_link, { desc = "Insert link" })
+vim.keymap.set("n", "<Leader>f", "", { noremap = true, silent = true, desc = "Telescope.." })
+vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
+vim.keymap.set("n", "<Leader>fa", pick_all, { desc = "ALL files" })
+vim.keymap.set("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
+vim.keymap.set("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
+vim.keymap.set("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
+vim.keymap.set("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
+vim.keymap.set("n", "<Leader>oh", ext.search_headings, { desc = "Files & Headlines" })
+vim.keymap.set("n", "<Leader>ot", ext.search_tags, { desc = "Tags" })
+vim.keymap.set("n", "<Leader>or", ext.refile_heading, { desc = "Refile" })
+vim.keymap.set("n", "<Leader>oi", ext.insert_link, { desc = "Insert link" })
+
+local harpoon = require("harpoon")
+harpoon:setup()
+-- stylua: ignore start
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Add to harpoon" })
+vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<Leader>1", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<Leader>2", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<Leader>3", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<Leader>4", function() harpoon:list():select(4) end)
+
+vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+-- stylua: ignore end
 
 require("blink.cmp").setup({
 	fuzzy = { prebuilt_binaries = { force_version = "v*" } },
@@ -155,22 +165,6 @@ require("blink.cmp").setup({
 							return "[" .. ctx.source_name .. "]"
 						end,
 					},
-					kind_icon = {
-						text = function(ctx)
-							local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-							return kind_icon
-						end,
-						highlight = function(ctx)
-							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-							return hl
-						end,
-					},
-					kind = {
-						highlight = function(ctx)
-							local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-							return hl
-						end,
-					},
 				},
 			},
 		},
@@ -183,22 +177,21 @@ require("blink.cmp").setup({
 			orgmode = { name = "Orgmode", module = "orgmode.org.autocompletion.blink", fallbacks = { "buffer" } },
 		},
 	},
-	appearance = { use_nvim_cmp_as_default = true },
 })
 
 require("conform").setup({ formatters_by_ft = formatters })
-map("n", "<Leader>l", "", functions.opts("Conform"))
-map("n", "<Leader>lf", require("conform").format, { desc = "Format" })
+vim.keymap.set("n", "<Leader>l", "", { noremap = true, silent = true, desc = "Format.." })
+vim.keymap.set("n", "<Leader>lf", require("conform").format, { desc = "Buffer" })
 
 require("flash").setup({ modes = { char = { enabled = false } } })
-map({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
-map({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
-map({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
+vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
+vim.keymap.set({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
+vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
 
 require("neotab").setup({})
 
 vim.cmd.packadd({ "nvim.undotree" })
-map("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
+vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
 require("orgmode").setup({
 	org_agenda_files = "~/orgfiles/**/*",
@@ -206,70 +199,36 @@ require("orgmode").setup({
 })
 vim.lsp.enable("org")
 require("org-bullets").setup()
-map("n", "<Leader>o", "", functions.opts("Org"))
+vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org.." })
 
 ---------------
 --- KEYMAPS ---
 ---------------
-map("n", "<Leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
-map("n", "<Leader>Q", "<Cmd>wqa<CR>", { desc = "Write + quit all" })
-map("n", "<Leader>w", "<Cmd>update<CR>", { desc = "Write to the buffer" })
-map("n", "<Leader>z", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
+vim.keymap.set("n", "<Leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
+vim.keymap.set("n", "<Leader>Q", "<Cmd>wqa<CR>", { desc = "Write + quit all" })
+vim.keymap.set("n", "<Leader>w", "<Cmd>write<CR>", { desc = "Write to the buffer" })
+vim.keymap.set("n", "<Leader>z", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
 
-map({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
-map({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
+vim.keymap.set({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
 
-map({ "n", "v" }, "<C-d>", "<C-d>zz")
-map({ "n", "v" }, "C-u", "<C-u>zz")
+vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz")
+vim.keymap.set({ "n", "v" }, "C-u", "<C-u>zz")
 
-map("n", "<ESC>", "<Cmd>nohlsearch<CR>", functions.opts(""))
-map({ "n", "v" }, "<Leader>n", ":norm ", { desc = "<Cmd>norm" })
-map({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
+vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<Leader>n", ":norm ", { desc = "Enter norm" })
+vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
-map("n", "<Leader>p", "", functions.opts("Pack"))
-map("n", "<Leader>pc", functions.pack_clean, { desc = "Clean plugins" })
+vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical" })
+vim.keymap.set("n", "<Leader>v", "", { noremap = true, silent = true, desc = "Split.." })
 
-map("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical split" })
-map("n", "<Leader>v", "", functions.opts("Vertical split"))
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
 
-map("n", "<C-h>", "<C-w>h")
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
-map("n", "<C-l>", "<C-w>l")
-
-map("n", "<C-t>", "<C-w>T")
-for i = 1, 5 do
-	map("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
-end
-
--- QUICKFIX MAPS
-vim.keymap.set("n", "<leader>a", function()
-	local filename = vim.fn.expand("%:p")
-	local qf_item = { filename = filename, lnum = 1, col = 1, text = vim.fn.getline(1):sub(1, 80) }
-	local qf_list = vim.fn.getqflist()
-	table.insert(qf_list, qf_item)
-	vim.fn.setqflist(qf_list, "r")
-end, { desc = "Add file to QF list" })
-map({ "n" }, "<C-q>", "<Cmd>copen<CR>", { desc = "Open QF list" })
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "*",
-	group = vim.api.nvim_create_augroup("qf", { clear = true }),
-	callback = function()
-		if vim.bo.buftype == "quickfix" then
-			map("n", "<C-q>", ":ccl<cr>", { buffer = true, silent = true })
-			map("n", "dd", function()
-				local idx = vim.fn.line(".")
-				local qflist = vim.fn.getqflist()
-				table.remove(qflist, idx)
-				vim.fn.setqflist(qflist, "r")
-			end, { buffer = true })
-		end
-	end,
-})
-map("n", "<Leader>c", "", functions.opts("Quickfix"))
-for i = 1, 9 do
-	map("n", "<Leader>c" .. i, ":cc " .. i .. "<CR>", { desc = "Quickfix item " .. i })
-end
+vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
+vim.keymap.set("n", "<C-c>", "gt", { desc = "Cycle the tabs" })
 
 -------------------
 --- COLORSCHEME ---
@@ -278,8 +237,10 @@ require("vague").setup({
 	on_highlights = function(hl, c)
 		hl.BlinkCmpMenu = { bg = c.bg }
 		hl.BlinkCmpMenuSelection = { fg = c.constant, bg = c.line }
-		hl.BlinkCmpLabel = { fg = c.comment }
+		hl.BlinkCmpLabelMatch = { fg = c.string, bold = true }
+		hl.BlinkCmpSource = { bg = c.bg }
 		hl.BlinkCmpDoc = { bg = c.bg }
+		hl.BlinkCmpKind = { fg = c.comment }
 	end,
 })
 
@@ -287,12 +248,65 @@ vim.cmd("colorscheme vague")
 vim.cmd("hi statusline guibg=NONE")
 vim.cmd("hi TabLine guibg=NONE")
 
+-----------------
+--- FUNCTIONS ---
+-----------------
+local function pack_clean()
+	local active_plugins = {}
+	local unused_plugins = {}
+
+	for _, plugin in ipairs(vim.pack.get()) do
+		active_plugins[plugin.spec.name] = plugin.active
+	end
+
+	for _, plugin in ipairs(vim.pack.get()) do
+		if not active_plugins[plugin.spec.name] then
+			table.insert(unused_plugins, plugin.spec.name)
+		end
+	end
+
+	if #unused_plugins == 0 then
+		print("No unused plugins.")
+		return
+	end
+
+	local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
+	if choice == 1 then
+		vim.pack.del(unused_plugins)
+	end
+end
+vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Pack.." })
+vim.keymap.set("n", "<Leader>pc", pack_clean, { desc = "Clean plugins" })
+
+local function ts_clean(parsers)
+	local ts_dir = vim.fn.stdpath("data") .. "/site/parser"
+	local desired = {}
+	local installed = {}
+
+	for _, p in ipairs(parsers) do
+		desired[p] = true
+	end
+
+	for file in vim.fs.dir(ts_dir) do
+		if file:match("%.so$") then
+			local parser = file:gsub("%.so$", "")
+			installed[parser] = true
+		end
+	end
+
+	for parser, _ in pairs(installed) do
+		if not desired[parser] then
+			vim.cmd("TSUninstall " .. parser)
+		end
+	end
+end
+
 ----------------
 --- AUTOCMDS ---
 ----------------
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function()
-		functions.ts_clean(ts_parsers)
+		ts_clean(ts_parsers)
 		vim.cmd("TSUpdate")
 		vim.cmd("MasonToolsClean")
 	end,
