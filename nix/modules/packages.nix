@@ -10,7 +10,7 @@
     ripgrep
     rustup
     tmux
-    lsd
+	tree
     tealdeer
     unzip
     python3
