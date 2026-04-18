@@ -73,6 +73,11 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup()
 require("mini.git").setup()
+vim.keymap.set("n", "<Leader>g", "", { noremap = true, silent = true, desc = "Git.." })
+vim.keymap.set("n", "<Leader>gs", "<Cmd>Git status<CR>", { desc = "Status" })
+vim.keymap.set("n", "<Leader>ga", ":Git add ", { desc = "Add" })
+vim.keymap.set("n", "<Leader>gd", ":Git diff ", { desc = "Diff" })
+vim.keymap.set("n", "<Leader>gc", "<Cmd>Git commit<CR>", { desc = "Commit" })
 require("mini.diff").setup()
 require("mini.clue").setup({
 	triggers = { { mode = { "n", "v" }, keys = "<Leader>" } },
@@ -137,17 +142,16 @@ vim.keymap.set("n", "<Leader>oi", ext.insert_link, { desc = "Insert link" })
 
 local harpoon = require("harpoon")
 harpoon:setup()
+vim.keymap.set("n", "<Leader>h", "", { noremap = true, silent = true, desc = "Harpoon.." })
 -- stylua: ignore start
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Add to harpoon" })
+vim.keymap.set("n", "<Leader>ha", function() harpoon:list():add() end, { desc = "Add to list" })
+vim.keymap.set("n", "<Leader>hr", function() harpoon:list():remove() end, { desc = "Remove from list" })
 vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-vim.keymap.set("n", "<Leader>1", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<Leader>2", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<Leader>3", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<Leader>4", function() harpoon:list():select(4) end)
-
-vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
-vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+for i =	1, 4 do
+	vim.keymap.set("n", "<Leader>" .. i, function() harpoon:list():select(i) end,
+	{ desc = "Go to harpoon item " .. i })
+end
 -- stylua: ignore end
 
 require("blink.cmp").setup({
@@ -200,9 +204,9 @@ require("orgmode").setup({
 require("org-bullets").setup()
 vim.lsp.enable("org")
 
----------------
---- KEYMAPS ---
----------------
+--------------------
+--- MISC KEYMAPS ---
+--------------------
 vim.keymap.set("n", "<Leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
 vim.keymap.set("n", "<Leader>Q", "<Cmd>wqa<CR>", { desc = "Write + quit all" })
 vim.keymap.set("n", "<Leader>w", "<Cmd>write<CR>", { desc = "Write to the buffer" })
