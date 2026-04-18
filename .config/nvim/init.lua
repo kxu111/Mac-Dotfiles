@@ -51,6 +51,7 @@ vim.pack.add({
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/folke/flash.nvim" },
+	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/kawre/neotab.nvim" },
 	{ src = "https://github.com/nvim-orgmode/orgmode" },
 	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
@@ -73,11 +74,6 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup()
 require("mini.git").setup()
-vim.keymap.set("n", "<Leader>g", "", { noremap = true, silent = true, desc = "Git.." })
-vim.keymap.set("n", "<Leader>gs", "<Cmd>Git status<CR>", { desc = "Status" })
-vim.keymap.set("n", "<Leader>ga", ":Git add ", { desc = "Add" })
-vim.keymap.set("n", "<Leader>gd", ":Git diff ", { desc = "Diff" })
-vim.keymap.set("n", "<Leader>gc", "<Cmd>Git commit<CR>", { desc = "Commit" })
 require("mini.diff").setup()
 require("mini.clue").setup({
 	triggers = { { mode = { "n", "v" }, keys = "<Leader>" } },
@@ -191,6 +187,9 @@ require("flash").setup({ modes = { char = { enabled = false } } })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
+
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block" -- disable cursor blink
+require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
 
 require("neotab").setup({})
 
