@@ -21,6 +21,7 @@
     skim
     newsboat
     bat
+	lazygit
   ];
 
   services.yabai.enable = true;
