@@ -37,6 +37,7 @@ _tmux_completion() {
 compdef _tmux_completion ta
 compdef _tmux_completion tkill
 
+export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export EDITOR=nvim
 export MANPAGER='nvim +Man!'
