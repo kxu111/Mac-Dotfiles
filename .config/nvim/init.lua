@@ -51,6 +51,8 @@ local ts_parsers = {
 
 vim.pack.add({
 	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/rebelot/kanagawa.nvim" },
+	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -117,6 +119,7 @@ require("telescope").setup({
 		preview = { treesitter = true },
 		sorting_strategy = "ascending",
 		path_displays = { "smart" },
+		-- borderchars = { "", "", "", "", "", "", "", "" },
 		layout_config = {
 			width = 400,
 			height = 100,
@@ -134,7 +137,7 @@ local ext = require("telescope").extensions.orgmode
 local function pick_all()
 	require("telescope.builtin").find_files({ no_ignore = true })
 end
-vim.keymap.set("n", "<Leader>f", "", { noremap = true, silent = true, desc = "Telescope.." })
+vim.keymap.set("n", "<Leader>f", "", { noremap = true, silent = true, desc = "Telescope" })
 vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
 vim.keymap.set("n", "<Leader>fa", pick_all, { desc = "ALL files" })
 vim.keymap.set("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
@@ -143,7 +146,7 @@ vim.keymap.set("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 vim.keymap.set("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
 vim.keymap.set("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
 
-vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org.." })
+vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org telescope" })
 vim.keymap.set("n", "<Leader>oh", ext.search_headings, { desc = "Files & Headlines" })
 vim.keymap.set("n", "<Leader>ot", ext.search_tags, { desc = "Tags" })
 vim.keymap.set("n", "<Leader>or", ext.refile_heading, { desc = "Refile" })
@@ -151,7 +154,7 @@ vim.keymap.set("n", "<Leader>oi", ext.insert_link, { desc = "Insert link" })
 
 local harpoon = require("harpoon")
 harpoon:setup()
-vim.keymap.set("n", "<Leader>h", "", { noremap = true, silent = true, desc = "Harpoon.." })
+vim.keymap.set("n", "<Leader>h", "", { noremap = true, silent = true, desc = "Harpoon" })
 -- stylua: ignore start
 vim.keymap.set("n", "<Leader>ha", function() harpoon:list():add() end, { desc = "Add to list" })
 vim.keymap.set("n", "<Leader>hr", function() harpoon:list():remove() end, { desc = "Remove from list" })
@@ -166,6 +169,7 @@ end
 require("blink.cmp").setup({
 	completion = {
 		menu = {
+			scrollbar = false,
 			draw = {
 				columns = {
 					{ "source_name", "label", "label_description", gap = 2 },
@@ -192,8 +196,8 @@ require("blink.cmp").setup({
 })
 
 require("conform").setup({ formatters_by_ft = formatters })
-vim.keymap.set("n", "<Leader>l", "", { noremap = true, silent = true, desc = "Format.." })
-vim.keymap.set("n", "<Leader>lf", require("conform").format, { desc = "Buffer" })
+vim.keymap.set("n", "<Leader>l", "", { noremap = true, silent = true, desc = "Formatters" })
+vim.keymap.set("n", "<Leader>lf", require("conform").format, { desc = "Format buffer" })
 
 require("flash").setup({ modes = { char = { enabled = false } } })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
@@ -229,8 +233,8 @@ vim.keymap.set({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz")
 vim.keymap.set({ "n", "v" }, "C-u", "<C-u>zz")
 
+vim.keymap.set("n", "<Leader>v", "", { noremap = true, silent = true, desc = "Split" })
 vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical" })
-vim.keymap.set("n", "<Leader>v", "", { noremap = true, silent = true, desc = "Split.." })
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
@@ -238,29 +242,13 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
-vim.keymap.set("n", "<C-c>", "gt", { desc = "Cycle the tabs" })
 
 vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "<Leader>n", ":norm ", { desc = "Enter norm" })
 vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
--------------------
---- COLORSCHEME ---
--------------------
-require("vague").setup({
-	on_highlights = function(hl, c)
-		hl.BlinkCmpMenu = { bg = c.bg }
-		hl.BlinkCmpMenuSelection = { fg = c.constant, bg = c.line }
-		hl.BlinkCmpLabelMatch = { fg = c.string, bold = true }
-		hl.BlinkCmpSource = { bg = c.bg }
-		hl.BlinkCmpDoc = { bg = c.bg }
-		hl.BlinkCmpKind = { fg = c.comment }
-	end,
-})
-
-vim.cmd("colorscheme vague")
-vim.cmd("hi statusline guibg=NONE")
-vim.cmd("hi TabLine guibg=NONE")
+vim.keymap.set({ "n", "v" }, "<C-c>", "zz", { desc = "Enter substitute mode in selection" })
+vim.keymap.set("i", "<C-c>", "<C-o>zz", { desc = "Enter substitute mode in selection" })
 
 -----------------
 --- FUNCTIONS ---
@@ -289,7 +277,7 @@ local function pack_clean()
 		vim.pack.del(unused_plugins)
 	end
 end
-vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Pack.." })
+vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Vim pack" })
 vim.keymap.set("n", "<Leader>pc", pack_clean, { desc = "Clean plugins" })
 
 local function ts_clean(parsers)
@@ -332,3 +320,84 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.hl.on_yank()
 	end,
 })
+
+-------------------
+--- COLORSCHEME ---
+-------------------
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	callback = function()
+		local hl = vim.api.nvim_get_hl
+		local bg = hl(0, { name = "Normal", link = false }).bg
+		local line = hl(0, { name = "CursorLine", link = false }).bg
+		local constant = hl(0, { name = "Constant", link = false }).fg
+		local string_color = hl(0, { name = "String", link = false }).fg
+		local comment = hl(0, { name = "Comment", link = false }).fg
+
+		-- transparency
+		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+		vim.api.nvim_set_hl(0, "LineNr", { fg = comment, bg = "none" })
+		vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+		vim.api.nvim_set_hl(0, "statusline", { bg = "none" })
+		vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
+
+		vim.api.nvim_set_hl(0, "MiniClueBorder", { bg = bg })
+		vim.api.nvim_set_hl(0, "MiniClueDescGroup", { fg = string_color, bg = bg, bold = true })
+		vim.api.nvim_set_hl(0, "MiniClueDescSingle", { bg = bg })
+		vim.api.nvim_set_hl(0, "MiniClueNextKey", { bg = bg })
+		vim.api.nvim_set_hl(0, "MiniClueNextKeyWithPostkeys", { bg = bg })
+		vim.api.nvim_set_hl(0, "MiniClueSeparator", { bg = bg })
+		vim.api.nvim_set_hl(0, "MiniClueTitle", { fg = string_color, bg = bg, bold = true })
+
+		vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = bg })
+		vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = bg })
+		vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { fg = constant, bg = line })
+		vim.api.nvim_set_hl(0, "BlinkCmpLabelMatch", { fg = string_color, bold = true })
+		vim.api.nvim_set_hl(0, "BlinkCmpSource", { bg = bg })
+		vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = bg })
+		vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = comment })
+	end,
+})
+
+local theme_file = vim.fn.stdpath("data") .. "/selected_theme.txt"
+local function change_theme(theme)
+	local file = io.open(theme_file, "w")
+	if file then
+		file:write(theme)
+		file:close()
+	end
+	vim.cmd("colorscheme " .. theme)
+	vim.cmd("!bash ~/.config/scripts/sync-ghostty.sh &")
+end
+local function load_theme()
+	local file = io.open(theme_file, "r")
+	if file then
+		local theme = file:read("l")
+		file:close()
+		vim.cmd("colorscheme " .. theme)
+	end
+end
+
+vim.keymap.set("n", "<leader>fc", function()
+	builtin.colorscheme({
+		attach_mappings = function(prompt_bufnr, map)
+			map("i", "<CR>", function()
+				local selection = require("telescope.actions.state").get_selected_entry()
+				require("telescope.actions").close(prompt_bufnr)
+				if selection then
+					change_theme(selection.value)
+				end
+			end)
+			map("n", "<CR>", function()
+				local selection = require("telescope.actions.state").get_selected_entry()
+				require("telescope.actions").close(prompt_bufnr)
+				if selection then
+					change_theme(selection.value)
+				end
+			end)
+			return true
+		end,
+	})
+end, { desc = "Colorscheme" })
+
+load_theme()

@@ -1,16 +1,13 @@
-# focus window
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - l : yabai -m window --focus east
 
-# swap window
 alt + shift - h : yabai -m window --swap west
 alt + shift - j : yabai -m window --swap south
 alt + shift - k : yabai -m window --swap north
 alt + shift - l : yabai -m window --swap east
 
-# focus space
 alt - 1 : yabai -m space --focus 1
 alt - 2 : yabai -m space --focus 2
 alt - 3 : yabai -m space --focus 3
@@ -23,7 +20,6 @@ alt - 9 : yabai -m space --focus 9
 alt - 0 : yabai -m space --focus 10
 alt - f : yabai -m space --focus 11
 
-# move window to space
 alt + shift - 1 : yabai -m window --space 1
 alt + shift - 2 : yabai -m window --space 2
 alt + shift - 3 : yabai -m window --space 3
@@ -35,9 +31,7 @@ alt + shift - 8 : yabai -m window --space 8
 alt + shift - 9 : yabai -m window --space 9
 alt + shift - 0 : yabai -m window --space 10
 
-# window properties
 alt + shift - space : yabai -m window --toggle float
 alt + shift - f : yabai -m window --toggle native-fullscreen
 
-# open alacritty
-alt - return : open -n /Applications/Ghostty.app
+alt - return : ~/.config/scripts/launch-ghostty.sh

@@ -1,6 +1,6 @@
-theme = Vague
+config-file = ~/.config/ghostty/ghostty-theme.txt
 
-command = ~/.config/scripts/auto-attach.sh 
+command = ~/.config/scripts/auto-attach.sh
 
 confirm-close-surface = false
 macos-titlebar-style = hidden
