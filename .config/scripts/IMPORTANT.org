@@ -1,3 +1,0 @@
-* Most of these scripts are taken from Sylvan Franklin.
-  If, by some miracle, you don't know who he is, go check him out:
-  https://github.com/SylvanFranklin
