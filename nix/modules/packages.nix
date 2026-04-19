@@ -22,6 +22,7 @@
     newsboat
     bat
 	lazygit
+	eza
   ];
 
   services.yabai.enable = true;
