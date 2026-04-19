@@ -1,5 +1,4 @@
 theme = Vague
-# background = "#000000"
 
 command = ~/.config/scripts/auto-attach.sh 
 
@@ -14,8 +13,7 @@ window-padding-x = 28
 window-padding-y = 28
 
 font-size = 16
-# font-family = "Iosevka Nerd Font Mono"
-font-family = "AporeticSerifMonoNerdFont"
+font-family = "Iosevka Nerd Font Mono"
 font-thicken = true
 font-thicken-strength = 255
 
