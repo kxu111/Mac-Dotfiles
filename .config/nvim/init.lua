@@ -1,7 +1,18 @@
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		local name, kind = ev.data.spec.name, ev.data.kind
+		if name == "blink.cmp" and kind == "install" or kind == "update" then
+			vim.cmd("BlinkCmp build")
+		end
+		if name == "telescope-fzf-native.nvim" and kind == "install" or kind == "update" then
+			vim.system({ "make" }, { vim.fn.stdpath("data") .. "/site/pack/core/opt/telescope-fzf-native.nvim" })
+		end
+	end,
+})
+
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.cursorline = true
 vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.o.wrap = false
@@ -18,12 +29,14 @@ local mason_pkgs = {
 	"nil", "alejandra",
 	"clangd", "clang-format",
 	"rust-analyzer",
+	"pyright", "black",
 }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
+	py = { "black" },
 }
 local ts_parsers = {
 	"lua",
@@ -32,6 +45,7 @@ local ts_parsers = {
 	"c", "cpp",
 	"rust",
 	"markdown", "markdown_inline",
+	"python",
 }
 -- stylua: ignore end
 
@@ -47,6 +61,7 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/thePrimeagen/harpoon", version = "harpoon2" },
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
@@ -73,8 +88,6 @@ require("mini.pairs").setup({
 	},
 })
 require("mini.surround").setup()
-require("mini.git").setup()
-require("mini.diff").setup()
 require("mini.clue").setup({
 	triggers = { { mode = { "n", "v" }, keys = "<Leader>" } },
 	window = { delay = 150 },
@@ -82,7 +95,6 @@ require("mini.clue").setup({
 require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
-require("mini.statusline").setup()
 require("mini.cmdline").setup({ autocomplete = { enable = false } })
 
 require("oil").setup({
@@ -114,6 +126,7 @@ require("telescope").setup({
 		},
 	},
 })
+require("telescope").load_extension("fzf")
 require("telescope").load_extension("orgmode")
 
 local builtin = require("telescope.builtin")
@@ -151,7 +164,6 @@ end
 -- stylua: ignore end
 
 require("blink.cmp").setup({
-	fuzzy = { prebuilt_binaries = { force_version = "v*" } },
 	completion = {
 		menu = {
 			draw = {
