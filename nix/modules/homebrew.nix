@@ -26,7 +26,6 @@
 	  "vlc"
       "raycast"
       "ghostty"
-	  "alacritty"
 	  "alt-tab"
     ];
     masApps = {
