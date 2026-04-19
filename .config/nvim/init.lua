@@ -50,9 +50,12 @@ local ts_parsers = {
 -- stylua: ignore end
 
 vim.pack.add({
+	{ src = "https://github.com/rktjmp/lush.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/rebelot/kanagawa.nvim" },
 	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
+	{ src = "https://github.com/zenbones-theme/zenbones.nvim" },
+	{ src = "https://github.com/maxmx03/solarized.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -359,12 +362,30 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	end,
 })
 
+local color_maps = {
+	solarized = "iTerm2 Solarized Dark",
+}
+local function map_colors(input)
+	for key, scheme in pairs(color_maps) do
+		if tostring(key) == input then
+			return scheme
+		end
+	end
+	return input
+end
+
 local theme_file = vim.fn.stdpath("data") .. "/selected_theme.txt"
 local function change_theme(theme)
 	local file = io.open(theme_file, "w")
 	if file then
 		file:write(theme)
 		file:close()
+	end
+	local theme_mapped = map_colors(theme)
+	local term_file = io.open(vim.fn.stdpath("data") .. "/term_theme.txt", "w")
+	if term_file then
+		term_file:write(theme_mapped)
+		term_file:close()
 	end
 	vim.cmd("colorscheme " .. theme)
 	vim.cmd("!bash ~/.config/scripts/sync-ghostty.sh &")
