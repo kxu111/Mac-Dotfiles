@@ -1,4 +1,4 @@
-config-file = ~/.config/ghostty/ghostty-theme.txt
+config-file = ~/.config/ghostty/term-theme.txt
 
 command = ~/.config/scripts/auto-attach.sh
 
@@ -22,3 +22,4 @@ font-style-bold = "Bold"
 font-style-italic = "Italic"
 font-style-bold-italic = "Bold Italic"
 
+background = "#000000"

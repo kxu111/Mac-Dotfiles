@@ -1,3 +1,3 @@
 #!/bin/bash
-$HOME/.config/scripts/sync-themes.sh
+$HOME/.config/scripts/update-themes.sh
 open -n /Applications/Ghostty.app
