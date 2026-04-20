@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 		if name == "telescope-fzf-native.nvim" and kind == "install" or kind == "update" then
 			vim.system({ "make" }, { vim.fn.stdpath("data") .. "/site/pack/core/opt/telescope-fzf-native.nvim" })
 		end
+		vim.cmd("TSUpdate")
 	end,
 })
 
@@ -50,12 +51,9 @@ local ts_parsers = {
 -- stylua: ignore end
 
 vim.pack.add({
-	{ src = "https://github.com/rktjmp/lush.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/rebelot/kanagawa.nvim" },
 	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
-	{ src = "https://github.com/zenbones-theme/zenbones.nvim" },
-	{ src = "https://github.com/maxmx03/solarized.nvim" },
+	{ src = "https://github.com/metalelf0/black-metal-theme-neovim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -101,6 +99,42 @@ require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.cmdline").setup({ autocomplete = { enable = false } })
+require("mini.statusline").setup()
+require("mini.starter").setup({
+	items = {
+		{ name = "Find files", action = [[:Telescope find_files]], section = "Telescope" },
+		{ name = "Live grep", action = [[:Telescope live_grep]], section = "Telescope" },
+		{ name = "Help tags", action = [[:Telescope help_tags]], section = "Telescope" },
+		{ name = "Man pages", action = [[:Telescope man_pages]], section = "Telescope" },
+	},
+	header = [[
+         .                  *.                                                                               
+       .*%0.                &&*.                                                                             
+     .*%%%00*               &&&&*.                                                     .*.                   
+   .*%%%%%000*              &&&&&&*.                          ..*******.              .%@&'                  
+ .*%%%%%%%00000             &&&&&&&&*.                 .*0&%%@@@@@@@@@@@&0^          *@@@&'                  
+*00%%%%%%%000000.           &&&&&&&&&&*            o&@@@@%&00*^^^''''^^*0%&'       *@@@&                     
+0000%%%%%%0000000*          &&&&&&&&&&&          '%@@%0^ .*.              &%000&&&&@@@@&&&0o                 
+000000%%%%000000000.        &&&&&&&&&&&           0@*   0%@@0            *@@&&000%@@@0^^'                    
+0000000%%%0000000000*       &&&&&&&&&&&                00*@@0          *&@%'    0@@@0                  *.    
+00000000%%000000000000      &&&&&&&&&&&               0 *@@%        .0%@@0'    0@@@0     *%&          &@%'   
+000000000%'000000000000.    &&&&&&&&&&&              ^ 0@@%'     .o&@@&^      0@@@0     *@@&  .*.    &@@0    
+0000000000 '000000000000.   &&&&&&&&&&&             .*&@@%'  .*0%@@&*'       *@@@0     *@@%  .0@%   0@@*     
+0000000000   '00000000000*  &&&&&&&&&&&            *0%@@@%%%@@@%0^          *@@@0     *@@%  *%@@%  *@@^      
+0000000000    '000000000000.&&&&&&&&&&&           @@@@@@@@@@@%0'           '@@@&     *@@%  &0%@@* *@%'       
+0000000000      000000000000%&&&&&&&&&&           0@@@^    '^00%@&o.       %@@%'    *@@@'.&^0@@% *@%'        
+0000000000       ^0000000000%%&&&&&&&&&          '@@%'          '0@@&'    &@@@'   .&@@@ 0&''@@@*o@&          
+0000000000        '000000000%%%%&&&&&&&         '@@%'            0@@@0   *@@@^  .00@@@0&0  %@@%0@0           
+0000000000          00000000%%%%%%&&&&&        '@@&           .0@@@@0   '@@@* .*0'&@@@%*  *@@@%@0            
+0000000000           '000000%%%%%%%%&&*        %@0        .*&%@@%&^     0@@&'0&^ ^@@@@^   &@@@@*             
+ ^00000000            '00000%%%%%%'.*.         *0'  .*00&%@@@&0*'       ^0@@%&^    0@@&    &@@%^             
+   ^000000              ^000%%%%% &@&0o.o0000&&%%@@@@%&0*^'              ^0^        ''     ''                
+     ^0000               '00%%%%% ^&&%%%%&&&&000*^^'                                                         
+       ^00                '0%%%%'                                                                            
+         '                  ^''                                                                              ]],
+	footer = [[]],
+	silent = true,
+})
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -148,6 +182,7 @@ vim.keymap.set("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
 vim.keymap.set("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 vim.keymap.set("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
 vim.keymap.set("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
+vim.keymap.set("n", "<Leader>fl", builtin.treesitter, { desc = "Treesitter search" })
 
 vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org telescope" })
 vim.keymap.set("n", "<Leader>oh", ext.search_headings, { desc = "Files & Headlines" })
@@ -212,8 +247,11 @@ require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
 
 require("neotab").setup({})
 
-vim.cmd.packadd({ "nvim.undotree" })
+vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
+
+vim.cmd.packadd("nohlsearch")
+vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
 
 require("orgmode").setup({
 	org_agenda_files = "~/notes/**/*",
@@ -246,7 +284,6 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
 
-vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "<Leader>n", ":norm ", { desc = "Enter norm" })
 vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
@@ -275,13 +312,11 @@ local function pack_clean()
 		return
 	end
 
-	local choice = vim.fn.confirm("Remove unused plugins?", "&Yes\n&No", 2)
+	local choice = vim.fn.confirm("Remove unused plugins: ", "&Yes\n&No", 2)
 	if choice == 1 then
 		vim.pack.del(unused_plugins)
 	end
 end
-vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Vim pack" })
-vim.keymap.set("n", "<Leader>pc", pack_clean, { desc = "Clean plugins" })
 
 local function ts_clean(parsers)
 	local ts_dir = vim.fn.stdpath("data") .. "/site/parser"
@@ -306,21 +341,33 @@ local function ts_clean(parsers)
 	end
 end
 
+local function clean_all()
+	pack_clean()
+	ts_clean(ts_parsers)
+	vim.cmd("MasonToolsClean")
+end
+
+vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Clean" })
+vim.keymap.set("n", "<Leader>pc", clean_all, { desc = "All" })
+
 ----------------
 --- AUTOCMDS ---
 ----------------
-vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function()
-		ts_clean(ts_parsers)
-		vim.cmd("TSUpdate")
-		vim.cmd("MasonToolsClean")
-	end,
-})
-
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.hl.on_yank()
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", { -- enable treesitter highlighting and indents
+	callback = function(args)
+		local filetype = args.match
+		local lang = vim.treesitter.language.get_lang(filetype)
+		if vim.treesitter.language.add(lang) then
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			vim.treesitter.start()
+		end
 	end,
 })
 
@@ -337,20 +384,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local string_color = hl(0, { name = "String", link = false }).fg
 		local comment = hl(0, { name = "Comment", link = false }).fg
 
-		-- transparency
 		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 		vim.api.nvim_set_hl(0, "LineNr", { fg = comment, bg = "none" })
 		vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
 		vim.api.nvim_set_hl(0, "statusline", { bg = "none" })
 		vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
-
-		vim.api.nvim_set_hl(0, "MiniClueBorder", { bg = bg })
-		vim.api.nvim_set_hl(0, "MiniClueDescGroup", { fg = string_color, bg = bg, bold = true })
-		vim.api.nvim_set_hl(0, "MiniClueDescSingle", { bg = bg })
-		vim.api.nvim_set_hl(0, "MiniClueNextKey", { bg = bg })
-		vim.api.nvim_set_hl(0, "MiniClueNextKeyWithPostkeys", { bg = bg })
-		vim.api.nvim_set_hl(0, "MiniClueSeparator", { bg = bg })
-		vim.api.nvim_set_hl(0, "MiniClueTitle", { fg = string_color, bg = bg, bold = true })
+		vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { bg = "none" })
 
 		vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = bg })
 		vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = bg })
@@ -363,8 +402,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 
 local color_maps = {
-	solarized = "iTerm2 Solarized Dark",
+	["impaled-nazarene"] = "Black Metal (Khold)",
 }
+
 local function map_colors(input)
 	for key, scheme in pairs(color_maps) do
 		if tostring(key) == input then
@@ -374,42 +414,48 @@ local function map_colors(input)
 	return input
 end
 
-local theme_file = vim.fn.stdpath("data") .. "/selected_theme.txt"
+local theme_file = vim.fn.expand("~/current-theme.txt")
+
+local function sync_themes()
+	vim.cmd("!bash ~/.config/scripts/sync-themes.sh &")
+	vim.cmd("!bash ~/.config/scripts/update-wallpaper.sh &")
+	vim.api.nvim_input("<CR>")
+end
+
 local function change_theme(theme)
 	local file = io.open(theme_file, "w")
+	local theme_mapped = map_colors(theme)
 	if file then
-		file:write(theme)
+		file:write(theme_mapped)
 		file:close()
 	end
-	local theme_mapped = map_colors(theme)
-	local term_file = io.open(vim.fn.stdpath("data") .. "/term_theme.txt", "w")
-	if term_file then
-		term_file:write(theme_mapped)
-		term_file:close()
-	end
 	vim.cmd("colorscheme " .. theme)
-	vim.cmd("!bash ~/.config/scripts/sync-ghostty.sh &")
+	sync_themes()
 end
 local function load_theme()
 	local file = io.open(theme_file, "r")
+	local theme = ""
+	local mapped = false
 	if file then
-		local theme = file:read("l")
+		theme = file:read("l")
 		file:close()
+	end
+	for key, scheme in pairs(color_maps) do
+		if theme == scheme then
+			vim.cmd("colorscheme " .. tostring(key))
+			mapped = true
+		end
+	end
+	if mapped == false then
 		vim.cmd("colorscheme " .. theme)
 	end
+	sync_themes()
 end
 
 vim.keymap.set("n", "<leader>fc", function()
 	builtin.colorscheme({
 		attach_mappings = function(prompt_bufnr, map)
-			map("i", "<CR>", function()
-				local selection = require("telescope.actions.state").get_selected_entry()
-				require("telescope.actions").close(prompt_bufnr)
-				if selection then
-					change_theme(selection.value)
-				end
-			end)
-			map("n", "<CR>", function()
+			map({ "n", "i" }, "<CR>", function()
 				local selection = require("telescope.actions.state").get_selected_entry()
 				require("telescope.actions").close(prompt_bufnr)
 				if selection then
