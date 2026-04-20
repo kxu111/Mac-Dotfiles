@@ -13,8 +13,12 @@
   "modules": [
     "break",
     "title",
+    "separator",
     {
-      "type": "separator",
+      "type": "os",
+      "key": "OS  ",
+      "keyColor": "red",
+      "outputColor": "red",
     },
     {
       "type": "uptime",
@@ -33,15 +37,15 @@
       "type": "memory",
       "key": "RAM ",
       "format": "{used} / {total}",
-      "keyColor": "magenta",
-      "outputColor": "magenta",
+      "keyColor": "blue",
+      "outputColor": "blue",
     },
     {
       "type": "disk",
       "key": "DSK ",
       "format": "{size-used} / {size-total}",
-      "keyColor": "blue",
-      "outputColor": "blue",
+      "keyColor": "yellow",
+      "outputColor": "yellow",
     },
     "break",
     {
