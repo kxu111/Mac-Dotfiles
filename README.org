@@ -6,7 +6,6 @@
    - Raycast
    - Yabai scripting addition
 	 Tmux scripts stolen from Sylvan Franklin \\
-	 A good wallpaper: https://wallhaven.cc/w/mllvv1
 
 ** TODO:
    - Make a bash script to automate allat install stuff 
