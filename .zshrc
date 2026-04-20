@@ -1,5 +1,5 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 alias neofetch='fastfetch'
@@ -7,6 +7,7 @@ alias nrs='sudo darwin-rebuild switch --flake ~/nix'
 alias vi='nvim'
 alias vizsh='nvim ~/.zshrc; source ~/.zshrc'
 alias m='mkdir -p'
+alias cat='bat'
 alias y='yazi'
 alias news='newsboat'
 alias lg='lazygit'
