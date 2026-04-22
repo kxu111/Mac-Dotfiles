@@ -1,13 +1,15 @@
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		local name, kind = ev.data.spec.name, ev.data.kind
+		if name == "nvim-treesitter" and kind == "update" then
+			vim.cmd("TSUpdate")
+		end
 		if name == "blink.cmp" and kind == "install" or kind == "update" then
 			vim.cmd("BlinkCmp build")
 		end
 		if name == "telescope-fzf-native.nvim" and kind == "install" or kind == "update" then
 			vim.system({ "make" }, { vim.fn.stdpath("data") .. "/site/pack/core/opt/telescope-fzf-native.nvim" })
 		end
-		vim.cmd("TSUpdate")
 	end,
 })
 
@@ -360,17 +362,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("FileType", { -- enable treesitter highlighting and indents
-	callback = function(args)
-		local filetype = args.match
-		local lang = vim.treesitter.language.get_lang(filetype)
-		if vim.treesitter.language.add(lang) then
-			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-			vim.treesitter.start()
-		end
-	end,
-})
-
 -------------------
 --- COLORSCHEME ---
 -------------------
@@ -403,6 +394,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 local color_maps = {
 	["impaled-nazarene"] = "Black Metal (Khold)",
+	["gorgoroth"] = "Black Metal (Gorgoroth)",
+	["catppuccin"] = "Catppuccin Mocha",
 }
 
 local function map_colors(input)
@@ -417,8 +410,8 @@ end
 local theme_file = vim.fn.expand("~/current-theme.txt")
 
 local function sync_themes()
-	vim.cmd("!bash ~/.config/scripts/sync-themes.sh &")
-	vim.cmd("!bash ~/.config/scripts/update-wallpaper.sh &")
+		vim.cmd("!bash ~/.config/scripts/sync-themes.sh &")
+		vim.cmd("!bash ~/.config/scripts/update-wallpaper.sh &")
 	vim.api.nvim_input("<CR>")
 end
 

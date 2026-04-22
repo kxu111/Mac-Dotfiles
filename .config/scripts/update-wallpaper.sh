@@ -10,3 +10,6 @@ fi
 if [ "$current_theme" = "oxocarbon" ]; then
     desktoppr "$HOME/Pictures/walls/mushrooms.jpg"
 fi
+if [ "$current_theme" = "Catppuccin Mocha" ]; then
+    desktoppr "$HOME/Pictures/walls/diner-lonely-road.jpg"
+fi
