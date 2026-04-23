@@ -1,25 +1,36 @@
-theme = Vague
-
 command = ~/.config/scripts/auto-attach.sh
-
 confirm-close-surface = false
 macos-titlebar-style = hidden
+
+theme = Vague
+background = "#000000"
+
+window-padding-x = 28
+window-padding-y = 28
 
 cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 
-window-padding-x = 28
-window-padding-y = 28
-
-font-size = 16
+font-size = 18
 font-family = "Iosevka Nerd Font Mono"
 font-thicken = true
 font-thicken-strength = 255
-
 font-style = "Regular"
 font-style-bold = "Bold"
 font-style-italic = "Italic"
 font-style-bold-italic = "Bold Italic"
 
-background = "#000000"
+
+keybind = super+digit_1=text:\x02\x31
+keybind = super+digit_2=text:\x02\x32
+keybind = super+digit_3=text:\x02\x33
+keybind = super+digit_4=text:\x02\x34
+keybind = super+digit_5=text:\x02\x35
+keybind = super+digit_6=text:\x02\x36
+keybind = super+digit_7=text:\x02\x37
+keybind = super+digit_8=text:\x02\x38
+keybind = super+digit_9=text:\x02\x39
+
+keybind = super+b=text:\x02\x5c
+keybind = super+l=text:\x02\x7c
