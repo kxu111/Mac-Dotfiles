@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "aporetic-nerd-font": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1760462493,
-        "narHash": "sha256-wvzjwnLeaabfhjZCfGpqolalBslcI5oFAdwuQG9VbBI=",
-        "owner": "Echinoidea",
-        "repo": "Aporetic-Nerd-Font",
-        "rev": "88ae58addaa9240cf329b389afb21338748ec749",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Echinoidea",
-        "repo": "Aporetic-Nerd-Font",
-        "type": "github"
-      }
-    },
     "brew-src": {
       "flake": false,
       "locked": {
@@ -32,6 +14,24 @@
         "owner": "Homebrew",
         "ref": "5.1.1",
         "repo": "brew",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
         "type": "github"
       }
     },
@@ -66,6 +66,21 @@
         "repo": "homebrew-core",
         "type": "github"
       }
+    },
+    "iosevka-custom": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "path": "modules/iosevka-custom",
+        "type": "path"
+      },
+      "original": {
+        "path": "modules/iosevka-custom",
+        "type": "path"
+      },
+      "parent": []
     },
     "nix-darwin": {
       "inputs": {
@@ -108,15 +123,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1776361485,
-        "narHash": "sha256-0jX3Q2bI/wTFcz7HNouCLaNODz3LI6elBYdUaPuh4xA=",
+        "lastModified": 1776548001,
+        "narHash": "sha256-ZSK0NL4a1BwVbbTBoSnWgbJy9HeZFXLYQizjb2DPF24=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c8f5b96f5a6222a573cb0c61b74d47ffd868d7b6",
+        "rev": "b12141ef619e0a9c1c84dc8c684040326f27cdcc",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -139,12 +155,27 @@
     },
     "root": {
       "inputs": {
-        "aporetic-nerd-font": "aporetic-nerd-font",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "iosevka-custom": "iosevka-custom",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_2"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
       }
     }
   },
