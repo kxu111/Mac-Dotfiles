@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   system.primaryUser = "kenny";
   system.defaults = {
     dock = {
@@ -11,7 +15,7 @@
       persistent-apps = [
         "/Applications/Librewolf.app"
         "/Applications/Vesktop.app"
-		"/Applications/Spotify.app/"
+        "/Applications/Spotify.app/"
         "/Applications/Steam.app/"
         "/Applications/WhatsApp.app"
         "/Applications/Helium.app"
@@ -34,4 +38,9 @@
     };
     screencapture.location = "~/Pictures/Screenshots";
   };
+
+  nix.settings.experimental-features = "nix-command flakes";
+  system.configurationRevision = self.rev or self.dirtyRev or null;
+  system.stateVersion = 6;
+  nixpkgs.hostPlatform = "aarch64-darwin";
 }
