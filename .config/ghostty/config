@@ -1,4 +1,4 @@
-config-file = ~/.config/ghostty/term-theme.txt
+theme = Vague
 
 command = ~/.config/scripts/auto-attach.sh
 
@@ -13,7 +13,7 @@ window-padding-x = 28
 window-padding-y = 28
 
 font-size = 16
-font-family = "Iosevka Custom"
+font-family = "Iosevka Nerd Font Mono"
 font-thicken = true
 font-thicken-strength = 255
 

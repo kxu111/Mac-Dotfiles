@@ -39,11 +39,7 @@ local ts_parsers = {
 -- stylua: ignore end
 
 vim.pack.add({
-	{ src = "https://github.com/rktjmp/lush.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
-	{ src = "https://github.com/anAcc22/sakura.nvim" },
-	{ src = "https://github.com/metalelf0/black-metal-theme-neovim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -321,7 +317,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -------------------
 --- COLORSCHEME ---
 -------------------
-vim.cmd("colorscheme vague")
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
@@ -353,3 +348,4 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		end, 100)
 	end,
 })
+vim.cmd("colorscheme vague")
