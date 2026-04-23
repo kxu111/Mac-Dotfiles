@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, iosevka-custom, ...}: {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
@@ -10,7 +10,7 @@
     ripgrep
     rustup
     tmux
-	tree
+    tree
     tealdeer
     unzip
     python3
@@ -21,8 +21,13 @@
     skim
     newsboat
     bat
-	lazygit
-	eza
+    lazygit
+    eza
+  ];
+
+  fonts.packages = [
+    pkgs.maple-mono.NF
+    iosevka-custom.packages.aarch64-darwin.default
   ];
 
   services.yabai.enable = true;

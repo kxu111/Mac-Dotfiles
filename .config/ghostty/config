@@ -13,7 +13,7 @@ window-padding-x = 28
 window-padding-y = 28
 
 font-size = 16
-font-family = "Iosevka Nerd Font Mono"
+font-family = "Iosevka Custom"
 font-thicken = true
 font-thicken-strength = 255
 
