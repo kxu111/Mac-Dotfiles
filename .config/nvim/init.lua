@@ -39,8 +39,10 @@ local ts_parsers = {
 -- stylua: ignore end
 
 vim.pack.add({
+	{ src = "https://github.com/rktjmp/lush.nvim" },
 	{ src = "https://github.com/vague-theme/vague.nvim" },
 	{ src = "https://github.com/nyoom-engineering/oxocarbon.nvim" },
+	{ src = "https://github.com/anAcc22/sakura.nvim" },
 	{ src = "https://github.com/metalelf0/black-metal-theme-neovim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
@@ -319,6 +321,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -------------------
 --- COLORSCHEME ---
 -------------------
+vim.cmd("colorscheme vague")
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
@@ -350,72 +353,3 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		end, 100)
 	end,
 })
-
-local color_maps = {
-	["impaled-nazarene"] = "Black Metal (Khold)",
-	["gorgoroth"] = "Black Metal (Gorgoroth)",
-	["catppuccin"] = "Catppuccin Mocha",
-}
-
-local function map_colors(input)
-	for key, scheme in pairs(color_maps) do
-		if tostring(key) == input then
-			return scheme
-		end
-	end
-	return input
-end
-
-local theme_file = vim.fn.expand("~/current-theme.txt")
-
-local function sync_themes()
-	vim.cmd("!bash ~/.config/scripts/sync-themes.sh &")
-	vim.cmd("!bash ~/.config/scripts/update-wallpaper.sh &")
-	vim.api.nvim_input("<CR>")
-end
-
-local function change_theme(theme)
-	local file = io.open(theme_file, "w")
-	local theme_mapped = map_colors(theme)
-	if file then
-		file:write(theme_mapped)
-		file:close()
-	end
-	vim.cmd("colorscheme " .. theme)
-	sync_themes()
-end
-local function load_theme()
-	local file = io.open(theme_file, "r")
-	local theme = ""
-	local mapped = false
-	if file then
-		theme = file:read("l")
-		file:close()
-	end
-	for key, scheme in pairs(color_maps) do
-		if theme == scheme then
-			vim.cmd("colorscheme " .. tostring(key))
-			mapped = true
-		end
-	end
-	if mapped == false then
-		vim.cmd("colorscheme " .. theme)
-	end
-end
-
-vim.keymap.set("n", "<Leader>fc", function()
-	builtin.colorscheme({
-		attach_mappings = function(prompt_bufnr, map)
-			map({ "n", "i" }, "<CR>", function()
-				local selection = require("telescope.actions.state").get_selected_entry()
-				require("telescope.actions").close(prompt_bufnr)
-				if selection then
-					change_theme(selection.value)
-				end
-			end)
-			return true
-		end,
-	})
-end, { desc = "Colorscheme" })
-
-load_theme()
