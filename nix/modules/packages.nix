@@ -1,4 +1,4 @@
-{pkgs, iosevka-custom, ...}: {
+{pkgs, ...}: {
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
@@ -25,9 +25,9 @@
     eza
   ];
 
-  fonts.packages = [
-    pkgs.maple-mono.NF
-    iosevka-custom.packages.aarch64-darwin.default
+  fonts.packages = with pkgs; [
+    nerd-fonts.iosevka
+    maple-mono.NF
   ];
 
   services.yabai.enable = true;

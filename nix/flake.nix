@@ -15,7 +15,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-	iosevka-custom.url = "path:modules/iosevka-custom";
   };
 
   outputs = inputs @ {
@@ -25,13 +24,11 @@
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
-	iosevka-custom,
     ...
   }: {
     darwinConfigurations."kennys-MacBook-Air" = nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit self;
-		inherit iosevka-custom;
       };
       modules = [
         ./modules/packages.nix
