@@ -304,16 +304,6 @@ end
 vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Clean" })
 vim.keymap.set("n", "<Leader>pc", clean_all, { desc = "All" })
 
-----------------
---- AUTOCMDS ---
-----------------
-vim.api.nvim_create_autocmd("TextYankPost", {
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-	callback = function()
-		vim.hl.on_yank()
-	end,
-})
-
 -------------------
 --- COLORSCHEME ---
 -------------------
