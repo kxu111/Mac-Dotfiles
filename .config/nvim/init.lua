@@ -1,18 +1,4 @@
-vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function(ev)
-		local name, kind = ev.data.spec.name, ev.data.kind
-		if name == "nvim-treesitter" and kind == "update" then
-			vim.cmd("TSUpdate")
-		end
-		if name == "blink.cmp" and kind == "install" or kind == "update" then
-			vim.cmd("BlinkCmp build")
-		end
-		if name == "telescope-fzf-native.nvim" and kind == "install" or kind == "update" then
-			vim.system({ "make" }, { vim.fn.stdpath("data") .. "/site/pack/core/opt/telescope-fzf-native.nvim" })
-		end
-	end,
-})
-
+require("autocmds")
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
@@ -73,6 +59,7 @@ vim.pack.add({
 	{ src = "https://github.com/folke/flash.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/kawre/neotab.nvim" },
+	{ src = "https://github.com/chipsenkbeil/org-roam.nvim" },
 	{ src = "https://github.com/nvim-orgmode/orgmode" },
 	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
 	{ src = "https://github.com/nvim-orgmode/telescope-orgmode.nvim" },
@@ -88,8 +75,8 @@ require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 require("mini.pairs").setup({
 	mappings = {
-		["<"] = { action = "open", pair = "<>", neigh_pattern = "^[^\\]" },
-		[">"] = { action = "close", pair = "<>", neigh_pattern = "^[^\\]" },
+		["<"] = { action = "open", pair = "<>" },
+		[">"] = { action = "close", pair = "<>" },
 	},
 })
 require("mini.surround").setup()
@@ -102,41 +89,6 @@ require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.cmdline").setup({ autocomplete = { enable = false } })
 require("mini.statusline").setup()
-require("mini.starter").setup({
-	items = {
-		{ name = "Find files", action = [[:Telescope find_files]], section = "Telescope" },
-		{ name = "Live grep", action = [[:Telescope live_grep]], section = "Telescope" },
-		{ name = "Help tags", action = [[:Telescope help_tags]], section = "Telescope" },
-		{ name = "Man pages", action = [[:Telescope man_pages]], section = "Telescope" },
-	},
-	header = [[
-         .                  *.                                                                               
-       .*%0.                &&*.                                                                             
-     .*%%%00*               &&&&*.                                                     .*.                   
-   .*%%%%%000*              &&&&&&*.                          ..*******.              .%@&'                  
- .*%%%%%%%00000             &&&&&&&&*.                 .*0&%%@@@@@@@@@@@&0^          *@@@&'                  
-*00%%%%%%%000000.           &&&&&&&&&&*            o&@@@@%&00*^^^''''^^*0%&'       *@@@&                     
-0000%%%%%%0000000*          &&&&&&&&&&&          '%@@%0^ .*.              &%000&&&&@@@@&&&0o                 
-000000%%%%000000000.        &&&&&&&&&&&           0@*   0%@@0            *@@&&000%@@@0^^'                    
-0000000%%%0000000000*       &&&&&&&&&&&                00*@@0          *&@%'    0@@@0                  *.    
-00000000%%000000000000      &&&&&&&&&&&               0 *@@%        .0%@@0'    0@@@0     *%&          &@%'   
-000000000%'000000000000.    &&&&&&&&&&&              ^ 0@@%'     .o&@@&^      0@@@0     *@@&  .*.    &@@0    
-0000000000 '000000000000.   &&&&&&&&&&&             .*&@@%'  .*0%@@&*'       *@@@0     *@@%  .0@%   0@@*     
-0000000000   '00000000000*  &&&&&&&&&&&            *0%@@@%%%@@@%0^          *@@@0     *@@%  *%@@%  *@@^      
-0000000000    '000000000000.&&&&&&&&&&&           @@@@@@@@@@@%0'           '@@@&     *@@%  &0%@@* *@%'       
-0000000000      000000000000%&&&&&&&&&&           0@@@^    '^00%@&o.       %@@%'    *@@@'.&^0@@% *@%'        
-0000000000       ^0000000000%%&&&&&&&&&          '@@%'          '0@@&'    &@@@'   .&@@@ 0&''@@@*o@&          
-0000000000        '000000000%%%%&&&&&&&         '@@%'            0@@@0   *@@@^  .00@@@0&0  %@@%0@0           
-0000000000          00000000%%%%%%&&&&&        '@@&           .0@@@@0   '@@@* .*0'&@@@%*  *@@@%@0            
-0000000000           '000000%%%%%%%%&&*        %@0        .*&%@@%&^     0@@&'0&^ ^@@@@^   &@@@@*             
- ^00000000            '00000%%%%%%'.*.         *0'  .*00&%@@@&0*'       ^0@@%&^    0@@&    &@@%^             
-   ^000000              ^000%%%%% &@&0o.o0000&&%%@@@@%&0*^'              ^0^        ''     ''                
-     ^0000               '00%%%%% ^&&%%%%&&&&000*^^'                                                         
-       ^00                '0%%%%'                                                                            
-         '                  ^''                                                                              ]],
-	footer = [[]],
-	silent = true,
-})
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -144,13 +96,12 @@ require("oil").setup({
 	view_options = {
 		show_hidden = true,
 		is_always_hidden = function(name, bufnr)
-			if name == ".." then
+			if name == ".." or name == ".DS_Store" then
 				return bufnr
 			end
 		end,
 	},
 })
-vim.keymap.set("n", "<Leader>e", "<Cmd>Oil<CR>", { desc = "Open Oil" })
 vim.keymap.set("n", "-", "<Cmd>Oil<CR>", { desc = "Open Oil" })
 
 require("telescope").setup({
@@ -201,10 +152,9 @@ vim.keymap.set("n", "<Leader>hr", function() harpoon:list():remove() end, { desc
 vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
 for i =	1, 4 do
-	vim.keymap.set("n", "<Leader>" .. i, function() harpoon:list():select(i) end,
+	vim.keymap.set("n", "<Leader>h" .. i, function() harpoon:list():select(i) end,
 	{ desc = "Go to harpoon item " .. i })
 end
--- stylua: ignore end
 
 require("blink.cmp").setup({
 	completion = {
@@ -259,6 +209,9 @@ require("orgmode").setup({
 	org_agenda_files = "~/notes/**/*",
 	org_default_notes_file = "~/notes/refile.org",
 })
+require("org-roam").setup({
+	directory = "~/notes",
+})
 require("org-bullets").setup()
 vim.lsp.enable("org")
 
@@ -285,8 +238,10 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
+for i = 1, 9 do
+	vim.keymap.set("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
+end
 
-vim.keymap.set({ "n", "v" }, "<Leader>n", ":norm ", { desc = "Enter norm" })
 vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
 vim.keymap.set({ "n", "v" }, "<C-c>", "zz", { desc = "Enter substitute mode in selection" })
@@ -321,7 +276,6 @@ local function pack_clean()
 end
 
 local function ts_clean(parsers)
-	local ts_dir = vim.fn.stdpath("data") .. "/site/parser"
 	local desired = {}
 	local installed = {}
 
@@ -329,7 +283,7 @@ local function ts_clean(parsers)
 		desired[p] = true
 	end
 
-	for file in vim.fs.dir(ts_dir) do
+	for file in vim.fs.dir(vim.fn.stdpath("data") .. "/site/parser") do
 		if file:match("%.so$") then
 			local parser = file:gsub("%.so$", "")
 			installed[parser] = true
@@ -382,13 +336,18 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
 		vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { bg = "none" })
 
-		vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = bg })
-		vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = bg })
-		vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { fg = constant, bg = line })
-		vim.api.nvim_set_hl(0, "BlinkCmpLabelMatch", { fg = string_color, bold = true })
-		vim.api.nvim_set_hl(0, "BlinkCmpSource", { bg = bg })
-		vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = bg })
-		vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = comment })
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+		vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+
+		vim.defer_fn(function()
+			vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "none" })
+			vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "none" })
+			vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { fg = constant, bg = line })
+			vim.api.nvim_set_hl(0, "BlinkCmpLabelMatch", { fg = string_color, bold = true })
+			vim.api.nvim_set_hl(0, "BlinkCmpSource", { bg = bg })
+			vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = bg })
+			vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = comment })
+		end, 100)
 	end,
 })
 
@@ -410,8 +369,8 @@ end
 local theme_file = vim.fn.expand("~/current-theme.txt")
 
 local function sync_themes()
-		vim.cmd("!bash ~/.config/scripts/sync-themes.sh &")
-		vim.cmd("!bash ~/.config/scripts/update-wallpaper.sh &")
+	vim.cmd("!bash ~/.config/scripts/sync-themes.sh &")
+	vim.cmd("!bash ~/.config/scripts/update-wallpaper.sh &")
 	vim.api.nvim_input("<CR>")
 end
 
@@ -442,10 +401,9 @@ local function load_theme()
 	if mapped == false then
 		vim.cmd("colorscheme " .. theme)
 	end
-	sync_themes()
 end
 
-vim.keymap.set("n", "<leader>fc", function()
+vim.keymap.set("n", "<Leader>fc", function()
 	builtin.colorscheme({
 		attach_mappings = function(prompt_bufnr, map)
 			map({ "n", "i" }, "<CR>", function()
