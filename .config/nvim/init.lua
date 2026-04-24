@@ -1,4 +1,3 @@
-require("autocmds")
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
@@ -48,12 +47,12 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
 	{ src = "https://github.com/nvim-mini/mini.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
 	{ src = "https://github.com/thePrimeagen/harpoon", version = "harpoon2" },
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/folke/flash.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/kawre/neotab.nvim" },
@@ -87,6 +86,14 @@ require("mini.splitjoin").setup()
 require("mini.comment").setup()
 require("mini.cmdline").setup({ autocomplete = { enable = false } })
 require("mini.statusline").setup()
+require("mini.move").setup({
+	mappings = {
+		left = "H",
+		right = "L",
+		down = "J",
+		up = "K",
+	},
+})
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -101,6 +108,14 @@ require("oil").setup({
 	},
 })
 vim.keymap.set("n", "-", "<Cmd>Oil<CR>", { desc = "Open Oil" })
+
+require("conform").setup({
+	formatters_by_ft = formatters,
+	format_on_save = {
+		lsp_format = "fallback",
+		timeout_ms = 500,
+	},
+})
 
 require("telescope").setup({
 	defaults = {
@@ -153,6 +168,7 @@ for i =	1, 4 do
 	vim.keymap.set("n", "<Leader>h" .. i, function() harpoon:list():select(i) end,
 	{ desc = "Go to harpoon item " .. i })
 end
+-- stylua: ignore end
 
 require("blink.cmp").setup({
 	completion = {
@@ -182,10 +198,6 @@ require("blink.cmp").setup({
 		},
 	},
 })
-
-require("conform").setup({ formatters_by_ft = formatters })
-vim.keymap.set("n", "<Leader>l", "", { noremap = true, silent = true, desc = "Formatters" })
-vim.keymap.set("n", "<Leader>lf", require("conform").format, { desc = "Format buffer" })
 
 require("flash").setup({ modes = { char = { enabled = false } } })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
@@ -335,7 +347,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			vim.api.nvim_set_hl(0, "BlinkCmpSource", { bg = bg })
 			vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = bg })
 			vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = comment })
-		end, 100)
+		end, 200)
 	end,
 })
 vim.cmd("colorscheme vague")
+
+----------------
+--- AUTOCMDS ---
+----------------
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	callback = function()
+		vim.hl.on_yank()
+	end,
+})
