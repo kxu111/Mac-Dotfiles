@@ -15,6 +15,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    aerospace = {
+      url = "github:nikitabobko/homebrew-tap";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -24,6 +28,7 @@
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
+    aerospace,
     ...
   }: {
     darwinConfigurations."kennys-MacBook-Air" = nix-darwin.lib.darwinSystem {
@@ -44,6 +49,7 @@
             taps = {
               "homebrew/homebrew-core" = homebrew-core;
               "homebrew/homebrew-cask" = homebrew-cask;
+              "nikitabobko/homebrew-tap" = aerospace;
             };
 
             mutableTaps = false;

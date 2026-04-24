@@ -28,6 +28,7 @@
       "ghostty"
       "desktoppr"
       "karabiner-elements"
+      "aerospace"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

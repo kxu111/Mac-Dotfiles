@@ -29,7 +29,4 @@
     nerd-fonts.iosevka
     maple-mono.NF
   ];
-
-  services.yabai.enable = true;
-  services.skhd.enable = true;
 }

@@ -1,0 +1,83 @@
+start-at-login = true
+
+config-version = 2
+
+persistent-workspaces = ['TERM', 'BROWSR', 'FIND', 'MSG']
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+[gaps]
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 8
+outer.bottom = 8
+outer.top = 8
+outer.right = 8
+
+[mode.main.binding]
+# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
+alt-shift-s = 'exec-and-forget screencapture -i -c'
+
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+alt-ctrl-h = 'join-with left'
+alt-ctrl-j = 'join-with down'
+alt-ctrl-k = 'join-with up'
+alt-ctrl-l = 'join-with right'
+
+alt-f = 'fullscreen'
+
+# alt-s = 'layout v_accordion'
+alt-w = 'layout h_accordion'
+alt-e = 'layout tiles horizontal vertical'
+
+alt-shift-space = 'layout floating tiling'
+
+alt-1 = 'workspace TERM'
+alt-2 = 'workspace BROWSR'
+alt-3 = 'workspace FIND'
+alt-4 = 'workspace MSG'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+alt-shift-1 = 'move-node-to-workspace TERM'
+alt-shift-2 = 'move-node-to-workspace BROWSR'
+alt-shift-3 = 'move-node-to-workspace FIND'
+alt-shift-4 = 'move-node-to-workspace MSG'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+
+alt-enter = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh TERM com.mitchellh.ghostty'
+alt-b = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair BROWSR org.mozilla.librewolf'
+alt-v = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MSG dev.vencord.vesktop'
+
+alt-shift-c = 'reload-config'
+
+alt-r = 'mode resize'
+
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'
