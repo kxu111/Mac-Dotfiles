@@ -33,4 +33,4 @@ keybind = super+digit_8=text:\x02\x38
 keybind = super+digit_9=text:\x02\x39
 
 keybind = super+b=text:\x02\x5c
-keybind = super+l=text:\x02\x7c
+keybind = super+o=text:\x02\x7c
