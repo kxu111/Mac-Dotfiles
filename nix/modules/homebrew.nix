@@ -12,9 +12,9 @@
       "node"
       "mole"
       "zsh-syntax-highlighting"
-	  "pkgconfig"
-	  "raylib"
-	  "yt-dlp"
+      "pkgconfig"
+      "raylib"
+      "yt-dlp"
     ];
     casks = [
       "librewolf"
@@ -23,11 +23,11 @@
       "helium-browser"
       "sioyek"
       "obs"
-	  "vlc"
+      "vlc"
       "raycast"
       "ghostty"
-	  "alt-tab"
-	  "desktoppr"
+      "desktoppr"
+      "karabiner-elements"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;
