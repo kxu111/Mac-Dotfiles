@@ -18,6 +18,7 @@ local mason_pkgs = {
 	"clangd", "clang-format",
 	"rust-analyzer",
 	"pyright", "black",
+	"taplo",
 }
 local formatters = {
 	lua = { "stylua" },
@@ -25,6 +26,7 @@ local formatters = {
 	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
 	py = { "black" },
+	toml = { "taplo" },
 }
 local ts_parsers = {
 	"lua",
@@ -144,11 +146,11 @@ vim.keymap.set("n", "<Leader>f", "", { noremap = true, silent = true, desc = "Te
 vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
 vim.keymap.set("n", "<Leader>fa", pick_all, { desc = "ALL files" })
 vim.keymap.set("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
-vim.keymap.set("n", "<Leader>fg", builtin.live_grep, { desc = "Grep" })
+vim.keymap.set("n", "<Leader>fl", builtin.live_grep, { desc = "Grep" })
 vim.keymap.set("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
 vim.keymap.set("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
 vim.keymap.set("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
-vim.keymap.set("n", "<Leader>fl", builtin.treesitter, { desc = "Treesitter search" })
+-- vim.keymap.set("n", "<Leader>fl", builtin.treesitter, { desc = "Treesitter search" })
 
 vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org telescope" })
 vim.keymap.set("n", "<Leader>oh", ext.search_headings, { desc = "Files & Headlines" })
