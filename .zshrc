@@ -11,6 +11,7 @@ alias cat='bat'
 alias y='yazi'
 alias news='newsboat'
 alias lg='lazygit'
+alias cron-sync="crontab ~/dotfiles/crontab"
 
 alias ls='eza --icons --group-directories-first'
 alias l='eza -l'
