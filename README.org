@@ -1,12 +1,6 @@
 * Personal dotfiles using nix-darwin and stow.
    Not everything in here is fully declarative using nix, I'm too lazy for home-manager bullcrap \\
    Things that I probably need to setup again if I wipe this laptop:
-   - SpotX-Bash
-   - Some system settings 
-   - Raycast
-   - Yabai scripting addition
-	 Tmux scripts stolen from Sylvan Franklin \\
+   - SpotX-Bash (ik home-manager can probably do this but it's literally 1 command)
+   - helium browser, but that stuff is all stored in the deepstate with palantir anyways
 
-** TODO:
-   - Make a bash script to automate allat install stuff 
-   - Get a job (impossible)
