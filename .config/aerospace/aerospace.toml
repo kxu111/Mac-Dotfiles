@@ -18,7 +18,7 @@ outer.top = 6
 outer.right = 8
 
 [mode.main.binding]
-cmd-shift-s = 'exec-and-forget screencapture -i -c'
+alt-shift-s = 'exec-and-forget screencapture -i -c'
 
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
@@ -83,3 +83,4 @@ k = 'resize height -50'
 l = 'resize width +50'
 enter = 'mode main'
 esc = 'mode main'
+alt-r = 'mode main'

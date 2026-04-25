@@ -63,8 +63,8 @@ vim.pack.add({
 	{ src = "https://github.com/folke/flash.nvim" },
 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 	{ src = "https://github.com/kawre/neotab.nvim" },
-	{ src = "https://github.com/chipsenkbeil/org-roam.nvim" },
 	{ src = "https://github.com/nvim-orgmode/orgmode" },
+	{ src = "https://github.com/chipsenkbeil/org-roam.nvim" },
 	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
 	{ src = "https://github.com/nvim-orgmode/telescope-orgmode.nvim" },
 })
@@ -94,12 +94,7 @@ require("mini.comment").setup()
 require("mini.cmdline").setup({ autocomplete = { enable = false } })
 require("mini.statusline").setup()
 require("mini.move").setup({
-	mappings = {
-		left = "H",
-		right = "L",
-		down = "J",
-		up = "K",
-	},
+	mappings = { left = "H", right = "L", down = "J", up = "K" },
 })
 
 require("oil").setup({
