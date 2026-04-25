@@ -17,7 +17,6 @@
       "yt-dlp"
     ];
     casks = [
-      "librewolf"
       "vesktop"
       "steam"
       "helium-browser"
