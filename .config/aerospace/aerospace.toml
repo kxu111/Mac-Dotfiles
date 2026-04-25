@@ -66,12 +66,12 @@ alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-0 = 'move-node-to-workspace 10'
 
-alt-a = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh TERM com.mitchellh.ghostty'
-alt-f = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair BROWSR net.imput.helium'
-alt-e = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair FIND com.apple.finder'
-alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MSG dev.vencord.vesktop'
-alt-c = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MSG net.whatsapp.WhatsApp'
-alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MUSIC com.spotify.client'
+alt-a = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.mitchellh.ghostty TERM'
+alt-f = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.imput.helium BROWSR'
+alt-e = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.finder FIND'
+alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh dev.vencord.vesktop MSG'
+alt-c = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.whatsapp.WhatsApp MSG'
+alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.spotify.client MUSIC'
 
 alt-shift-c = 'reload-config'
 
