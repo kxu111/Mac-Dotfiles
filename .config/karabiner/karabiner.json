@@ -8,13 +8,13 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Change left_command+hjkl to arrow keys",
+                        "description": "Change command+hjkl to arrow keys",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
-                                        "mandatory": ["left_command"],
+                                        "mandatory": ["command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -25,7 +25,7 @@
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
-                                        "mandatory": ["left_command"],
+                                        "mandatory": ["command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -36,7 +36,7 @@
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": {
-                                        "mandatory": ["left_command"],
+                                        "mandatory": ["command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -47,12 +47,39 @@
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": {
-                                        "mandatory": ["left_command"],
+                                        "mandatory": ["command"],
                                         "optional": ["any"]
                                     }
                                 },
                                 "to": [{ "key_code": "right_arrow" }],
                                 "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Option+Shift+F to Fullscreen",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "f",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_option",
+                                            "left_shift"
+                                        ],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "f",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_command"
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }
