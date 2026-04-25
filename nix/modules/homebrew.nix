@@ -23,7 +23,6 @@
       "sioyek"
       "obs"
       "vlc"
-      "raycast"
       "ghostty"
       "desktoppr"
       "karabiner-elements"
