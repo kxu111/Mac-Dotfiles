@@ -14,12 +14,11 @@ inner.horizontal = 8
 inner.vertical = 8
 outer.left = 8
 outer.bottom = 8
-outer.top = 8
+outer.top = 6
 outer.right = 8
 
 [mode.main.binding]
-# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
-alt-shift-s = 'exec-and-forget screencapture -i -c'
+cmd-shift-s = 'exec-and-forget screencapture -i -c'
 
 alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
 alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
@@ -36,9 +35,8 @@ alt-ctrl-j = 'join-with down'
 alt-ctrl-k = 'join-with up'
 alt-ctrl-l = 'join-with right'
 
-alt-shift-f = 'fullscreen'
+alt-m = 'fullscreen'
 
-#'layout v_accordion'
 alt-w = 'layout h_accordion'
 alt-t = 'layout tiles horizontal vertical'
 
