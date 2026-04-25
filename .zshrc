@@ -21,13 +21,17 @@ alias llh='eza -lh'
 alias llah='eza -lah'
 
 # tmux aliases
-alias tn='tmux new-session -s'
 alias tls='tmux ls'
 ta() {
+    # If no tmux sessions exist, create one
+    if ! tmux has-session 2>/dev/null; then
+        tmux new-session -d -s "$(whoami)"
+    fi
+    # If argument provided, attach to that session
     if [ -n "$1" ]; then
-        tmux attach-session -t "$1"
+        tmux attach -t "$1"
     else
-        tmux attach-session
+        tmux attach
     fi
 }
 tkill() {

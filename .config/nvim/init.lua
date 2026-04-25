@@ -19,6 +19,7 @@ local mason_pkgs = {
 	"rust-analyzer",
 	"pyright", "black",
 	"taplo",
+	"bashls", "shfmt", "shellcheck",
 }
 local formatters = {
 	lua = { "stylua" },
@@ -27,6 +28,7 @@ local formatters = {
 	rs = { "rustfmt" },
 	py = { "black" },
 	toml = { "taplo" },
+	sh = { "shfmt", "shellcheck" },
 }
 local ts_parsers = {
 	"lua",
@@ -36,6 +38,7 @@ local ts_parsers = {
 	"rust",
 	"markdown", "markdown_inline",
 	"python",
+	"bash",
 }
 -- stylua: ignore end
 
