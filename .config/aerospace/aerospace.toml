@@ -2,7 +2,7 @@ start-at-login = true
 
 config-version = 2
 
-persistent-workspaces = ['TERM', 'BROWSR', 'FIND', 'MSG', 'MUSIC']
+persistent-workspaces = ['TERM', 'BROWSR', 'FIND', 'MSG', 'MUSIC', 'NERD']
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -47,7 +47,7 @@ alt-2 = 'workspace BROWSR'
 alt-3 = 'workspace FIND'
 alt-4 = 'workspace MSG'
 alt-5 = 'workspace MUSIC'
-alt-6 = 'workspace 6'
+alt-6 = 'workspace NERD'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
@@ -58,7 +58,7 @@ alt-shift-2 = 'move-node-to-workspace BROWSR'
 alt-shift-3 = 'move-node-to-workspace FIND'
 alt-shift-4 = 'move-node-to-workspace MSG'
 alt-shift-5 = 'move-node-to-workspace MUSIC'
-alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-6 = 'move-node-to-workspace NERD'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
@@ -70,6 +70,7 @@ alt-e = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.find
 alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh dev.vencord.vesktop MSG'
 alt-c = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.whatsapp.WhatsApp MSG'
 alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.spotify.client MUSIC'
+alt-n = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.Dictionary NERD'
 
 alt-shift-c = 'reload-config'
 
