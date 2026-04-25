@@ -66,7 +66,7 @@ export FZF_COMPLETION_TRIGGER="ff"
 
 eval "$(zoxide init --cmd cd zsh)"
 
-KEYTIMEOUT=10
+KEYTIMEOUT=1
 bindkey -v
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
