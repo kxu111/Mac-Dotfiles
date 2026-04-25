@@ -20,6 +20,7 @@ local mason_pkgs = {
 	"pyright", "black",
 	"taplo",
 	"bashls", "shfmt", "shellcheck",
+	"prettier",
 }
 local formatters = {
 	lua = { "stylua" },
@@ -29,6 +30,7 @@ local formatters = {
 	py = { "black" },
 	toml = { "taplo" },
 	sh = { "shfmt", "shellcheck" },
+	json = { "prettier" },
 }
 local ts_parsers = {
 	"lua",
