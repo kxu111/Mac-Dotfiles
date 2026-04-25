@@ -10,4 +10,4 @@ color hint-separator      white   black   bold
 color hint-description    white   black
 color article             white   black
 
-browser LibreWolf
+browser "open -a helium"

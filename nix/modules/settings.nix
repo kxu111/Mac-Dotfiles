@@ -13,13 +13,14 @@
       show-recents = false;
       minimize-to-application = true;
       persistent-apps = [
-        "/Applications/Librewolf.app"
+        "/Applications/Ghostty.app"
+        "/Applications/Helium.app"
         "/Applications/Vesktop.app"
         "/Applications/Spotify.app/"
         "/Applications/Steam.app/"
         "/Applications/WhatsApp.app"
-        "/Applications/Helium.app"
         "/Applications/OBS.app"
+        "/Applications/DaVinci Resolve.app"
       ];
       mru-spaces = false;
     };
