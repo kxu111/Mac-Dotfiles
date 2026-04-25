@@ -2,7 +2,7 @@ start-at-login = true
 
 config-version = 2
 
-persistent-workspaces = ['TERM', 'BROWSR', 'FIND', 'MSG']
+persistent-workspaces = ['TERM', 'BROWSR', 'FIND', 'MSG', 'MUSIC']
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -21,10 +21,10 @@ outer.right = 8
 # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
 alt-shift-s = 'exec-and-forget screencapture -i -c'
 
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
+alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
+alt-k = 'focus --boundaries-action wrap-around-the-workspace up'
+alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
 
 alt-shift-h = 'move left'
 alt-shift-j = 'move down'
@@ -36,11 +36,11 @@ alt-ctrl-j = 'join-with down'
 alt-ctrl-k = 'join-with up'
 alt-ctrl-l = 'join-with right'
 
-alt-f = 'fullscreen'
+alt-shift-f = 'fullscreen'
 
-# alt-s = 'layout v_accordion'
+#'layout v_accordion'
 alt-w = 'layout h_accordion'
-alt-e = 'layout tiles horizontal vertical'
+alt-t = 'layout tiles horizontal vertical'
 
 alt-shift-space = 'layout floating tiling'
 
@@ -48,7 +48,7 @@ alt-1 = 'workspace TERM'
 alt-2 = 'workspace BROWSR'
 alt-3 = 'workspace FIND'
 alt-4 = 'workspace MSG'
-alt-5 = 'workspace 5'
+alt-5 = 'workspace MUSIC'
 alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
@@ -59,16 +59,19 @@ alt-shift-1 = 'move-node-to-workspace TERM'
 alt-shift-2 = 'move-node-to-workspace BROWSR'
 alt-shift-3 = 'move-node-to-workspace FIND'
 alt-shift-4 = 'move-node-to-workspace MSG'
-alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-5 = 'move-node-to-workspace MUSIC'
 alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-0 = 'move-node-to-workspace 10'
 
-alt-enter = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh TERM com.mitchellh.ghostty'
-alt-b = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair BROWSR org.mozilla.librewolf'
-alt-v = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MSG dev.vencord.vesktop'
+alt-a = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh TERM com.mitchellh.ghostty'
+alt-f = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair BROWSR net.imput.helium'
+alt-e = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair FIND com.apple.finder'
+alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MSG dev.vencord.vesktop'
+alt-c = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MSG net.whatsapp.WhatsApp'
+alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-home.sh --repair MUSIC com.spotify.client'
 
 alt-shift-c = 'reload-config'
 
