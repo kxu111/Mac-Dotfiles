@@ -17,30 +17,18 @@ local mason_pkgs = {
 	"nil", "alejandra",
 	"clangd", "clang-format",
 	"rust-analyzer",
-	"pyright", "black",
-	"taplo",
-	"bashls", "shfmt", "shellcheck",
-	"prettier",
 }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
-	py = { "black" },
-	toml = { "taplo" },
-	sh = { "shfmt", "shellcheck" },
-	json = { "prettier" },
 }
 local ts_parsers = {
 	"lua",
 	"nix",
-	"gitignore",
 	"c", "cpp",
 	"rust",
-	"markdown", "markdown_inline",
-	"python",
-	"bash",
 }
 -- stylua: ignore end
 
@@ -61,8 +49,6 @@ vim.pack.add({
 	{ src = "https://github.com/thePrimeagen/harpoon", version = "harpoon2" },
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
 	{ src = "https://github.com/folke/flash.nvim" },
-	{ src = "https://github.com/akinsho/toggleterm.nvim" },
-	{ src = "https://github.com/kawre/neotab.nvim" },
 	{ src = "https://github.com/nvim-orgmode/orgmode" },
 	{ src = "https://github.com/chipsenkbeil/org-roam.nvim" },
 	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
@@ -201,15 +187,10 @@ require("blink.cmp").setup({
 	},
 })
 
-require("flash").setup({ modes = { char = { enabled = false } } })
+require("flash").setup({ modes = { char = { enabled = true } } })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
-
-vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block" -- disable cursor blink
-require("toggleterm").setup({ open_mapping = [[<c-\>]], direction = "float" })
-
-require("neotab").setup({})
 
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
@@ -224,6 +205,8 @@ require("orgmode").setup({
 require("org-roam").setup({
 	directory = "~/notes",
 })
+vim.keymap.set("n", "<Leader>n", "", { noremap = true, silent = true, desc = "Org-roam" })
+vim.keymap.set("n", "<Leader>nd", "", { noremap = true, silent = true, desc = "Daily" })
 require("org-bullets").setup()
 vim.lsp.enable("org")
 
@@ -331,12 +314,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local string_color = hl(0, { name = "String", link = false }).fg
 		local comment = hl(0, { name = "Comment", link = false }).fg
 
-		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-		vim.api.nvim_set_hl(0, "LineNr", { fg = comment, bg = "none" })
-		vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+		-- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+		-- vim.api.nvim_set_hl(0, "LineNr", { fg = comment, bg = "none" })
+		-- vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
 		vim.api.nvim_set_hl(0, "statusline", { bg = "none" })
 		vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
-		vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { bg = "none" })
+		-- vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { bg = "none" })
 
 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 		vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })

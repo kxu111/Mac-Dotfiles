@@ -12,6 +12,7 @@ cursor-style-blink = false
 shell-integration-features = no-cursor
 
 font-size = 17
+# font-family = "Iosevka Nerd Font Mono"
 font-family = "Iosevka Nerd Font Mono"
 font-thicken = true
 font-thicken-strength = 255

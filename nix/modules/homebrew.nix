@@ -27,6 +27,7 @@
       "desktoppr"
       "karabiner-elements"
       "aerospace"
+      "anki"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

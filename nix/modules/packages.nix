@@ -28,5 +28,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.iosevka
     maple-mono.NF
+    kirsch
+    nerd-fonts.geist-mono
   ];
 }
