@@ -1,0 +1,18 @@
+alias neofetch='fastfetch'
+alias nrs='sudo darwin-rebuild switch --flake ~/nix'
+alias vi='nvim'
+alias reload='source ~/.zshrc'
+alias m='mkdir -p'
+alias cat='bat'
+alias y='yazi'
+alias news='newsboat'
+alias lg='lazygit'
+alias cron-sync="crontab ~/dotfiles/crontab"
+
+alias ls='eza --icons --group-directories-first'
+alias l='eza -l'
+alias ll='eza -l'
+alias la='eza -a'
+alias lla='eza -la'
+alias llh='eza -lh'
+alias llah='eza -lah'
