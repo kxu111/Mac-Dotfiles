@@ -1,3 +1,5 @@
+custom-shader = shaders/cursor-smear.glsl
+
 confirm-close-surface = false
 macos-titlebar-style = hidden
 
@@ -12,7 +14,6 @@ cursor-style-blink = false
 shell-integration-features = no-cursor
 
 font-size = 17
-# font-family = "Iosevka Nerd Font Mono"
 font-family = "Iosevka Nerd Font Mono"
 font-thicken = true
 font-thicken-strength = 255
@@ -35,5 +36,5 @@ keybind = super+digit_9=text:\x02\x39
 keybind = super+i=text:\x02\x5c
 keybind = super+o=text:\x02\x7c
 keybind = super+,=text:\x02,
-keybind = super+c=text:\x02x
 keybind = super+n=text:\x02c
+keybind = super+d=text:\x02x
