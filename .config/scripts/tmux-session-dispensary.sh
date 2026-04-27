@@ -5,7 +5,6 @@ DIRS=(
     "$HOME/.config"
 	"$HOME/playground"
     "$HOME/projects"
-    "$HOME/projects/raylib"
 	"$HOME/Movies"
 )
 
