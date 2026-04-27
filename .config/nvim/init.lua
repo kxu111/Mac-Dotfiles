@@ -49,6 +49,7 @@ vim.pack.add({
 	{ src = "https://github.com/thePrimeagen/harpoon", version = "harpoon2" },
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
 	{ src = "https://github.com/folke/flash.nvim" },
+	{ src = "https://github.com/kawre/neotab.nvim" },
 	{ src = "https://github.com/nvim-orgmode/orgmode" },
 	{ src = "https://github.com/chipsenkbeil/org-roam.nvim" },
 	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
@@ -191,6 +192,8 @@ vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "
 vim.keymap.set({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
 
+require("neotab").setup({})
+
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
@@ -237,9 +240,6 @@ for i = 1, 9 do
 end
 
 vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
-
-vim.keymap.set({ "n", "v" }, "<C-c>", "zz", { desc = "Enter substitute mode in selection" })
-vim.keymap.set("i", "<C-c>", "<C-o>zz", { desc = "Enter substitute mode in selection" })
 
 -----------------
 --- FUNCTIONS ---
