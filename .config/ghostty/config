@@ -35,3 +35,5 @@ keybind = super+digit_9=text:\x02\x39
 keybind = super+i=text:\x02\x5c
 keybind = super+o=text:\x02\x7c
 keybind = super+,=text:\x02,
+keybind = super+c=text:\x02x
+keybind = super+n=text:\x02c

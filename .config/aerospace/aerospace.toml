@@ -71,6 +71,7 @@ alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh dev.vencord.ve
 alt-c = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.whatsapp.WhatsApp MSG'
 alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.spotify.client MUSIC'
 alt-n = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.Dictionary NERD'
+alt-p = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh info.sioyek.sioyek BROWSR'
 
 alt-shift-c = 'reload-config'
 
