@@ -13,8 +13,10 @@
       "mole"
       "zsh-syntax-highlighting"
       "pkgconfig"
+      "cairo"
       "raylib"
       "yt-dlp"
+      "uv"
     ];
     casks = [
       "vesktop"

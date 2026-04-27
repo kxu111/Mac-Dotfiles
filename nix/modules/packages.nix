@@ -13,7 +13,6 @@
     tree
     tealdeer
     unzip
-    python3
     fzf
     zoxide
     yazi
@@ -23,6 +22,7 @@
     bat
     lazygit
     eza
+    ghostscript
   ];
 
   fonts.packages = with pkgs; [
