@@ -17,18 +17,21 @@ local mason_pkgs = {
 	"nil", "alejandra",
 	"clangd", "clang-format",
 	"rust-analyzer",
+	"pyright", "black"
 }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
+	py = { "black" },
 }
 local ts_parsers = {
 	"lua",
 	"nix",
 	"c", "cpp",
 	"rust",
+	"python"
 }
 -- stylua: ignore end
 
@@ -187,7 +190,6 @@ require("blink.cmp").setup({
 	},
 })
 
-require("flash").setup({ modes = { char = { enabled = true } } })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })

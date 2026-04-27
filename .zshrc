@@ -58,6 +58,8 @@ export TEALDEER_CONFIG_DIR=~/.config/tealdeer
 export PATH="$HOME/.cargo/bin:$PATH"
 export BAT_THEME=vague
 
+export PATH="/Users/kenny/.local/bin:$PATH"
+
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 
