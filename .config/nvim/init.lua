@@ -17,21 +17,18 @@ local mason_pkgs = {
 	"nil", "alejandra",
 	"clangd", "clang-format",
 	"rust-analyzer",
-	"pyright", "black"
 }
 local formatters = {
 	lua = { "stylua" },
 	nix = { "alejandra" },
 	c = { "clang-format" }, cpp = { "clang-format" },
 	rs = { "rustfmt" },
-	py = { "black" },
 }
 local ts_parsers = {
 	"lua",
 	"nix",
 	"c", "cpp",
 	"rust",
-	"python"
 }
 -- stylua: ignore end
 
