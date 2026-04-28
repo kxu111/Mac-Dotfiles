@@ -5,7 +5,6 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33
 # fzf
 source <(fzf --zsh)
 export FZF_DEFAULT_OPTS_FILE="$HOME/.config/fzf/config"
-export FZF_COMPLETION_TRIGGER="ff"
 
 # zoxide
 eval "$(zoxide init --cmd cd zsh)"
