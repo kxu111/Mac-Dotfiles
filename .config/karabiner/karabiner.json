@@ -8,6 +8,26 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Press Option+C to simulate Command twice and type 'chatgpt'",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "c",
+                                    "modifiers": {
+                                        "mandatory": ["option"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    { "key_code": "left_command" },
+                                    { "key_code": "left_command" },
+                                    { "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"chatgpt\"'" }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Change command+hjkl to arrow keys",
                         "manipulators": [
                             {
@@ -60,26 +80,20 @@
                         "description": "Option+Shift+F to Fullscreen",
                         "manipulators": [
                             {
-                                "type": "basic",
                                 "from": {
                                     "key_code": "f",
                                     "modifiers": {
-                                        "mandatory": [
-                                            "left_option",
-                                            "left_shift"
-                                        ],
+                                        "mandatory": ["left_option", "left_shift"],
                                         "optional": ["any"]
                                     }
                                 },
                                 "to": [
                                     {
                                         "key_code": "f",
-                                        "modifiers": [
-                                            "left_control",
-                                            "left_command"
-                                        ]
+                                        "modifiers": ["left_control", "left_command"]
                                     }
-                                ]
+                                ],
+                                "type": "basic"
                             }
                         ]
                     }
