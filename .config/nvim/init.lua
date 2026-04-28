@@ -7,82 +7,85 @@ vim.o.wrap = false
 vim.o.signcolumn = "yes"
 vim.o.winborder = "rounded"
 vim.o.termguicolors = true
-vim.o.undofile = true
-vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
-
--- stylua: ignore start
-local mason_pkgs = {
-	"tree-sitter-cli",
-	"lua_ls", "stylua",
-	"nil", "alejandra",
-	"clangd", "clang-format",
-	"rust-analyzer",
-}
-local formatters = {
-	lua = { "stylua" },
-	nix = { "alejandra" },
-	c = { "clang-format" }, cpp = { "clang-format" },
-	rs = { "rustfmt" },
-}
-local ts_parsers = {
-	"lua",
-	"nix",
-	"c", "cpp",
-	"rust",
-}
--- stylua: ignore end
 
 vim.pack.add({
-	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
-	{ src = "https://github.com/nvim-mini/mini.nvim" },
-	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
-	{ src = "https://github.com/thePrimeagen/harpoon", version = "harpoon2" },
+	"https://github.com/vague-theme/vague.nvim",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/mason-org/mason-lspconfig.nvim",
+	"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/stevearc/conform.nvim",
+	"https://github.com/nvim-mini/mini.nvim",
+	"https://github.com/ibhagwan/fzf-lua",
+	"https://github.com/stevearc/oil.nvim",
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
-	{ src = "https://github.com/folke/flash.nvim" },
-	{ src = "https://github.com/kawre/neotab.nvim" },
-	{ src = "https://github.com/nvim-orgmode/orgmode" },
-	{ src = "https://github.com/chipsenkbeil/org-roam.nvim" },
-	{ src = "https://github.com/nvim-orgmode/org-bullets.nvim" },
-	{ src = "https://github.com/nvim-orgmode/telescope-orgmode.nvim" },
+	"https://github.com/folke/flash.nvim",
+	"https://github.com/kawre/neotab.nvim",
 })
 
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-tool-installer").setup({ ensure_installed = mason_pkgs, auto_update = true })
+require("mason-tool-installer").setup({
+	ensure_installed = {
+		"tree-sitter-cli",
+		"lua_ls",
+		"stylua",
+		"nil",
+		"alejandra",
+		"clangd",
+		"clang-format",
+		"rust-analyzer",
+	},
+	auto_update = true,
+})
+local ts_parsers = {
+	"lua",
+	"nix",
+	"c",
+	"cpp",
+	"rust",
+}
 require("nvim-treesitter").install(ts_parsers)
-require("treesitter-context").setup()
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		nix = { "alejandra" },
+		c = { "clang-format" },
+		cpp = { "clang-format" },
+		rs = { "rustfmt" },
+	},
+	format_on_save = { lsp_format = "fallback", timeout_ms = 500 },
+})
 
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 require("mini.pairs").setup({
-	mappings = {
-		["<"] = { action = "open", pair = "<>" },
-		[">"] = { action = "close", pair = "<>" },
-	},
+	mappings = { ["<"] = { action = "open", pair = "<>" }, [">"] = { action = "close", pair = "<>" } },
 })
 require("mini.surround").setup()
-require("mini.clue").setup({
-	triggers = { { mode = { "n", "v" }, keys = "<Leader>" } },
-	window = { delay = 150 },
-})
 require("mini.ai").setup()
 require("mini.splitjoin").setup()
 require("mini.comment").setup()
-require("mini.cmdline").setup({ autocomplete = { enable = false } })
 require("mini.statusline").setup()
-require("mini.move").setup({
-	mappings = { left = "H", right = "L", down = "J", up = "K" },
+require("mini.move").setup({ mappings = { left = "H", right = "L", down = "J", up = "K" } })
+
+require("fzf-lua").setup({
+	defaults = { formatter = "path.dirname_first" }, -- show greyed-out directory before filename
+	winopts = {
+		border = "none",
+		fullscreen = true,
+		preview = {
+			border = "rounded",
+			scrollbar = false,
+		},
+	},
 })
+vim.keymap.set("n", "<Leader>ff", "<Cmd>FzfLua files<CR>")
+vim.keymap.set("n", "<Leader>fh", "<Cmd>FzfLua helptags<CR>")
+vim.keymap.set("n", "<Leader>fb", "<Cmd>FzfLua buffers<CR>")
+vim.keymap.set("n", "<Leader>fl", "<Cmd>FzfLua live_grep<CR>")
+vim.keymap.set("n", "<Leader>fd", "<Cmd>FzfLua diagnostics_document<CR>")
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -97,67 +100,6 @@ require("oil").setup({
 	},
 })
 vim.keymap.set("n", "-", "<Cmd>Oil<CR>", { desc = "Open Oil" })
-
-require("conform").setup({
-	formatters_by_ft = formatters,
-	format_on_save = {
-		lsp_format = "fallback",
-		timeout_ms = 500,
-	},
-})
-
-require("telescope").setup({
-	defaults = {
-		preview = { treesitter = true },
-		sorting_strategy = "ascending",
-		path_displays = { "smart" },
-		-- borderchars = { "", "", "", "", "", "", "", "" },
-		layout_config = {
-			width = 400,
-			height = 100,
-			preview_width = 0.4,
-			prompt_position = "top",
-			preview_cutoff = 40,
-		},
-	},
-})
-require("telescope").load_extension("fzf")
-require("telescope").load_extension("orgmode")
-
-local builtin = require("telescope.builtin")
-local ext = require("telescope").extensions.orgmode
-local function pick_all()
-	require("telescope.builtin").find_files({ no_ignore = true })
-end
-vim.keymap.set("n", "<Leader>f", "", { noremap = true, silent = true, desc = "Telescope" })
-vim.keymap.set("n", "<Leader>ff", builtin.find_files, { desc = "Files" })
-vim.keymap.set("n", "<Leader>fa", pick_all, { desc = "ALL files" })
-vim.keymap.set("n", "<Leader>fb", builtin.buffers, { desc = "Buffers" })
-vim.keymap.set("n", "<Leader>fl", builtin.live_grep, { desc = "Grep" })
-vim.keymap.set("n", "<Leader>fh", builtin.help_tags, { desc = "Help" })
-vim.keymap.set("n", "<Leader>fm", builtin.man_pages, { desc = "Man pages" })
-vim.keymap.set("n", "<Leader>fd", builtin.diagnostics, { desc = "Diagnostics" })
--- vim.keymap.set("n", "<Leader>fl", builtin.treesitter, { desc = "Treesitter search" })
-
-vim.keymap.set("n", "<Leader>o", "", { noremap = true, silent = true, desc = "Org telescope" })
-vim.keymap.set("n", "<Leader>oh", ext.search_headings, { desc = "Files & Headlines" })
-vim.keymap.set("n", "<Leader>ot", ext.search_tags, { desc = "Tags" })
-vim.keymap.set("n", "<Leader>or", ext.refile_heading, { desc = "Refile" })
-vim.keymap.set("n", "<Leader>oi", ext.insert_link, { desc = "Insert link" })
-
-local harpoon = require("harpoon")
-harpoon:setup()
-vim.keymap.set("n", "<Leader>h", "", { noremap = true, silent = true, desc = "Harpoon" })
--- stylua: ignore start
-vim.keymap.set("n", "<Leader>ha", function() harpoon:list():add() end, { desc = "Add to list" })
-vim.keymap.set("n", "<Leader>hr", function() harpoon:list():remove() end, { desc = "Remove from list" })
-vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-
-for i =	1, 4 do
-	vim.keymap.set("n", "<Leader>h" .. i, function() harpoon:list():select(i) end,
-	{ desc = "Go to harpoon item " .. i })
-end
--- stylua: ignore end
 
 require("blink.cmp").setup({
 	completion = {
@@ -177,48 +119,31 @@ require("blink.cmp").setup({
 				},
 			},
 		},
-		documentation = { auto_show = true, auto_show_delay_ms = 100 },
+		documentation = { auto_show = true, auto_show_delay_ms = 50 },
 		ghost_text = { enabled = true },
-	},
-	sources = {
-		per_filetype = { org = { "orgmode" } },
-		providers = {
-			orgmode = { name = "Orgmode", module = "orgmode.org.autocompletion.blink", fallbacks = { "buffer" } },
-		},
 	},
 })
 
+require("flash").setup({ modes = { char = { enabled = false } } })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
-vim.keymap.set({ "n", "v", "o" }, "<Leader>S", require("flash").treesitter_search, { desc = "Flash treesitter" })
 vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
+vim.keymap.set({ "n", "v", "o" }, "S", require("flash").treesitter, { desc = "Flash treesitter" })
+vim.keymap.set({ "n", "v", "o" }, "R", require("flash").treesitter_search, { desc = "Flash treesitter search" })
 
 require("neotab").setup({})
 
+vim.o.undofile = true
+vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
 vim.cmd.packadd("nohlsearch")
 vim.keymap.set("n", "<ESC>", "<Cmd>nohlsearch<CR>", { noremap = true, silent = true })
 
-require("orgmode").setup({
-	org_agenda_files = "~/notes/**/*",
-	org_default_notes_file = "~/notes/refile.org",
-})
-require("org-roam").setup({
-	directory = "~/notes",
-})
-vim.keymap.set("n", "<Leader>n", "", { noremap = true, silent = true, desc = "Org-roam" })
-vim.keymap.set("n", "<Leader>nd", "", { noremap = true, silent = true, desc = "Daily" })
-require("org-bullets").setup()
-vim.lsp.enable("org")
-
---------------------
---- MISC KEYMAPS ---
---------------------
 vim.keymap.set("n", "<Leader>q", "<Cmd>quit<CR>", { desc = "Quit the buffer" })
 vim.keymap.set("n", "<Leader>Q", "<Cmd>wqa<CR>", { desc = "Write + quit all" })
 vim.keymap.set("n", "<Leader>w", "<Cmd>write<CR>", { desc = "Write to the buffer" })
-vim.keymap.set("n", "<Leader>z", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
+vim.keymap.set("n", "<Leader>o", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Source the buffer" })
 
 vim.keymap.set({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
@@ -226,13 +151,14 @@ vim.keymap.set({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz")
 vim.keymap.set({ "n", "v" }, "C-u", "<C-u>zz")
 
-vim.keymap.set("n", "<Leader>v", "", { noremap = true, silent = true, desc = "Split" })
 vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical" })
 
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
+
+vim.keymap.set({ "n", "v" }, "<C-n>", ":norm ")
 
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
 for i = 1, 9 do
@@ -241,9 +167,6 @@ end
 
 vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
------------------
---- FUNCTIONS ---
------------------
 local function pack_clean()
 	local active_plugins = {}
 	local unused_plugins = {}
@@ -297,51 +220,53 @@ local function clean_all()
 	vim.cmd("MasonToolsClean")
 end
 
-vim.keymap.set("n", "<Leader>p", "", { noremap = true, silent = true, desc = "Clean" })
 vim.keymap.set("n", "<Leader>pc", clean_all, { desc = "All" })
 
--------------------
---- COLORSCHEME ---
--------------------
-vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "*",
-	callback = function()
-		local hl = vim.api.nvim_get_hl
-		local bg = hl(0, { name = "Normal", link = false }).bg
-		local line = hl(0, { name = "CursorLine", link = false }).bg
-		local constant = hl(0, { name = "Constant", link = false }).fg
-		local string_color = hl(0, { name = "String", link = false }).fg
-		local comment = hl(0, { name = "Comment", link = false }).fg
-
-		-- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-		-- vim.api.nvim_set_hl(0, "LineNr", { fg = comment, bg = "none" })
-		-- vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-		vim.api.nvim_set_hl(0, "statusline", { bg = "none" })
-		vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
-		-- vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { bg = "none" })
-
-		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-		vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-
-		vim.defer_fn(function()
-			vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "none" })
-			vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "none" })
-			vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { fg = constant, bg = line })
-			vim.api.nvim_set_hl(0, "BlinkCmpLabelMatch", { fg = string_color, bold = true })
-			vim.api.nvim_set_hl(0, "BlinkCmpSource", { bg = bg })
-			vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = bg })
-			vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = comment })
-		end, 200)
-	end,
-})
-vim.cmd("colorscheme vague")
-
-----------------
---- AUTOCMDS ---
-----------------
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
 		vim.hl.on_yank()
 	end,
 })
+
+vim.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		local name, kind = ev.data.spec.name, ev.data.kind
+		if name == "nvim-treesitter" and kind == "update" then
+			vim.cmd("TSUpdate")
+		end
+		if name == "blink.cmp" and kind == "update" then
+			vim.cmd("BlinkCmp build")
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	callback = function()
+		vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+		vim.api.nvim_set_hl(0, "TabLine", { bg = "none" })
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+		vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+
+		vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "Comment" })
+
+		vim.defer_fn(function()
+			vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "none" })
+			vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "none" })
+			vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", {
+				fg = vim.api.nvim_get_hl(0, { name = "Constant" }).fg,
+				bg = vim.api.nvim_get_hl(0, { name = "CursorLine" }).bg,
+			})
+			vim.api.nvim_set_hl(
+				0,
+				"BlinkCmpLabelMatch",
+				{ fg = vim.api.nvim_get_hl(0, { name = "String" }).fg, bold = true }
+			)
+			vim.api.nvim_set_hl(0, "BlinkCmpSource", { link = "Normal" })
+			vim.api.nvim_set_hl(0, "BlinkCmpDoc", { link = "Normal" })
+			vim.api.nvim_set_hl(0, "BlinkCmpKind", { link = "Comment" })
+		end, 200)
+	end,
+})
+vim.cmd("colorscheme vague")
