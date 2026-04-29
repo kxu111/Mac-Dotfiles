@@ -1,12 +1,8 @@
-vim.g.mapleader = " "
-vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 4
 vim.o.swapfile = false
-vim.o.wrap = false
-vim.o.signcolumn = "yes"
 vim.o.winborder = "rounded"
-vim.o.termguicolors = true
+vim.o.cursorline = false
 
 vim.pack.add({
 	"https://github.com/vague-theme/vague.nvim",
@@ -21,12 +17,12 @@ vim.pack.add({
 	"https://github.com/stevearc/oil.nvim",
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
 	"https://github.com/folke/flash.nvim",
-	"https://github.com/kawre/neotab.nvim",
 })
 
 require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-tool-installer").setup({
+	auto_update = true,
 	ensure_installed = {
 		"tree-sitter-cli",
 		"lua_ls",
@@ -37,7 +33,6 @@ require("mason-tool-installer").setup({
 		"clang-format",
 		"rust-analyzer",
 	},
-	auto_update = true,
 })
 local ts_parsers = {
 	"lua",
@@ -48,6 +43,7 @@ local ts_parsers = {
 }
 require("nvim-treesitter").install(ts_parsers)
 require("conform").setup({
+	format_on_save = { lsp_format = "fallback", timeout_ms = 500 },
 	formatters_by_ft = {
 		lua = { "stylua" },
 		nix = { "alejandra" },
@@ -55,9 +51,9 @@ require("conform").setup({
 		cpp = { "clang-format" },
 		rs = { "rustfmt" },
 	},
-	format_on_save = { lsp_format = "fallback", timeout_ms = 500 },
 })
 
+require("mini.basics").setup({ mappings = { windows = true }, autocommands = { basic = true } })
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 require("mini.pairs").setup({
@@ -65,10 +61,10 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup()
 require("mini.ai").setup()
-require("mini.splitjoin").setup()
 require("mini.comment").setup()
-require("mini.statusline").setup()
+require("mini.splitjoin").setup()
 require("mini.move").setup({ mappings = { left = "H", right = "L", down = "J", up = "K" } })
+require("mini.statusline").setup()
 
 require("fzf-lua").setup({
 	defaults = { formatter = "path.dirname_first" }, -- show greyed-out directory before filename
@@ -81,11 +77,11 @@ require("fzf-lua").setup({
 		},
 	},
 })
-vim.keymap.set("n", "<Leader>ff", "<Cmd>FzfLua files<CR>")
-vim.keymap.set("n", "<Leader>fh", "<Cmd>FzfLua helptags<CR>")
-vim.keymap.set("n", "<Leader>fb", "<Cmd>FzfLua buffers<CR>")
-vim.keymap.set("n", "<Leader>fl", "<Cmd>FzfLua live_grep<CR>")
-vim.keymap.set("n", "<Leader>fd", "<Cmd>FzfLua diagnostics_document<CR>")
+vim.keymap.set("n", "<Leader>f", "<Cmd>FzfLua files<CR>")
+vim.keymap.set("n", "<Leader>sh", "<Cmd>FzfLua helptags<CR>")
+vim.keymap.set("n", "<Leader>sb", "<Cmd>FzfLua buffers<CR>")
+vim.keymap.set("n", "<Leader>sl", "<Cmd>FzfLua live_grep<CR>")
+vim.keymap.set("n", "<Leader>sd", "<Cmd>FzfLua diagnostics_document<CR>")
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -130,10 +126,6 @@ vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc =
 vim.keymap.set({ "n", "v", "o" }, "S", require("flash").treesitter, { desc = "Flash treesitter" })
 vim.keymap.set({ "n", "v", "o" }, "R", require("flash").treesitter_search, { desc = "Flash treesitter search" })
 
-require("neotab").setup({})
-
-vim.o.undofile = true
-vim.o.undodir = vim.fn.stdpath("data") .. "/undo"
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
 
@@ -147,24 +139,19 @@ vim.keymap.set("n", "<Leader>o", "<Cmd>update<CR><Cmd>source<CR>", { desc = "Sou
 
 vim.keymap.set({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "n", "v" }, "<Leader>d", '"+d', { desc = "Delete to clipboard" })
+vim.keymap.set({ "n", "v" }, "<Leader>Y", '"+y$', { desc = "Yank to clip til end of line" })
+vim.keymap.set({ "n", "v" }, "<Leader>D", '"+d$', { desc = "Delete to clip til end of line" })
 
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz")
 vim.keymap.set({ "n", "v" }, "C-u", "<C-u>zz")
 
-vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR><C-w>l", { desc = "Vertical" })
-
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
-
-vim.keymap.set({ "n", "v" }, "<C-n>", ":norm ")
-
+vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR>", { desc = "Vertical" })
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
 for i = 1, 9 do
 	vim.keymap.set("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
 end
 
+vim.keymap.set({ "n", "v" }, "<C-n>", ":norm ")
 vim.keymap.set({ "n", "v" }, "<C-s>", [[:s/\V]], { desc = "Enter substitute mode in selection" })
 
 local function pack_clean()
@@ -222,15 +209,9 @@ end
 
 vim.keymap.set("n", "<Leader>pc", clean_all, { desc = "All" })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-	callback = function()
-		vim.hl.on_yank()
-	end,
-})
-
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
+		clean_all()
 		local name, kind = ev.data.spec.name, ev.data.kind
 		if name == "nvim-treesitter" and kind == "update" then
 			vim.cmd("TSUpdate")
