@@ -1,5 +1,3 @@
-# custom-shader = shaders/cursor-smear.glsl
-
 confirm-close-surface = false
 macos-titlebar-style = hidden
 
@@ -36,5 +34,5 @@ keybind = super+digit_9=text:\x02\x39
 keybind = super+i=text:\x02\x5c
 keybind = super+o=text:\x02\x7c
 keybind = super+,=text:\x02,
-keybind = super+n=text:\x02c
-keybind = super+d=text:\x02x
+keybind = super+c=text:\x02c
+keybind = super+x=text:\x02x
