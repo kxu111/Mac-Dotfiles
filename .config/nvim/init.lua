@@ -5,18 +5,18 @@ vim.o.winborder = "rounded"
 vim.o.cursorline = false
 
 vim.pack.add({
-	"https://github.com/vague-theme/vague.nvim",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/mason-org/mason.nvim",
-	"https://github.com/mason-org/mason-lspconfig.nvim",
-	"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/stevearc/conform.nvim",
-	"https://github.com/nvim-mini/mini.nvim",
-	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/stevearc/oil.nvim",
+	{ src = "https://github.com/vague-theme/vague.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.nvim" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
-	"https://github.com/folke/flash.nvim",
+	{ src = "https://github.com/folke/flash.nvim" },
 })
 
 require("mason").setup()
@@ -82,6 +82,7 @@ vim.keymap.set("n", "<Leader>sh", "<Cmd>FzfLua helptags<CR>")
 vim.keymap.set("n", "<Leader>sb", "<Cmd>FzfLua buffers<CR>")
 vim.keymap.set("n", "<Leader>sl", "<Cmd>FzfLua live_grep<CR>")
 vim.keymap.set("n", "<Leader>sd", "<Cmd>FzfLua diagnostics_document<CR>")
+vim.keymap.set("n", "<Leader>sr", "<Cmd>FzfLua resume<CR>")
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -121,10 +122,8 @@ require("blink.cmp").setup({
 })
 
 require("flash").setup({ modes = { char = { enabled = false } } })
-vim.keymap.set({ "n", "v", "o" }, "<Leader>s", require("flash").jump, { desc = "Flash jump" })
-vim.keymap.set({ "n", "v", "o" }, "<Leader>r", require("flash").remote, { desc = "Flash remote" })
-vim.keymap.set({ "n", "v", "o" }, "S", require("flash").treesitter, { desc = "Flash treesitter" })
-vim.keymap.set({ "n", "v", "o" }, "R", require("flash").treesitter_search, { desc = "Flash treesitter search" })
+vim.keymap.set({ "n", "v", "o" }, "S", require("flash").remote, { desc = "Flash remote" })
+vim.keymap.set({ "n", "v", "o" }, "R", require("flash").treesitter, { desc = "Flash treesitter" })
 
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
@@ -173,10 +172,7 @@ local function pack_clean()
 		return
 	end
 
-	local choice = vim.fn.confirm("Remove unused plugins: ", "&Yes\n&No", 2)
-	if choice == 1 then
-		vim.pack.del(unused_plugins)
-	end
+	vim.pack.del(unused_plugins)
 end
 
 local function ts_clean(parsers)
