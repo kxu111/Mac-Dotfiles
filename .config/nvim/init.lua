@@ -16,7 +16,7 @@ vim.pack.add({
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
-	{ src = "https://github.com/folke/flash.nvim" },
+	{ src = "https://codeberg.org/andyg/leap.nvim" },
 })
 
 require("mason").setup()
@@ -59,7 +59,16 @@ MiniIcons.mock_nvim_web_devicons()
 require("mini.pairs").setup({
 	mappings = { ["<"] = { action = "open", pair = "<>" }, [">"] = { action = "close", pair = "<>" } },
 })
-require("mini.surround").setup()
+require("mini.surround").setup({
+	mappings = {
+		add = "gma",
+		delete = "gmd",
+		find = "gmf",
+		find_left = "gmF",
+		highlight = "gmh",
+		replace = "gmr",
+	},
+})
 require("mini.ai").setup()
 require("mini.comment").setup()
 require("mini.splitjoin").setup()
@@ -81,15 +90,15 @@ require("fzf-lua").setup({
 		},
 	},
 })
-vim.keymap.set("n", "<Leader>f", "<Cmd>FzfLua files<CR>", { desc = "Find files" })
-vim.keymap.set("n", "<Leader>s", "", { noremap = true, silent = true, desc = "Fzf" })
-vim.keymap.set("n", "<Leader>sh", "<Cmd>FzfLua helptags<CR>", { desc = "Search helptags" })
-vim.keymap.set("n", "<Leader>sb", "<Cmd>FzfLua buffers<CR>", { desc = "Search buffers" })
-vim.keymap.set("n", "<Leader>sl", "<Cmd>FzfLua live_grep<CR>", { desc = "Live grep" })
-vim.keymap.set("n", "<Leader>st", "<Cmd>FzfLua diagnostics_document<CR>", { desc = "Search diagnostics" })
-vim.keymap.set("n", "<Leader>sd", "<Cmd>FzfLua lsp_definition<CR>", { desc = "Find definition" })
-vim.keymap.set("n", "<Leader>sv", "<Cmd>FzfLua lsp_references<CR>", { desc = "Find references" })
-vim.keymap.set("n", "<Leader>sr", "<Cmd>FzfLua resume<CR>", { desc = "Resume fzf" })
+vim.keymap.set("n", "<Leader>f", "", { noremap = true, silent = true, desc = "Fzf" })
+vim.keymap.set("n", "<Leader>ff", "<Cmd>FzfLua files<CR>", { desc = "Find files" })
+vim.keymap.set("n", "<Leader>fh", "<Cmd>FzfLua helptags<CR>", { desc = "Search helptags" })
+vim.keymap.set("n", "<Leader>fb", "<Cmd>FzfLua buffers<CR>", { desc = "Search buffers" })
+vim.keymap.set("n", "<Leader>fl", "<Cmd>FzfLua live_grep<CR>", { desc = "Live grep" })
+vim.keymap.set("n", "<Leader>ft", "<Cmd>FzfLua diagnostics_document<CR>", { desc = "Search diagnostics" })
+vim.keymap.set("n", "<Leader>fd", "<Cmd>FzfLua lsp_definitions<CR>", { desc = "Find definition" })
+vim.keymap.set("n", "<Leader>fv", "<Cmd>FzfLua lsp_references<CR>", { desc = "Find references" })
+vim.keymap.set("n", "<Leader>fr", "<Cmd>FzfLua resume<CR>", { desc = "Resume fzf" })
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -128,9 +137,16 @@ require("blink.cmp").setup({
 	},
 })
 
-require("flash").setup({ modes = { char = { enabled = false } } })
-vim.keymap.set({ "n", "v", "o" }, "S", require("flash").remote, { desc = "Flash remote" })
-vim.keymap.set({ "n", "v", "o" }, "R", require("flash").treesitter, { desc = "Flash treesitter" })
+vim.keymap.set({ "n", "v", "o" }, "s", "<Plug>(leap-forward)")
+vim.keymap.set({ "n", "v", "o" }, "S", "<Plug>(leap-backward)")
+vim.keymap.set({ "x", "o" }, "an", function()
+	require("leap.treesitter").select({
+		opts = require("leap.user").with_traversal_keys("n", "N"),
+	})
+end)
+vim.keymap.set({ "n", "x", "o" }, "gs", function()
+	require("leap.remote").action()
+end)
 
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
@@ -214,7 +230,9 @@ vim.keymap.set("n", "<Leader>c", clean_all, { desc = "Clean unused pkgs" })
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
-		clean_all()
+		if type ~= "install" then
+			clean_all()
+		end
 		local name, kind = ev.data.spec.name, ev.data.kind
 		if name == "nvim-treesitter" and kind == "update" then
 			vim.cmd("TSUpdate")
