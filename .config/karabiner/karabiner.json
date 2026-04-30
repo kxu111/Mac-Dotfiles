@@ -19,9 +19,9 @@
                                     }
                                 },
                                 "to": [
-                                    { "key_code": "left_command" },
-                                    { "key_code": "left_command" },
-                                    { "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"chatgpt\"'" }
+                                    { "key_code": "right_command" },
+                                    { "key_code": "right_command" },
+                                    { "shell_command": "osascript -e 'tell application \"System Events\" to keystroke \"chatgpt \"'" }
                                 ],
                                 "type": "basic"
                             }

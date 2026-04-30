@@ -2,7 +2,7 @@ start-at-login = true
 
 config-version = 2
 
-persistent-workspaces = ['TERM', 'BROWSR', 'FIND', 'MSG', 'MUSIC', 'NERD']
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -42,38 +42,38 @@ alt-t = 'layout tiles horizontal vertical'
 
 alt-shift-space = 'layout floating tiling'
 
-alt-1 = 'workspace TERM'
-alt-2 = 'workspace BROWSR'
-alt-3 = 'workspace FIND'
-alt-4 = 'workspace MSG'
-alt-5 = 'workspace MUSIC'
-alt-6 = 'workspace NERD'
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 alt-0 = 'workspace 10'
 
-alt-shift-1 = 'move-node-to-workspace TERM'
-alt-shift-2 = 'move-node-to-workspace BROWSR'
-alt-shift-3 = 'move-node-to-workspace FIND'
-alt-shift-4 = 'move-node-to-workspace MSG'
-alt-shift-5 = 'move-node-to-workspace MUSIC'
-alt-shift-6 = 'move-node-to-workspace NERD'
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-0 = 'move-node-to-workspace 10'
 
-alt-a = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.mitchellh.ghostty TERM'
-alt-f = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.imput.helium BROWSR'
-alt-e = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.finder FIND'
-alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh dev.vencord.vesktop MSG'
-alt-q = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.whatsapp.WhatsApp MSG'
-alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.spotify.client MUSIC'
-alt-n = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.Dictionary NERD'
-alt-p = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh info.sioyek.sioyek BROWSR'
+alt-a = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.mitchellh.ghostty 1'
+alt-b = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.imput.helium 2'
+alt-f = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.finder 6'
+alt-d = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh dev.vencord.vesktop 4'
+alt-e = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh net.whatsapp.WhatsApp 4'
+alt-s = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.spotify.client 5'
+alt-q = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh info.sioyek.sioyek 3'
+alt-n = 'exec-and-forget $HOME/.config/scripts/aerospace-fixer.sh com.apple.Dictionary 7'
 
-alt-z = 'reload-config'
+alt-o = 'reload-config'
 
 alt-r = 'mode resize'
 
