@@ -65,6 +65,10 @@ require("mini.comment").setup()
 require("mini.splitjoin").setup()
 require("mini.move").setup({ mappings = { left = "H", right = "L", down = "J", up = "K" } })
 require("mini.statusline").setup()
+require("mini.clue").setup({
+	triggers = { { mode = "n", keys = "<Leader>s" } },
+	window = { delay = 0 },
+})
 
 require("fzf-lua").setup({
 	defaults = { formatter = "path.dirname_first" }, -- show greyed-out directory before filename
@@ -77,12 +81,15 @@ require("fzf-lua").setup({
 		},
 	},
 })
-vim.keymap.set("n", "<Leader>f", "<Cmd>FzfLua files<CR>")
-vim.keymap.set("n", "<Leader>sh", "<Cmd>FzfLua helptags<CR>")
-vim.keymap.set("n", "<Leader>sb", "<Cmd>FzfLua buffers<CR>")
-vim.keymap.set("n", "<Leader>sl", "<Cmd>FzfLua live_grep<CR>")
-vim.keymap.set("n", "<Leader>sd", "<Cmd>FzfLua diagnostics_document<CR>")
-vim.keymap.set("n", "<Leader>sr", "<Cmd>FzfLua resume<CR>")
+vim.keymap.set("n", "<Leader>f", "<Cmd>FzfLua files<CR>", { desc = "Find files" })
+vim.keymap.set("n", "<Leader>s", "", { noremap = true, silent = true, desc = "Fzf" })
+vim.keymap.set("n", "<Leader>sh", "<Cmd>FzfLua helptags<CR>", { desc = "Search helptags" })
+vim.keymap.set("n", "<Leader>sb", "<Cmd>FzfLua buffers<CR>", { desc = "Search buffers" })
+vim.keymap.set("n", "<Leader>sl", "<Cmd>FzfLua live_grep<CR>", { desc = "Live grep" })
+vim.keymap.set("n", "<Leader>st", "<Cmd>FzfLua diagnostics_document<CR>", { desc = "Search diagnostics" })
+vim.keymap.set("n", "<Leader>sd", "<Cmd>FzfLua lsp_definition<CR>", { desc = "Find definition" })
+vim.keymap.set("n", "<Leader>sv", "<Cmd>FzfLua lsp_references<CR>", { desc = "Find references" })
+vim.keymap.set("n", "<Leader>sr", "<Cmd>FzfLua resume<CR>", { desc = "Resume fzf" })
 
 require("oil").setup({
 	delete_to_trash = true,
@@ -144,7 +151,7 @@ vim.keymap.set({ "n", "v" }, "<Leader>D", '"+d$', { desc = "Delete to clip til e
 vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz")
 vim.keymap.set({ "n", "v" }, "C-u", "<C-u>zz")
 
-vim.keymap.set("n", "<Leader>vs", "<Cmd>vertical split<CR>", { desc = "Vertical" })
+vim.keymap.set("n", "<Leader>v", "<Cmd>vertical split<CR>", { desc = "Vertical split" })
 vim.keymap.set("n", "<C-t>", "<C-w>T", { desc = "Open buf in new tab" })
 for i = 1, 9 do
 	vim.keymap.set("n", "<Leader>" .. i, "<Cmd>tabnext " .. i .. "<CR>", { desc = "Go to tab " .. i })
@@ -203,7 +210,7 @@ local function clean_all()
 	vim.cmd("MasonToolsClean")
 end
 
-vim.keymap.set("n", "<Leader>pc", clean_all, { desc = "All" })
+vim.keymap.set("n", "<Leader>c", clean_all, { desc = "Clean unused pkgs" })
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
