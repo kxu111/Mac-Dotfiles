@@ -1,0 +1,7 @@
+*Personal dotfiles using nix-darwin and stow.*
+
+Not everything in here is fully declarative using nix, I'm too lazy for home-manager bullcrap
+
+**Things I’ll probably need to set up again if I wipe this laptop:**
+- SpotX-Bash (ik home-manager can probably do this but it's literally 1 command to install)
+- Helium browser, but that stuff is all stored in the deepstate with palantir anyways
