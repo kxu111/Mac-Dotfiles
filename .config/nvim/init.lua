@@ -61,12 +61,12 @@ require("mini.pairs").setup({
 })
 require("mini.surround").setup({
 	mappings = {
-		add = "gma",
-		delete = "gmd",
-		find = "gmf",
-		find_left = "gmF",
-		highlight = "gmh",
-		replace = "gmr",
+		add = "gsa",
+		delete = "gsd",
+		find = "gsf",
+		find_left = "gsF",
+		highlight = "gsh",
+		replace = "gsr",
 	},
 })
 require("mini.ai").setup()
@@ -75,7 +75,10 @@ require("mini.splitjoin").setup()
 require("mini.move").setup({ mappings = { left = "H", right = "L", down = "J", up = "K" } })
 require("mini.statusline").setup()
 require("mini.clue").setup({
-	triggers = { { mode = "n", keys = "<Leader>s" } },
+	triggers = {
+		{ mode = "n", keys = "<Leader>f" },
+		{ mode = { "n", "v" }, keys = "gs" },
+	},
 	window = { delay = 0 },
 })
 
