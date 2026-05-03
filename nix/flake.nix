@@ -39,7 +39,6 @@
         ./modules/packages.nix
         ./modules/homebrew.nix
         ./modules/settings.nix
-        ./modules/input.nix
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {

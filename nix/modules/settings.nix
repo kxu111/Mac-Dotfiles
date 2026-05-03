@@ -33,11 +33,21 @@
     };
     loginwindow.GuestEnabled = false;
     controlcenter.BatteryShowPercentage = true;
+    screencapture.location = "~/Pictures/Screenshots";
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
-      _HIHideMenuBar = false;
+      _HIHideMenuBar = true;
+      KeyRepeat = 2;
+      InitialKeyRepeat = 15;
+      "com.apple.mouse.tapBehavior" = 1;
     };
-    screencapture.location = "~/Pictures/Screenshots";
+    ".GlobalPreferences"."com.apple.mouse.scaling" = -1.0;
+    trackpad.Clicking = true;
+    universalaccess.reduceMotion = true;
+  };
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToControl = true;
   };
 
   nix.settings.experimental-features = "nix-command flakes";
