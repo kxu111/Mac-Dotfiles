@@ -1,1 +1,0 @@
-0 * * * * /Users/kenny/.config/scripts/news-update.sh >> /tmp/news-update.log 2>&1
