@@ -15,6 +15,7 @@
       "pkgconfig"
       "raylib"
       "yt-dlp"
+      "uv"
     ];
     casks = [
       "vesktop"
@@ -28,6 +29,7 @@
       "karabiner-elements"
       "aerospace"
       "anki"
+      "raycast"
     ];
     masApps = {
       "Davinci Resolve" = 571213070;

@@ -29,6 +29,7 @@
                     },
                     {
                         "description": "Change command+hjkl to arrow keys",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
