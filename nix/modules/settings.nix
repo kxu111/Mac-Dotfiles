@@ -43,7 +43,7 @@
     };
     ".GlobalPreferences"."com.apple.mouse.scaling" = -1.0;
     trackpad.Clicking = true;
-    universalaccess.reduceMotion = true;
+    # universalaccess.reduceMotion = true; # broken for me maybe it will be fixed in the future
   };
   system.keyboard = {
     enableKeyMapping = true;
