@@ -35,4 +35,5 @@ keybind = super+i=text:\x02\x5c
 keybind = super+o=text:\x02\x7c
 keybind = super+,=text:\x02,
 keybind = super+c=text:\x02c
-keybind = super+x=text:\x02x
+keybind = super+d=text:\x02x
+
