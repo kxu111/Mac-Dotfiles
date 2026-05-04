@@ -9,23 +9,22 @@ vim.o.signcolumn = "yes"
 vim.o.termguicolors = true
 vim.o.splitright = true
 vim.o.smartindent = true
+vim.o.ruler = false
 vim.o.undofile = true
 
 vim.pack.add({
-	{ src = "https://github.com/vague-theme/vague.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
-	-- { src = "https://github.com/nvim-mini/mini.nvim" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/stevearc/oil.nvim" },
+	"https://github.com/vague-theme/vague.nvim",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/mason-org/mason-lspconfig.nvim",
+	"https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/stevearc/conform.nvim",
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/ibhagwan/fzf-lua",
+	"https://github.com/stevearc/oil.nvim",
 	{ src = "https://github.com/Saghen/blink.cmp", version = "v1" },
-	{ src = "https://codeberg.org/andyg/leap.nvim" },
-	-- { src = "https://github.com/kawre/neotab.nvim" },
+	"https://codeberg.org/andyg/leap.nvim",
 })
 
 require("mason").setup()
@@ -61,34 +60,6 @@ require("conform").setup({
 		rs = { "rustfmt" },
 	},
 })
-
--- require("mini.icons").setup()
--- MiniIcons.mock_nvim_web_devicons()
--- require("mini.pairs").setup({
--- 	mappings = { ["<"] = { action = "open", pair = "<>" }, [">"] = { action = "close", pair = "<>" } },
--- })
--- require("mini.surround").setup({
--- 	mappings = {
--- 		add = "gsa",
--- 		delete = "gsd",
--- 		find = "gsf",
--- 		find_left = "gsF",
--- 		highlight = "gsh",
--- 		replace = "gsr",
--- 	},
--- })
--- require("mini.ai").setup()
--- require("mini.comment").setup()
--- require("mini.splitjoin").setup()
--- require("mini.move").setup({ mappings = { left = "H", right = "L", down = "J", up = "K" } })
--- require("mini.statusline").setup()
--- require("mini.clue").setup({
--- 	triggers = {
--- 		{ mode = "n", keys = "<Leader>f" },
--- 		{ mode = { "n", "v" }, keys = "gs" },
--- 	},
--- 	window = { delay = 0 },
--- })
 
 require("fzf-lua").setup({
 	defaults = { formatter = "path.dirname_first" }, -- show greyed-out directory before filename
@@ -147,7 +118,7 @@ require("blink.cmp").setup({
 			},
 		},
 		documentation = { auto_show = true, auto_show_delay_ms = 50 },
-		ghost_text = { enabled = true },
+		-- ghost_text = { enabled = true },
 	},
 })
 
@@ -161,8 +132,6 @@ end)
 vim.keymap.set({ "n", "x", "o" }, "R", function()
 	require("leap.remote").action()
 end)
-
--- require("neotab").setup({})
 
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<Leader>u", "<Cmd>Undotree<CR>", { desc = "Toggle undotree" })
